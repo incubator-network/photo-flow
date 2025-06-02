@@ -29,7 +29,8 @@ pipeline {
                          [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
                          nvm use --lts
                          # Устанавливаем corepack и активируем pnpm
-                         npm install -g pnpm
+                         corepack enable
+                         corepack prepare pnpm@latest --activate
 
                          # Устанавливаем зависимости через pnpm
                          pnpm install
