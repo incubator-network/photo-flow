@@ -10,7 +10,7 @@ RUN pnpm install && pnpm install -g serve
 # Билдим приложение
 FROM node:20.11-alpine as builder
 WORKDIR /app
-COPY ../../../../Users/valer/OneDrive/Рабочий%20стол .
+COPY . .
 COPY --from=dependencies /app/node_modules ./node_modules
 RUN corepack enable && corepack prepare pnpm@latest --activate
 RUN pnpm run build:production
