@@ -1,26 +1,157 @@
 @import 'tailwindcss';
+@import '@fontsource-variable/inter';
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+    --background: #ffffff;
+    --foreground: #171717;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@theme {
+    --font-sans: 'Inter Variable', sans-serif;
+
+    --color-accent-100: #73A5FF;
+    --color-accent-300: #4C8DFF;
+    --color-accent-500: #397DF6;
+    --color-accent-700: #2F68CC;
+    --color-accent-900: #234E99;
+
+    --color-success-100: #80FFBF;
+    --color-success-300: #22E584;
+    --color-success-500: #14CC70;
+    --color-success-700: #0F9954;
+    --color-success-900: #0A6638;
+
+    --color-danger-100: #FF8099;
+    --color-danger-300: #F23D61;
+    --color-danger-500: #CC1439;
+    --color-danger-700: #990F2B;
+    --color-danger-900: #660A1D;
+
+    --color-warning-100: #FFD073;
+    --color-warning-300: #E5AC39;
+    --color-warning-500: #D99000;
+    --color-warning-700: #996600;
+    --color-warning-900: #664400;
+
+    --color-dark-100: #4C4C4C;
+    --color-dark-300: #333333;
+    --color-dark-500: #171717;
+    --color-dark-700: #0D0D0D;
+    --color-dark-900: #000000;
+
+    --color-light-100: #FFFFFF;
+    --color-light-300: #F7FBFF;
+    --color-light-500: #EDF3FA;
+    --color-light-700: #D5DAE0;
+    --color-light-900: #8D9094;
+
+    --font-size-large: 26px;
+    --font-size-h1: 20px;
+    --font-size-h2: 18px;
+    --font-size-h3: 16px;
+    --font-size-regular-16: 16px;
+    --font-size-bold-16: 16px;
+    --font-size-regular-14: 14px;
+    --font-size-medium-14: 14px;
+    --font-size-bold-14: 14px;
+    --font-size-small: 12px;
+    --font-size-semi-bold-small: 12px;
+    --font-size-regular-link: 14px;
+    --font-size-small-link: 12px;
+
+    --line-height-large: 36px;
+    --line-height-medium: 24px;
+    --line-height-small: 16px;
+}
+
+@layer utilities {
+    .text-large {
+        font-size: var(--font-size-large);
+        line-height: var(--line-height-large);
+        font-weight: 600;
+    }
+
+    .text-h1 {
+        font-size: var(--font-size-h1);
+        line-height: var(--line-height-large);
+        font-weight: 700;
+    }
+
+    .text-h2 {
+        font-size: var(--font-size-h2);
+        line-height: var(--line-height-medium);
+        font-weight: 700;
+    }
+
+    .text-h3 {
+        font-size: var(--font-size-h3);
+        line-height: var(--line-height-medium);
+        font-weight: 600;
+    }
+
+    .text-regular-16 {
+        font-size: var(--font-size-regular-16);
+        line-height: var(--line-height-medium);
+        font-weight: 400;
+    }
+
+    .text-bold-16 {
+        font-size: var(--font-size-bold-16);
+        line-height: var(--line-height-medium);
+        font-weight: 700;
+    }
+
+    .text-regular-14 {
+        font-size: var(--font-size-regular-14);
+        line-height: var(--line-height-medium);
+        font-weight: 400;
+    }
+
+    .text-medium-14 {
+        font-size: var(--font-size-medium-14);
+        line-height: var(--line-height-medium);
+        font-weight: 500;
+    }
+
+    .text-bold-14 {
+        font-size: var(--font-size-bold-14);
+        line-height: var(--line-height-medium);
+        font-weight: 700;
+    }
+
+    .text-small {
+        font-size: var(--font-size-small);
+        line-height: var(--line-height-small);
+        font-weight: 400;
+    }
+
+    .text-semi-bold-small {
+        font-size: var(--font-size-semi-bold-small);
+        line-height: var(--line-height-small);
+        font-weight: 600;
+    }
+
+    .text-regular-link {
+        font-size: var(--font-size-semi-bold-small);
+        line-height: var(--line-height-medium);
+        font-weight: 600;
+    }
+
+    .text-small-link {
+        font-size: var(--font-size-semi-bold-small);
+        line-height: var(--line-height-small);
+        font-weight: 600;
+    }
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+    :root {
+        --background: #0a0a0a;
+        --foreground: #ededed;
+    }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+    background: var(--background);
+    color: var(--foreground);
 }
