@@ -1,6 +1,7 @@
 // 'use client'
 
 import React, { ReactNode } from 'react'
+import { Slot } from '@radix-ui/react-slot'
 
 type PropsType = {
   variant: 'primary' | 'secondary' | 'outline' | 'text'
@@ -8,6 +9,7 @@ type PropsType = {
   onClick?: () => void
   disabled?: boolean
   type?: 'button' | 'submit' | 'reset'
+  asChild?: boolean
 }
 const variantStyles = {
   primary: `
@@ -68,14 +70,16 @@ const variantStyles = {
 }
 
 export const SuperButton = (props: PropsType) => {
-  const { variant, children, onClick, disabled } = props
+  const { variant, children, onClick, disabled, asChild } = props
+
+  const Comp = asChild ? Slot : 'button'
   return (
-    <button
+    <Comp
       onClick={onClick}
       className={variantStyles[variant]}
       disabled={disabled}
     >
       {children}
-    </button>
+    </Comp>
   )
 }
