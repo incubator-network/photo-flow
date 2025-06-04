@@ -1,11 +1,6 @@
 @import 'tailwindcss';
 @import '@fontsource-variable/inter';
 
-:root {
-    --background: #ffffff;
-    --foreground: #171717;
-}
-
 @theme {
     --font-sans: 'Inter Variable', sans-serif;
 
@@ -132,26 +127,25 @@
     }
 
     .text-regular-link {
-        font-size: var(--font-size-semi-bold-small);
+        font-size: var(--font-size-regular-link);
         line-height: var(--line-height-medium);
-        font-weight: 600;
+        font-weight: 400;
+        color: var(--color-accent-500);
+        text-decoration: underline;
+        cursor: pointer;
     }
 
     .text-small-link {
         font-size: var(--font-size-semi-bold-small);
         line-height: var(--line-height-small);
-        font-weight: 600;
-    }
-}
-
-@media (prefers-color-scheme: dark) {
-    :root {
-        --background: #0a0a0a;
-        --foreground: #ededed;
+        font-weight: 400;
+        color: var(--color-accent-500);
+        text-decoration: underline;
+        cursor: pointer;
     }
 }
 
 body {
-    background: var(--background);
-    color: var(--foreground);
+    background: var(--color-dark-700);
+    color: var(--color-light-100);
 }

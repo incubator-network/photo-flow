@@ -1,4 +1,5 @@
 import type { Preview } from '@storybook/nextjs-vite'
+import '@fontsource-variable/inter'
 import '../src/app/globals.css'
 
 const preview: Preview = {
