@@ -1,5 +1,6 @@
 import { Typography } from '@/components/typography/Typography'
 import { Button } from '@/components/ui/button/Button'
+import { Card } from '@/components/ui/superCard/Card'
 
 export default function Home() {
   return (
@@ -22,6 +23,9 @@ export default function Home() {
       <Button variant={'text'}>
         <Typography variant={'h1'}>Button example</Typography>
       </Button>
+      <Card className={'w-40 h-40 m-10'}>
+        <Button>button</Button>
+      </Card>
     </div>
   )
 }
