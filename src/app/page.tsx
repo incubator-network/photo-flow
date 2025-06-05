@@ -27,6 +27,7 @@ export default function Home() {
       <Card className={'w-40 h-40 m-10'}>
         <Button>button</Button>
       </Card>
+      <Input type='password' variant={'default'} />
     </div>
   )
 }
