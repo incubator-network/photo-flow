@@ -1,4 +1,5 @@
 import { Typography } from '@/components/typography/Typography'
+import { Input } from '@/components/input/Input'
 import { Button } from '@/components/ui/button/Button'
 import { Card } from '@/components/ui/superCard/Card'
 

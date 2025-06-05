@@ -1,0 +1,153 @@
+'use client'
+
+import React, { InputHTMLAttributes, useState } from 'react'
+import Image from 'next/image'
+import searchIcon from '@/assets/inputIcons/search.svg'
+import eyeIcon from '@/assets/inputIcons/eye.svg'
+import eyeOffIcon from '@/assets/inputIcons/eye-off.svg'
+import { Typography } from '@/components/typography/Typography'
+import { twMerge } from 'tailwind-merge'
+
+type InputVariant =
+  | 'default'
+  | 'active'
+  | 'hover'
+  | 'focus'
+  | 'disabled'
+  | 'error'
+
+type Props = InputHTMLAttributes<HTMLInputElement> & {
+  variant?: InputVariant
+  errorText?: string | null
+}
+
+const baseStyle = `
+  flex items-center justify-center
+  w-[280px] h-[36px] px-[12px]
+  text-regular-14
+  bg-transparent
+  rounded-[2px]
+  border
+  transition-colors
+  outline-none
+  disabled:opacity-50  
+    focus:border-color-accent-)] 
+`
+
+const variantStyles = {
+  default: `${baseStyle}
+    border-[var(--color-dark-100)]
+  `,
+  active: `${baseStyle}
+    border-[var(--color-light-100)_!important]
+    bg-[var(--color-dark-500)_!important]
+  `,
+  hover: `${baseStyle}
+    border-[var(--color-light-900)]
+  `,
+  focus: `${baseStyle}
+    border-[var(--color-accent-500)]
+  `,
+  disabled: `${baseStyle}
+    border-[var(--color-dark-300)]
+    disabled:opacity-50 
+  `,
+  error: `${baseStyle}
+    border-[var(--color-danger-500)]
+    text-[var(--color-light-100)]
+    text-regular-14
+  `,
+}
+
+export const Input = React.forwardRef<HTMLInputElement, Props>(
+  (
+    {
+      type = 'text',
+      variant = 'default',
+      errorText = '',
+      disabled = false,
+      className = '',
+      ...props
+    },
+    ref
+  ) => {
+    const [showPassword, setShowPassword] = useState<boolean>(false)
+    const currentVariant = errorText ? 'error' : variant
+
+    const togglePasswordVisibility = () => {
+      setShowPassword(!showPassword)
+    }
+    const inputPadding =
+      type === 'search' ? 'pl-[42px]' : type === 'password' ? 'pr-[32px]' : ''
+
+    const inputType =
+      type === 'password' ? (showPassword ? 'text' : 'password') : type
+    return (
+      <div className={'text-left'}>
+        {'search' !== type && (
+          <Typography
+            variant={'small_text'}
+            className={'text-regular-14 capitalize opacity-50'}
+          >
+            {type}
+          </Typography>
+        )}
+        <div className='relative'>
+          <input
+            ref={ref}
+            type={inputType}
+            disabled={disabled}
+            className={twMerge(
+              variantStyles[currentVariant],
+              inputPadding,
+              className
+            )}
+            {...props}
+          />
+          {type === 'search' && (
+            <Image
+              src={searchIcon}
+              alt='Search'
+              className={twMerge(
+                'absolute left-3 top-1/2 transform -translate-y-1/2 ' +
+                  'filter brightness-0 invert',
+                disabled && 'opacity-50'
+              )}
+              width={20}
+              height={20}
+            />
+          )}
+          {type === 'password' && (
+            <button
+              type='button'
+              disabled={disabled}
+              onClick={togglePasswordVisibility}
+              className={twMerge(
+                ' absolute right-3 top-1/2 transform -translate-y-1/2 ' +
+                  'filter brightness-0 invert',
+                disabled && 'opacity-50'
+              )}
+            >
+              <Image
+                src={showPassword ? eyeOffIcon : eyeIcon}
+                alt={showPassword ? 'Hide password' : 'Show password'}
+                width={24}
+                height={24}
+              />
+            </button>
+          )}
+        </div>
+        {errorText && (
+          <Typography
+            variant={'small_text'}
+            className={twMerge(
+              '!text-danger-500 text-regular-14 pt-0 ml-0 capitalize'
+            )}
+          >
+            {errorText}
+          </Typography>
+        )}
+      </div>
+    )
+  }
+)
