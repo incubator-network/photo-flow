@@ -144,7 +144,8 @@ export default function Home() {
             <Input
               type={'search'}
               variant={'error'}
-              placeholder={' Epam@epam.com'}
+              placeholder={'Input search'}
+              error={'error text'}
             />
           </div>
         </div>

@@ -5,6 +5,8 @@ import Image from 'next/image'
 import searchIcon from '@/assets/inputIcons/search.svg'
 import eyeIcon from '@/assets/inputIcons/eye.svg'
 import eyeOffIcon from '@/assets/inputIcons/eye-off.svg'
+import { Typography } from '@/components/typography/Typography'
+import { twMerge } from 'tailwind-merge'
 
 type InputVariant =
   | 'default'
@@ -16,7 +18,7 @@ type InputVariant =
 
 type Props = InputHTMLAttributes<HTMLInputElement> & {
   variant?: InputVariant
-  error?: string | null
+  errorText?: string | null
 }
 
 const baseStyle = `
@@ -29,12 +31,12 @@ const baseStyle = `
   transition-colors
   outline-none
   disabled:opacity-50  
+    focus:border-color-accent-)] 
 `
 
 const variantStyles = {
   default: `${baseStyle}
     border-[var(--color-dark-100)]
-    hover:border-[var(--color-light-900)] 
   `,
   active: `${baseStyle}
     border-[var(--color-light-100)_!important]
@@ -53,6 +55,7 @@ const variantStyles = {
   error: `${baseStyle}
     border-[var(--color-danger-500)]
     text-[var(--color-light-100)]
+    text-regular-14
   `,
 }
 
@@ -61,7 +64,7 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
     {
       type = 'text',
       variant = 'default',
-      error = false,
+      errorText = '',
       disabled = false,
       className = '',
       ...props
@@ -69,7 +72,7 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
     ref
   ) => {
     const [showPassword, setShowPassword] = useState<boolean>(false)
-    const currentVariant = error ? 'error' : variant
+    const currentVariant = errorText ? 'error' : variant
 
     const togglePasswordVisibility = () => {
       setShowPassword(!showPassword)
@@ -80,47 +83,50 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
     const inputType =
       type === 'password' ? (showPassword ? 'text' : 'password') : type
     return (
-      <div className={'text-left '}>
+      <div className={'text-left'}>
         {'search' !== type && (
-          <span
-            className={`text-regular-14 capitalize ${disabled ? 'opacity:-50' : ''} `}
+          <Typography
+            variant={'small_text'}
+            className={'text-regular-14 capitalize opacity-50'}
           >
             {type}
-          </span>
+          </Typography>
         )}
-
         <div className='relative'>
           <input
             ref={ref}
             type={inputType}
             disabled={disabled}
-            className={`${variantStyles[currentVariant]} ${className}  ${inputPadding}
-            }`}
+            className={twMerge(
+              variantStyles[currentVariant],
+              inputPadding,
+              className
+            )}
             {...props}
           />
           {type === 'search' && (
             <Image
               src={searchIcon}
               alt='Search'
-              className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${
-                disabled ? 'opacity-50' : ''
-              }  
-              filter brightness-0 invert
-              `}
+              className={twMerge(
+                'absolute left-3 top-1/2 transform -translate-y-1/2 ' +
+                  'filter brightness-0 invert',
+                disabled && 'opacity-50'
+              )}
               width={20}
               height={20}
-              // style={{ filter: disabled ? 'opacity(50%)' : 'none' }}
             />
           )}
           {type === 'password' && (
             <button
               type='button'
-              onClick={togglePasswordVisibility}
-              className={`absolute right-3 top-1/2 transform -translate-y-1/2
-            ${disabled ? 'opacity-50' : ''}
-            filter brightness-0 invert
-          `}
               disabled={disabled}
+              onClick={togglePasswordVisibility}
+              className={twMerge(
+                ' absolute right-3 top-1/2 transform -translate-y-1/2 ' +
+                  'filter brightness-0 invert',
+                disabled && 'opacity-50'
+              )}
             >
               <Image
                 src={showPassword ? eyeOffIcon : eyeIcon}
@@ -131,10 +137,15 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
             </button>
           )}
         </div>
-        {variant === 'error' && (
-          <span className={'text-danger-500 text-regular-14 ml-0'}>
-            {error}
-          </span>
+        {errorText && (
+          <Typography
+            variant={'small_text'}
+            className={twMerge(
+              '!text-danger-500 text-regular-14 pt-0 ml-0 capitalize'
+            )}
+          >
+            {errorText}
+          </Typography>
         )}
       </div>
     )

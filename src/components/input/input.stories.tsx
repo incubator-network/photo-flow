@@ -42,7 +42,7 @@ export const AllVariants = () => (
     <Input type='text' variant='hover' placeholder='Hover' />
     <Input type='text' variant='focus' placeholder='Focus' />
     <Input type='text' variant='disabled' placeholder='Disabled' disabled />
-    <Input type='text' variant='error' placeholder='Error' error='Ошибка' />
+    <Input type='text' variant='error' placeholder='Error' errorText='Ошибка' />
   </div>
 )
 
