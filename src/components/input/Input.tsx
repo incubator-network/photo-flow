@@ -92,12 +92,13 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
             {type}
           </Typography>
         )}
-        <div className='relative'>
+        <div className='relative w-[280px]'>
           <input
             ref={ref}
             type={inputType}
             disabled={disabled}
             className={twMerge(
+              'w-full',
               variantStyles[currentVariant],
               inputPadding,
               className
