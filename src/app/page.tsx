@@ -1,7 +1,5 @@
 import { Typography } from '@/components/typography/Typography'
 import { Input } from '@/components/input/Input'
-import { SuperButton } from '@/components/ui/button/superButton'
-import { Textarea } from '@/components/ui/textarea/Textarea'
 
 const variants = [
   'default',
@@ -29,38 +27,113 @@ export default function Home() {
       >
         Hello this a test string
         <div className={'flex flex-row  flex-wrap gap-x-3'}>
-          {variants.map(variant => {
-            return (
-              <div className={'flex flex-col justify-center gap-y-1'}>
-                {inputTypes.map(type => {
-                  return (
-                    <>
-                      {type !== 'email' ? (
-                        ''
-                      ) : (
-                        <span
-                          className={'text-regular-14'}
-                          key={`${variant} + ${type}`}
-                        >
-                          Email
-                        </span>
-                      )}
-                      <Input
-                        variant={variant}
-                        type={type}
-                        key={`${variant} + ${type} +1`}
-                        placeholder={
-                          type === 'search'
-                            ? 'Input search'
-                            : 'Epam@example.com'
-                        }
-                      />
-                    </>
-                  )
-                })}
-              </div>
-            )
-          })}
+          <div className={'flex flex-col justify-center'}>
+            <Input
+              variant={'default'}
+              type={'email'}
+              placeholder={' Epam@epam.com'}
+            />
+            <Input
+              variant={'default'}
+              type={'password'}
+              placeholder={' Epam@epam.com'}
+            />
+            <Input
+              variant={'default'}
+              type={'search'}
+              placeholder={'Input search'}
+            />
+          </div>
+
+          {/*<Input type={'search'} variant={'default'} placeholder={'default'} />*/}
+          <div className={'flex flex-col justify-center'}>
+            <Input
+              variant={'active'}
+              type={'email'}
+              placeholder={'Epam@epam.com'}
+            />
+            <Input
+              variant={'active'}
+              type={'password'}
+              placeholder={'Epam@epam.com'}
+            />
+            <Input
+              variant={'active'}
+              type={'search'}
+              placeholder={'Input search'}
+            />
+          </div>
+          <div className={'flex flex-col justify-center'}>
+            <Input
+              variant={'hover'}
+              type={'email'}
+              placeholder={'Epam@epam.com'}
+            />
+            <Input
+              variant={'hover'}
+              type={'password'}
+              placeholder={'Epam@epam.com'}
+            />
+            <Input
+              variant={'hover'}
+              type={'search'}
+              placeholder={'Input search'}
+            />
+          </div>
+          <div className={'flex flex-col justify-center'}>
+            <Input
+              variant={'focus'}
+              type={'email'}
+              placeholder={'Epam@epam.com'}
+            />
+            <Input
+              variant={'focus'}
+              type={'password'}
+              placeholder={'Epam@epam.com'}
+            />
+            <Input
+              variant={'focus'}
+              type={'search'}
+              placeholder={'Input search'}
+            />
+          </div>
+          <div className={'flex flex-col justify-center'}>
+            <Input
+              type={'email'}
+              variant={'disabled'}
+              placeholder={'Epam@epam.com'}
+              disabled
+            />
+            <Input
+              type={'password'}
+              variant={'disabled'}
+              placeholder={'Epam@epam.com'}
+              disabled
+            />
+            <Input
+              type={'search'}
+              variant={'disabled'}
+              placeholder={'Input search'}
+              disabled
+            />
+          </div>
+          <div className={'flex flex-col justify-center'}>
+            <Input
+              type={'email'}
+              variant={'error'}
+              placeholder={' Epam@epam.com'}
+            />
+            <Input
+              type={'password'}
+              variant={'error'}
+              placeholder={' Epam@epam.com'}
+            />
+            <Input
+              type={'search'}
+              variant={'error'}
+              placeholder={' Epam@epam.com'}
+            />
+          </div>
         </div>
       </div>
     </div>
