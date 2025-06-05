@@ -1,17 +1,8 @@
 import { Typography } from '@/components/typography/Typography'
 import { Input } from '@/components/input/Input'
 import { Button } from '@/components/ui/button/Button'
+import { Card } from '@/components/ui/superCard/Card'
 
-const variants = [
-  'default',
-  'active',
-  'hover',
-  'focus',
-  'disabled',
-  'error',
-] as const
-
-const inputTypes = ['email', 'password', 'search'] as const
 export default function Home() {
   return (
     <div>
@@ -33,6 +24,9 @@ export default function Home() {
       <Button variant={'text'}>
         <Typography variant={'h1'}>Button example</Typography>
       </Button>
+      <Card className={'w-40 h-40 m-10'}>
+        <Button>button</Button>
+      </Card>
       <div
         className={
           'bg-success-900 font-sans text-h1 text-center mt-20 ml-10   '
