@@ -1,89 +1,88 @@
 'use client'
 
-import { ChangeEvent, memo, TextareaHTMLAttributes, useState } from 'react'
+import { ChangeEvent, memo, TextareaHTMLAttributes } from 'react'
+import { UseFormRegisterReturn } from 'react-hook-form'
+import { twMerge } from 'tailwind-merge'
+import { Typography } from '@/components/typography/Typography'
 
 const textareaVariants = {
-  default: `
-      p-[6px_12px] 
-      bg-dark-500 
-      text-light-100
-      text-regular-16
-      border 
-      outline-none 
-      resize-none
-      rounded-[2px] 
-      overflow-y-auto
-      [scrollbar-width:none]
-      [-ms-overflow-style:none] 
-      [&::-webkit-scrollbar]:hidden 
-      enabled:active:border-light-100
-      enabled:active:text-light-100
-  `,
-  focus: `
-      border-accent-700 
-  `,
-  blur: `
-     border-dark-100 
-     text-light-900
-  `,
-  error: `
-      border-danger-500
-  `,
+  default: [
+    'p-[6px_12px]',
+    'bg-dark-500',
+    'text-regular-16',
+    'text-light-900',
+    'border',
+    'outline-none',
+    'resize-none',
+    'rounded-[2px]',
+    'overflow-y-auto',
+    '[scrollbar-width:none]',
+    '[-ms-overflow-style:none]',
+    '[&::-webkit-scrollbar]:hidden',
+    'transition-colors duration-200',
+    'focus:text-light-100',
+  ].join(' '),
 }
 
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-  value: string
-  changeValue: (value: string) => void
+  className: string
+  value?: string
+  changeValue?: (value: string) => void
   textareaLabel?: string
-  width?: string
-  height?: string
   error?: string | null
+  register?: UseFormRegisterReturn
 }
 
 export const Textarea = memo(
   ({
+    className,
     value,
     changeValue,
     textareaLabel,
-    width = '284',
-    height = '84',
     error = null,
+    onBlur,
+    onFocus,
+    register,
     ...props
   }: TextareaProps) => {
-    const [isFocused, setIsFocused] = useState(false)
-    let calculatedClassName = `w-[${width}px] h-[${height}px] ${textareaVariants['default']}`
-    if (error) {
-      calculatedClassName += textareaVariants['error']
-    } else if (isFocused) {
-      calculatedClassName += textareaVariants['focus']
-    } else {
-      calculatedClassName += textareaVariants['blur']
-    }
+    const calculatedClassName = twMerge(
+      textareaVariants.default,
+      error
+        ? 'border-danger-500 text-light-100'
+        : 'focus:border-light-100 blur:border-dark-100 blur:border-dark-100',
+      className
+    )
 
-    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) =>
-      changeValue(e.target.value)
-    const onFocus = () => setIsFocused(true)
-    const onBlur = () => setIsFocused(false)
+    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+      if (changeValue) {
+        changeValue(e.target.value)
+      }
+    }
 
     return (
       <div className={'inline-flex flex-col items-start'}>
         {textareaLabel && (
-          <span className={'text-light-900 text-regular-14'}>
+          <Typography variant={'regular_text_14'} className={'text-light-900'}>
             {textareaLabel}
-          </span>
+          </Typography>
         )}
         <textarea
           className={calculatedClassName}
-          defaultValue={value}
-          onChange={onChangeHandler}
+          value={register ? undefined : value}
+          onChange={register ? undefined : onChangeHandler}
           onFocus={onFocus}
           onBlur={onBlur}
+          {...register}
           {...props}
         />
         {error && (
-          <span className={'text-danger-500 text-regular-14'}>{error}</span>
+          <Typography variant={'regular_text_14'} className={'text-danger-500'}>
+            {error}
+          </Typography>
         )}
       </div>
     )
   }
 )
+
+Textarea.displayName = 'Textarea'
