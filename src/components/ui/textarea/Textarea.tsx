@@ -46,11 +46,11 @@ export const Textarea = memo(
     ...props
   }: TextareaProps) => {
     const calculatedClassName = twMerge(
-      className,
       textareaVariants.default,
       error
         ? 'border-danger-500 text-light-100'
-        : 'focus:border-light-100 blur:border-dark-100 blur:border-dark-100'
+        : 'focus:border-light-100 blur:border-dark-100 blur:border-dark-100',
+      className
     )
 
     const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
