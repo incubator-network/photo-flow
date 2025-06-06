@@ -1,7 +1,7 @@
 import * as RadixSelect from '@radix-ui/react-select'
-import { ChevronDownIcon } from '@radix-ui/react-icons'
 import { twMerge } from 'tailwind-merge'
 import { ComponentProps, useState } from 'react'
+import ArrowDown from '../../../assets/arrow-down.svg'
 
 type Item = {
   title: string
@@ -99,9 +99,7 @@ export const Select = ({
               </RadixSelect.Icon>
             </div>
           ) : (
-            placeholder && (
-              <RadixSelect.Value placeholder={placeholder} className='block' />
-            )
+            <RadixSelect.Value placeholder={placeholder} className='block' />
           )}
           <RadixSelect.Icon
             className={twMerge(
@@ -112,7 +110,7 @@ export const Select = ({
               !placeholder && 'ml-auto'
             )}
           >
-            <ChevronDownIcon className={twMerge(`w-6 h-6 text-light-100`)} />
+            <ArrowDown className={`fill-light-100 w-6 h-6 text-light-100`} />
           </RadixSelect.Icon>
         </RadixSelect.Trigger>
 
