@@ -8,12 +8,11 @@ import { Select } from '@/components/ui/Select/Select'
 export default function Home() {
   return (
     <div>
-      {' '}
       <Select
         placeholder='select-box'
-        isOpen={false}
-        widthInPx='w-[210px]'
         items={[{ title: '1' }, { title: '1' }, { title: '1' }]}
+        className='w-[210px]'
+        contentClassName='w-[210px]'
       />
       <div className={'bg-danger-700 font-sans text-h1 text-center mt-20'}>
         Hello this a test string

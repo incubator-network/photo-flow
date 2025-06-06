@@ -7,56 +7,6 @@ const meta = {
 } satisfies Meta<typeof Select>
 export default meta
 
-export const Closed = {
-  args: {
-    items: [
-      {
-        title: '1',
-      },
-      {
-        title: 'test',
-      },
-      {
-        title: '1231231213',
-      },
-      {
-        title: 'test2',
-      },
-      {
-        title: 'Select-box',
-      },
-    ],
-    placeholder: 'Select-box',
-    isOpen: false,
-    widthInPx: '210px',
-  },
-}
-
-export const Opened = {
-  args: {
-    items: [
-      {
-        title: '1',
-      },
-      {
-        title: 'test',
-      },
-      {
-        title: '1231231213',
-      },
-      {
-        title: 'test2',
-      },
-      {
-        title: 'Select-box',
-      },
-    ],
-    placeholder: 'Select-box',
-    isOpen: true,
-    widthInPx: '210px',
-  },
-}
-
 export const Main = {
   args: {
     items: [
@@ -77,8 +27,8 @@ export const Main = {
       },
     ],
     placeholder: 'Select-box',
-    isOpen: false,
-    widthInPx: '210px',
+    className: 'w-[210px]',
+    contentClassName: 'w-[210px]',
   },
 }
 
@@ -101,8 +51,8 @@ export const MainWithoutPlaceholder = {
         title: 'Select-box',
       },
     ],
-    isOpen: false,
-    widthInPx: '210px',
+    className: 'w-[210px]',
+    contentClassName: 'w-[210px]',
   },
 }
 
@@ -126,9 +76,10 @@ export const MainDisabled = {
       },
     ],
     placeholder: 'Select-box',
-    isOpen: false,
+
     disabled: true,
-    widthInPx: '210px',
+    className: 'w-[210px]',
+    contentClassName: 'w-[210px]',
   },
 }
 
@@ -152,9 +103,10 @@ export const ClosedWithTitle = {
       },
     ],
     placeholder: 'Select-box',
-    isOpen: false,
+
     title: 'Select-box',
-    widthInPx: '210px',
+    className: 'w-[210px]',
+    contentClassName: 'w-[210px]',
   },
 }
 
@@ -178,8 +130,9 @@ export const MainWithIcon = {
       },
     ],
     placeholder: 'Russian',
-    isOpen: false,
-    widthInPx: '140px',
+
+    className: 'w-[210px]',
+    contentClassName: 'w-[210px]',
   },
 }
 
@@ -202,7 +155,8 @@ export const MainWithIconWithoutPlaceholder = {
         description: 'Russian flag',
       },
     ],
-    isOpen: false,
-    widthInPx: '110px',
+
+    className: 'w-[210px]',
+    contentClassName: 'w-[210px]',
   },
 }

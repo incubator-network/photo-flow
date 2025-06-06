@@ -1,7 +1,7 @@
 import * as RadixSelect from '@radix-ui/react-select'
 import { ChevronDownIcon } from '@radix-ui/react-icons'
 import { twMerge } from 'tailwind-merge'
-import { useState } from 'react'
+import { ComponentProps, useState } from 'react'
 
 type Item = {
   title: string
@@ -16,9 +16,11 @@ type PropsType = {
   title?: string
   items: Item[]
   disabled?: boolean
-  isOpen: boolean
-  widthInPx: string
-}
+  contentClassName: string
+} & Omit<
+  ComponentProps<'select'>,
+  'value' | 'defaultValue' | 'onChange' | 'dir'
+>
 
 export const Select = ({
   onOpenChange,
@@ -26,17 +28,16 @@ export const Select = ({
   title,
   items,
   disabled,
-  isOpen,
-  widthInPx: width,
+  className,
+  contentClassName,
+  ...restProps
 }: PropsType) => {
-  const [open, setOpen] = useState(isOpen)
+  const [open, setOpen] = useState(false)
   const [selectedValue, setSelectedValue] = useState(items[0]?.title || '')
   const selectedItem = items.find(item => item.title === selectedValue)
 
-  console.log(open)
-
   return (
-    <div className='relative'>
+    <div className={twMerge(`relative`, className)}>
       {title && <span className='text-regular-14 text-light-900'>{title}</span>}
 
       <RadixSelect.Root
@@ -48,11 +49,12 @@ export const Select = ({
         disabled={disabled}
         value={selectedValue}
         onValueChange={setSelectedValue}
+        {...restProps}
       >
         <RadixSelect.Trigger
           className={twMerge(
             `
-            w-[210px]
+            w-full
             bg-dark-700
             h-[36px]
             rounded-xs
@@ -73,7 +75,6 @@ export const Select = ({
             data-[state=open]:border-light-100
             data-[state=open]:rounded-none
           `,
-            width,
             disabled &&
               `
             text-dark-100
@@ -119,14 +120,14 @@ export const Select = ({
           <RadixSelect.Content
             className={twMerge(
               `
-              w-[210px]
               shadow
               border 
               rounded-xs
               data-[state=open]:rounded-none
               overflow-hidden
+              data-[state=open]:hover:bg-accent-500
               `,
-              width
+              contentClassName
             )}
             position='popper'
             align='start'
@@ -139,7 +140,7 @@ export const Select = ({
                     value={item.title}
                     className={twMerge(
                       `
-                      w-[210px]
+                      w-full
                       outline-none 
                       border-none 
                       text-light-100
@@ -150,8 +151,8 @@ export const Select = ({
                       py-[6px]
                       hover:text-accent-500
                       hover:bg-dark-300
-                        `,
-                      width
+                      
+                        `
                     )}
                     key={item.title}
                   >
