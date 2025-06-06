@@ -29,7 +29,7 @@ export default function Home() {
   const error = text.length > maxLength ? 'Превышен лимит символов' : null
 
   return (
-    <div>
+    <div style={{ height: '2000px', width: '120%' }}>
       <div className={'bg-danger-700 font-sans text-h1 text-center mt-20'}>
         Hello this a test string
       </div>
