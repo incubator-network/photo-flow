@@ -8,17 +8,12 @@ import eyeOffIcon from '@/assets/inputIcons/eye-off.svg'
 import { Typography } from '@/components/typography/Typography'
 import { twMerge } from 'tailwind-merge'
 
-type InputVariant =
-  | 'default'
-  | 'active'
-  | 'hover'
-  | 'focus'
-  | 'disabled'
-  | 'error'
+type InputVariant = 'default' | 'disabled' | 'error'
 
 type Props = InputHTMLAttributes<HTMLInputElement> & {
   variant?: InputVariant
   errorText?: string | null
+  disabled?: boolean
 }
 
 const baseStyle = `
@@ -26,35 +21,28 @@ const baseStyle = `
   w-[280px] h-[36px] px-[12px]
   text-regular-16 leading-medium
   bg-transparent
-  rounded-[2px]
   border
+  border-dark-100
+  rounded-[2px]
   transition-colors
   outline-none
-  disabled:opacity-50  
-    focus:border-color-accent-)] 
+  disabled:opacity-50 
+  text-light-900 
+  hover:border-light-900
+  focus:border-accent-500 focus:bg-dark-500 focus:text-light-100
+  active:border-light-100! active:bg-dark-500! active:text-light-100!
+  not-placeholder-shown:text-light-100  
 `
 
 const variantStyles = {
-  default: `${baseStyle}
-    border-[var(--color-dark-100)]
-  `,
-  active: `${baseStyle}
-    border-[var(--color-light-100)_!important]
-    bg-[var(--color-dark-500)_!important]
-  `,
-  hover: `${baseStyle}
-    border-[var(--color-light-900)]
-  `,
-  focus: `${baseStyle}
-    border-[var(--color-accent-500)]
-  `,
+  default: baseStyle,
   disabled: `${baseStyle}
-    border-[var(--color-dark-300)]
+    border-dark-300
     disabled:opacity-50 
   `,
   error: `${baseStyle}
-    border-[var(--color-danger-500)]
-    text-[var(--color-light-100)]
+    border-danger-500
+    text-light-100
     text-regular-14
   `,
 }
