@@ -7,6 +7,7 @@ import { Card } from '@/components/ui/superCard/Card'
 import { Textarea } from '@/components/ui/textarea/Textarea'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
+import { Calendar } from '@/components/ui/DatePicker/Calendar/Calendar'
 
 type FormData = {
   description: string
@@ -30,6 +31,8 @@ export default function Home() {
 
   return (
     <div style={{ height: '2000px', width: '120%' }}>
+
+      <Calendar/>
       <div className={'bg-danger-700 font-sans text-h1 text-center mt-20'}>
         Hello this a test string
       </div>
