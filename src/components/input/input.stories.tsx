@@ -1,5 +1,4 @@
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { useState } from 'react'
 import { Input } from '@/components/input/Input'
 
 const meta: Meta<typeof Input> = {
@@ -9,10 +8,14 @@ const meta: Meta<typeof Input> = {
     layout: 'centered',
   },
   argTypes: {
+    errorText: {
+      control: 'text',
+      description: 'Текст ошибки под инпутом',
+    },
     variant: {
       control: {
         type: 'select',
-        options: ['default', 'error', 'active', 'focus', 'disabled', 'hover'],
+        options: ['default', 'error', 'disabled'],
       },
     },
     type: {
@@ -28,45 +31,24 @@ const meta: Meta<typeof Input> = {
 type Story = StoryObj<typeof meta>
 export default meta
 
-// //
-export const Default: Story = {
+export const VariantDefault: Story = {
   args: {
     type: 'text',
+    variant: 'default',
     placeholder: 'Введите текст',
   },
 }
-export const AllVariants = () => (
-  <div className='space-y-4'>
-    <Input type='text' placeholder='Default' />
-    <Input type='text' variant='active' placeholder='Active' />
-    <Input type='text' variant='hover' placeholder='Hover' />
-    <Input type='text' variant='focus' placeholder='Focus' />
-    <Input type='text' variant='disabled' placeholder='Disabled' disabled />
-    <Input type='text' variant='error' placeholder='Error' errorText='Ошибка' />
-  </div>
-)
 
-// История с переключением пароля
-export const PasswordInput = () => {
-  const [value, setValue] = useState('')
-
-  return (
-    <Input
-      type='password'
-      value={value}
-      onChange={e => setValue(e.target.value)}
-      placeholder='Введите пароль'
-    />
-  )
-}
-
-// История с поиском
-export const SearchInput: Story = {
+export const VariantError = {
   args: {
+    variant: 'error',
     type: 'search',
-    placeholder: 'Поиск...',
+    errorText: 'Error text',
   },
 }
+export const VariantDisabled = () => (
+  <Input type='search' variant='disabled' placeholder='Disabled' disabled />
+)
 
 // История для тестирования всех типов
 export const AllTypes = () => (

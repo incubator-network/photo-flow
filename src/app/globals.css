@@ -2,150 +2,147 @@
 @import '@fontsource-variable/inter';
 
 @theme {
-    --font-sans: 'Inter Variable', sans-serif;
+  --font-sans: 'Inter Variable', sans-serif;
 
-    --color-accent-100: #73A5FF;
-    --color-accent-300: #4C8DFF;
-    --color-accent-500: #397DF6;
-    --color-accent-700: #2F68CC;
-    --color-accent-900: #234E99;
+  --color-accent-100: #73a5ff;
+  --color-accent-300: #4c8dff;
+  --color-accent-500: #397df6;
+  --color-accent-700: #2f68cc;
+  --color-accent-900: #234e99;
 
-    --color-success-100: #80FFBF;
-    --color-success-300: #22E584;
-    --color-success-500: #14CC70;
-    --color-success-700: #0F9954;
-    --color-success-900: #0A6638;
+  --color-success-100: #80ffbf;
+  --color-success-300: #22e584;
+  --color-success-500: #14cc70;
+  --color-success-700: #0f9954;
+  --color-success-900: #0a6638;
 
-    --color-danger-100: #FF8099;
-    --color-danger-300: #F23D61;
-    --color-danger-500: #CC1439;
-    --color-danger-700: #990F2B;
-    --color-danger-900: #660A1D;
+  --color-danger-100: #ff8099;
+  --color-danger-300: #f23d61;
+  --color-danger-500: #cc1439;
+  --color-danger-700: #990f2b;
+  --color-danger-900: #660a1d;
 
-    --color-warning-100: #FFD073;
-    --color-warning-300: #E5AC39;
-    --color-warning-500: #D99000;
-    --color-warning-700: #996600;
-    --color-warning-900: #664400;
+  --color-warning-100: #ffd073;
+  --color-warning-300: #e5ac39;
+  --color-warning-500: #d99000;
+  --color-warning-700: #996600;
+  --color-warning-900: #664400;
 
-    --color-dark-100: #4C4C4C;
-    --color-dark-300: #333333;
-    --color-dark-500: #171717;
-    --color-dark-700: #0D0D0D;
-    --color-dark-900: #000000;
+  --color-dark-100: #4c4c4c;
+  --color-dark-300: #333333;
+  --color-dark-500: #171717;
+  --color-dark-700: #0d0d0d;
+  --color-dark-900: #000000;
 
-    --color-light-100: #FFFFFF;
-    --color-light-300: #F7FBFF;
-    --color-light-500: #EDF3FA;
-    --color-light-700: #D5DAE0;
-    --color-light-900: #8D9094;
+  --color-light-100: #ffffff;
+  --color-light-300: #f7fbff;
+  --color-light-500: #edf3fa;
+  --color-light-700: #d5dae0;
+  --color-light-900: #8d9094;
 
-    --font-size-large: 26px;
-    --font-size-h1: 20px;
-    --font-size-h2: 18px;
-    --font-size-h3: 16px;
-    --font-size-regular-16: 16px;
-    --font-size-bold-16: 16px;
-    --font-size-regular-14: 14px;
-    --font-size-medium-14: 14px;
-    --font-size-bold-14: 14px;
-    --font-size-small: 12px;
-    --font-size-semi-bold-small: 12px;
-    --font-size-regular-link: 14px;
-    --font-size-small-link: 12px;
+  /*НЕ ИСПОЛЬЗУЙТЕ ПОКА ЭТИ ПЕРЕМЕННЫЕ РАБОТАЮТ ЧЕРЕЗ РАЗ, ЛУЧШЕ ИСПОЛЬЗОВАТЬ КОМПОНЕНТ TYPOGRAPHY
+     ДЛЯ ЛЮБОЙ СТИЛИЗАЦИИ И ПЕРЕДОВАТЬ ДОПОЛНИТЕЛЬНЫЕ СТИЛИ ЧЕРЕЗ АТРИБУТ CLASSNAME*/
+  --text-size-large: 26px;
+  --text-h1: 20px;
+  --text-h2: 18px;
+  --text-h3: 16px;
+  --text-regular-16: 16px;
+  --text-bold-16: 16px;
+  --text-medium-14: 14px;
+  --text-small-12: 12px;
 
-    --line-height-large: 36px;
-    --line-height-medium: 24px;
-    --line-height-small: 16px;
+  --leading-large: 36px;
+  --leading-medium: 24px;
+  --leading-small: 16px;
 }
 
 @layer utilities {
-    .text-large {
-        font-size: var(--font-size-large);
-        line-height: var(--line-height-large);
-        font-weight: 600;
-    }
+  .text-large {
+    font-size: var(--text-size-large);
+    line-height: var(--leading-large);
+    font-weight: 600;
+  }
 
-    .text-h1 {
-        font-size: var(--font-size-h1);
-        line-height: var(--line-height-large);
-        font-weight: 700;
-    }
+  .text-h1 {
+    font-size: var(--text-h1);
+    line-height: var(--leading-large);
+    font-weight: 700;
+  }
 
-    .text-h2 {
-        font-size: var(--font-size-h2);
-        line-height: var(--line-height-medium);
-        font-weight: 700;
-    }
+  .text-h2 {
+    font-size: var(--text-h2);
+    line-height: var(--leading-medium);
+    font-weight: 700;
+  }
 
-    .text-h3 {
-        font-size: var(--font-size-h3);
-        line-height: var(--line-height-medium);
-        font-weight: 600;
-    }
+  .text-h3 {
+    font-size: var(--text-h3);
+    line-height: var(--leading-medium);
+    font-weight: 600;
+  }
 
-    .text-regular-16 {
-        font-size: var(--font-size-regular-16);
-        line-height: var(--line-height-medium);
-        font-weight: 400;
-    }
+  .text-regular-16 {
+    font-size: var(--text-regular-16);
+    line-height: var(--leading-medium);
+    font-weight: 400;
+  }
 
-    .text-bold-16 {
-        font-size: var(--font-size-bold-16);
-        line-height: var(--line-height-medium);
-        font-weight: 700;
-    }
+  .text-bold-16 {
+    font-size: var(--text-bold-16);
+    line-height: var(--leading-medium);
+    font-weight: 700;
+  }
 
-    .text-regular-14 {
-        font-size: var(--font-size-regular-14);
-        line-height: var(--line-height-medium);
-        font-weight: 400;
-    }
+  .text-regular-14 {
+    font-size: var(--text-medium-14);
+    line-height: var(--leading-medium);
+    font-weight: 400;
+  }
 
-    .text-medium-14 {
-        font-size: var(--font-size-medium-14);
-        line-height: var(--line-height-medium);
-        font-weight: 500;
-    }
+  .text-medium-14 {
+    font-size: var(--text-medium-14);
+    line-height: var(--leading-medium);
+    font-weight: 500;
+  }
 
-    .text-bold-14 {
-        font-size: var(--font-size-bold-14);
-        line-height: var(--line-height-medium);
-        font-weight: 700;
-    }
+  .text-bold-14 {
+    font-size: var(--text-medium-14);
+    line-height: var(--leading-medium);
+    font-weight: 700;
+  }
 
-    .text-small {
-        font-size: var(--font-size-small);
-        line-height: var(--line-height-small);
-        font-weight: 400;
-    }
+  .text-small {
+    font-size: var(--text-small-12);
+    line-height: var(--leading-small);
+    font-weight: 400;
+  }
 
-    .text-semi-bold-small {
-        font-size: var(--font-size-semi-bold-small);
-        line-height: var(--line-height-small);
-        font-weight: 600;
-    }
+  .text-semi-bold-small {
+    font-size: var(--text-small-12);
+    line-height: var(--leading-small);
+    font-weight: 600;
+  }
 
-    .text-regular-link {
-        font-size: var(--font-size-regular-link);
-        line-height: var(--line-height-medium);
-        font-weight: 400;
-        color: var(--color-accent-500);
-        text-decoration: underline;
-        cursor: pointer;
-    }
+  .text-regular-link {
+    font-size: var(--text-medium-14);
+    line-height: var(--leading-medium);
+    font-weight: 400;
+    color: var(--color-accent-500);
+    text-decoration: underline;
+    cursor: pointer;
+  }
 
-    .text-small-link {
-        font-size: var(--font-size-semi-bold-small);
-        line-height: var(--line-height-small);
-        font-weight: 400;
-        color: var(--color-accent-500);
-        text-decoration: underline;
-        cursor: pointer;
-    }
+  .text-small-link {
+    font-size: var(--text-small-12);
+    line-height: var(--leading-small);
+    font-weight: 400;
+    color: var(--color-accent-500);
+    text-decoration: underline;
+    cursor: pointer;
+  }
 }
 
 body {
-    background: var(--color-dark-700);
-    color: var(--color-light-100);
+  background: var(--color-dark-700);
+  color: var(--color-light-100);
 }

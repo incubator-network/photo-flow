@@ -8,53 +8,41 @@ import eyeOffIcon from '@/assets/inputIcons/eye-off.svg'
 import { Typography } from '@/components/typography/Typography'
 import { twMerge } from 'tailwind-merge'
 
-type InputVariant =
-  | 'default'
-  | 'active'
-  | 'hover'
-  | 'focus'
-  | 'disabled'
-  | 'error'
+type InputVariant = 'default' | 'disabled' | 'error'
 
 type Props = InputHTMLAttributes<HTMLInputElement> & {
   variant?: InputVariant
   errorText?: string | null
+  disabled?: boolean
 }
 
 const baseStyle = `
   flex items-center justify-center
   w-[280px] h-[36px] px-[12px]
-  text-regular-14
+  text-regular-16 leading-medium
   bg-transparent
-  rounded-[2px]
   border
+  border-dark-100
+  rounded-[2px]
   transition-colors
   outline-none
-  disabled:opacity-50  
-    focus:border-color-accent-)] 
+  disabled:opacity-50 
+  text-light-900 
+  hover:border-light-900
+  focus:border-accent-500 focus:bg-dark-500 focus:text-light-100
+  active:border-light-100! active:bg-dark-500! active:text-light-100!
+  not-placeholder-shown:text-light-100  
 `
 
 const variantStyles = {
-  default: `${baseStyle}
-    border-[var(--color-dark-100)]
-  `,
-  active: `${baseStyle}
-    border-[var(--color-light-100)_!important]
-    bg-[var(--color-dark-500)_!important]
-  `,
-  hover: `${baseStyle}
-    border-[var(--color-light-900)]
-  `,
-  focus: `${baseStyle}
-    border-[var(--color-accent-500)]
-  `,
+  default: baseStyle,
   disabled: `${baseStyle}
-    border-[var(--color-dark-300)]
+    border-dark-300
     disabled:opacity-50 
   `,
   error: `${baseStyle}
-    border-[var(--color-danger-500)]
-    text-[var(--color-light-100)]
+    border-danger-500
+    text-light-100
     text-regular-14
   `,
 }
@@ -83,11 +71,11 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
     const inputType =
       type === 'password' ? (showPassword ? 'text' : 'password') : type
     return (
-      <div className={'text-left'}>
+      <div className={twMerge('text-left', className)}>
         {'search' !== type && (
           <Typography
-            variant={'small_text'}
-            className={'text-regular-14 capitalize opacity-50'}
+            variant={'regular_text_14'}
+            className={'capitalize text-light-900'}
           >
             {type}
           </Typography>
@@ -100,8 +88,7 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
             className={twMerge(
               'w-full',
               variantStyles[currentVariant],
-              inputPadding,
-              className
+              inputPadding
             )}
             {...props}
           />
@@ -140,10 +127,8 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
         </div>
         {errorText && (
           <Typography
-            variant={'small_text'}
-            className={twMerge(
-              '!text-danger-500 text-regular-14 pt-0 ml-0 capitalize'
-            )}
+            variant={'regular_text_14'}
+            className={twMerge('text-danger-500 pt-0 ml-0 capitalize')}
           >
             {errorText}
           </Typography>
