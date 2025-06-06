@@ -14,7 +14,9 @@ export const Card = (props: propsType) => {
         `
       bg-dark-300
         rounded-[2px]
-        border border-dark-100`,
+        border border-dark-100
+        overflow-y-auto
+        `,
         className
       )}
     >

@@ -25,7 +25,10 @@ export default function Home() {
         <Typography variant={'h1'}>Button example</Typography>
       </Button>
       <Card className={'w-40 h-40 m-10'}>
-        <Button>button</Button>
+        <Typography variant={'bold_text_16'}>
+          Button example Button exampleButton exampleButton exampleButton
+          exampleButton exampleButton example
+        </Typography>
       </Card>
       <Input type='password' variant={'default'} />
     </div>
