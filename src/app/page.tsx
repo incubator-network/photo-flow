@@ -1,11 +1,20 @@
+'use client'
 import { Typography } from '@/components/typography/Typography'
 import { Input } from '@/components/input/Input'
 import { Button } from '@/components/ui/button/Button'
 import { Card } from '@/components/ui/superCard/Card'
+import { Select } from '@/components/ui/Select/Select'
 
 export default function Home() {
   return (
     <div>
+      {' '}
+      <Select
+        placeholder='select-box'
+        isOpen={false}
+        widthInPx='w-[210px]'
+        items={[{ title: '1' }, { title: '1' }, { title: '1' }]}
+      />
       <div className={'bg-danger-700 font-sans text-h1 text-center mt-20'}>
         Hello this a test string
       </div>
