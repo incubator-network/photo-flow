@@ -24,7 +24,7 @@ type Props = InputHTMLAttributes<HTMLInputElement> & {
 const baseStyle = `
   flex items-center justify-center
   w-[280px] h-[36px] px-[12px]
-  text-regular-14
+  text-regular-16 leading-medium
   bg-transparent
   rounded-[2px]
   border
@@ -83,11 +83,11 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
     const inputType =
       type === 'password' ? (showPassword ? 'text' : 'password') : type
     return (
-      <div className={'text-left'}>
+      <div className={twMerge('text-left', className)}>
         {'search' !== type && (
           <Typography
-            variant={'small_text'}
-            className={'text-regular-14 capitalize opacity-50'}
+            variant={'regular_text_14'}
+            className={'capitalize text-light-900'}
           >
             {type}
           </Typography>
@@ -100,8 +100,7 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
             className={twMerge(
               'w-full',
               variantStyles[currentVariant],
-              inputPadding,
-              className
+              inputPadding
             )}
             {...props}
           />
@@ -140,10 +139,8 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
         </div>
         {errorText && (
           <Typography
-            variant={'small_text'}
-            className={twMerge(
-              '!text-danger-500 text-regular-14 pt-0 ml-0 capitalize'
-            )}
+            variant={'regular_text_14'}
+            className={twMerge('text-danger-500 pt-0 ml-0 capitalize')}
           >
             {errorText}
           </Typography>

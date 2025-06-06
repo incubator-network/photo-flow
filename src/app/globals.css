@@ -40,95 +40,92 @@
     --color-light-700: #D5DAE0;
     --color-light-900: #8D9094;
 
-    --font-size-large: 26px;
-    --font-size-h1: 20px;
-    --font-size-h2: 18px;
-    --font-size-h3: 16px;
-    --font-size-regular-16: 16px;
-    --font-size-bold-16: 16px;
-    --font-size-regular-14: 14px;
-    --font-size-medium-14: 14px;
-    --font-size-bold-14: 14px;
-    --font-size-small: 12px;
-    --font-size-semi-bold-small: 12px;
-    --font-size-regular-link: 14px;
-    --font-size-small-link: 12px;
+    /*НЕ ИСПОЛЬЗУЙТЕ ПОКА ЭТИ ПЕРЕМЕННЫЕ РАБОТАЮТ ЧЕРЕЗ РАЗ, ЛУЧШЕ ИСПОЛЬЗОВАТЬ КОМПОНЕНТ TYPOGRAPHY
+     ДЛЯ ЛЮБОЙ СТИЛИЗАЦИИ И ПЕРЕДОВАТЬ ДОПОЛНИТЕЛЬНЫЕ СТИЛИ ЧЕРЕЗ АТРИБУТ CLASSNAME*/
+    --text-size-large: 26px;
+    --text-h1: 20px;
+    --text-h2: 18px;
+    --text-h3: 16px;
+    --text-regular-16: 16px;
+    --text-bold-16: 16px;
+    --text-medium-14: 14px;
+    --text-small-12: 12px;
 
-    --line-height-large: 36px;
-    --line-height-medium: 24px;
-    --line-height-small: 16px;
+    --leading-large: 36px;
+    --leading-medium: 24px;
+    --leading-small: 16px;
 }
 
 @layer utilities {
     .text-large {
-        font-size: var(--font-size-large);
-        line-height: var(--line-height-large);
+        font-size: var(--text-size-large);
+        line-height: var(--leading-large);
         font-weight: 600;
     }
 
     .text-h1 {
-        font-size: var(--font-size-h1);
-        line-height: var(--line-height-large);
+        font-size: var(--text-h1);
+        line-height: var(--leading-large);
         font-weight: 700;
     }
 
     .text-h2 {
-        font-size: var(--font-size-h2);
-        line-height: var(--line-height-medium);
+        font-size: var(--text-h2);
+        line-height: var(--leading-medium);
         font-weight: 700;
     }
 
     .text-h3 {
-        font-size: var(--font-size-h3);
-        line-height: var(--line-height-medium);
+        font-size: var(--text-h3);
+        line-height: var(--leading-medium);
         font-weight: 600;
     }
 
     .text-regular-16 {
-        font-size: var(--font-size-regular-16);
-        line-height: var(--line-height-medium);
+        font-size: var(--text-regular-16);
+        line-height: var(--leading-medium);
         font-weight: 400;
     }
 
     .text-bold-16 {
-        font-size: var(--font-size-bold-16);
-        line-height: var(--line-height-medium);
+        font-size: var(--text-bold-16);
+        line-height: var(--leading-medium);
         font-weight: 700;
     }
 
     .text-regular-14 {
-        font-size: var(--font-size-regular-14);
-        line-height: var(--line-height-medium);
+        font-size: var(--text-medium-14);
+        line-height: var(--leading-medium);
         font-weight: 400;
     }
 
     .text-medium-14 {
-        font-size: var(--font-size-medium-14);
-        line-height: var(--line-height-medium);
+        font-size: var(--text-medium-14);
+        line-height: var(--leading-medium);
         font-weight: 500;
     }
 
     .text-bold-14 {
-        font-size: var(--font-size-bold-14);
-        line-height: var(--line-height-medium);
+        font-size: var(--text-medium-14);
+        line-height: var(--leading-medium);
         font-weight: 700;
     }
 
     .text-small {
-        font-size: var(--font-size-small);
-        line-height: var(--line-height-small);
+        font-size: var(--text-small-12);
+        line-height: var(--leading-small);
         font-weight: 400;
     }
 
     .text-semi-bold-small {
-        font-size: var(--font-size-semi-bold-small);
-        line-height: var(--line-height-small);
+        font-size: var(--text-small-12);
+        line-height: var(--leading-small);
         font-weight: 600;
     }
 
     .text-regular-link {
-        font-size: var(--font-size-regular-link);
-        line-height: var(--line-height-medium);
+        font-size: var(--text-medium-14);
+        line-height: var(--leading-medium);
         font-weight: 400;
         color: var(--color-accent-500);
         text-decoration: underline;
@@ -136,8 +133,8 @@
     }
 
     .text-small-link {
-        font-size: var(--font-size-semi-bold-small);
-        line-height: var(--line-height-small);
+        font-size: var(--text-small-12);
+        line-height: var(--leading-small);
         font-weight: 400;
         color: var(--color-accent-500);
         text-decoration: underline;
