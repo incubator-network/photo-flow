@@ -1,11 +1,9 @@
-
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { SuperCheckBox } from '@/app/components/ui/checkbox/superCheckbox'
-
+import { CheckBox } from '@/components/ui/checkbox/Checkbox'
 
 const meta = {
-  title: 'Components/SuperCheckbox',
-  component: SuperCheckBox,
+  title: 'Components/Checkbox',
+  component: CheckBox,
   argTypes: {
     variant: {
       options: ['default', 'active', 'hover', 'focus', 'disabled'],
@@ -15,13 +13,13 @@ const meta = {
     disabled: { control: 'boolean' },
     label: { control: 'text' },
   },
-} satisfies Meta<typeof SuperCheckBox>;
+} satisfies Meta<typeof CheckBox>
 
-export default meta;
+export default meta
 
 export const Default: StoryObj<typeof meta> = {
   args: {
     variant: 'default',
     label: 'Primary Checkbox',
   },
-};
+}
