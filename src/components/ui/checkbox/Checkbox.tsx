@@ -1,18 +1,19 @@
-import * as Checkbox from '@radix-ui/react-checkbox'
-import { CheckIcon } from '@radix-ui/react-icons'
+import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
 import { ComponentPropsWithoutRef } from 'react'
 import { twMerge } from 'tailwind-merge'
+import CheckIcon from '@/assets/icons/checkmark-outline.svg'
 
 type CheckBoxProps = {
   variant?: 'default' | 'active' | 'hover' | 'focus' | 'disabled'
   label?: string
-} & ComponentPropsWithoutRef<typeof Checkbox.Root>
+} & ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>
 
-export const CheckBox = ({
+export const Checkbox = ({
   variant = 'default',
   label,
   className,
   checked,
+  id,
   ...rest
 }: CheckBoxProps) => {
   const isInteractive = variant === 'active' || variant === 'hover'
@@ -44,19 +45,24 @@ export const CheckBox = ({
   return (
     <div className='flex items-center gap-2'>
       <div className={wrapperClasses}>
-        <Checkbox.Root
+        <CheckboxPrimitive.Root
           className={baseStyles}
           checked={checked}
           disabled={rest.disabled}
+          id={id}
           {...rest}
         >
-          <Checkbox.Indicator>
+          <CheckboxPrimitive.Indicator>
             {checked && <CheckIcon className={iconClasses} />}
-          </Checkbox.Indicator>
-        </Checkbox.Root>
+          </CheckboxPrimitive.Indicator>
+        </CheckboxPrimitive.Root>
       </div>
 
-      {label && <label className='text-base'>{label}</label>}
+      {label && (
+        <label htmlFor={id} className='text-regular-14'>
+          {label}
+        </label>
+      )}
     </div>
   )
 }

@@ -7,12 +7,15 @@ import { Card } from '@/components/ui/superCard/Card'
 import { Textarea } from '@/components/ui/textarea/Textarea'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
+import { Checkbox } from '@/components/ui/checkbox/Checkbox'
+import { CheckedState } from '@radix-ui/react-checkbox'
 
 type FormData = {
   description: string
 }
 
 export default function Home() {
+  const [checked, setChecked] = useState<CheckedState>(false)
   const {
     // добавлен префикс "1" для разрешения конфликтов с будущими формами
     register: register1,
@@ -86,6 +89,7 @@ export default function Home() {
         />
         <hr className={'mt-10'} />
       </div>
+      <Checkbox checked={checked} onCheckedChange={setChecked} label={'some'} />
     </div>
   )
 }
