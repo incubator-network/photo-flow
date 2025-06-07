@@ -1,50 +1,12 @@
 import ArrowLeft from '../../../../assets/Arrow left.svg'
+import { format, startOfToday } from 'date-fns'
+import { getDaysForCalendar } from '../utils/getDaysForCalendar'
+import { twMerge } from 'tailwind-merge'
 
 export const Calendar = () => {
-  const days = [
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '21/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-    { date: '11/11/2121' },
-  ]
+  const days = getDaysForCalendar()
+
+  const dateToday = startOfToday()
 
   return (
     <div
@@ -69,7 +31,7 @@ export const Calendar = () => {
     `}
     >
       <div className={`flex justify-between items-center`}>
-        <p className={`font-bold`}>November 2023</p>
+        <p className={`font-bold`}>{format(dateToday, 'MMMM yyyy')}</p>
         <div className={`flex gap-0.5`}>
           <button
             className={`
@@ -132,16 +94,22 @@ export const Calendar = () => {
         {days.map(day => {
           return (
             <p
-              key={day.date}
-              className={`
+              key={String(day.date)}
+              className={twMerge(
+                `
             flex
             justify-center
             items-center
             h-9
             w-9
-            `}
+            `,
+                (day.dayOfTheWeek === 5 || day.dayOfTheWeek === 6) &&
+                  `text-danger-300`,
+                day.isToday && `font-bold text-accent-500`,
+                !day.isCurrentMonth && `text-light-900`
+              )}
             >
-              22
+              {format(day.date, 'd')}
             </p>
           )
         })}
