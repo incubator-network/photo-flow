@@ -3,7 +3,7 @@
 import { ChangeEvent, memo, TextareaHTMLAttributes } from 'react'
 import { UseFormRegisterReturn } from 'react-hook-form'
 import { twMerge } from 'tailwind-merge'
-import { Typography } from '@/components/typography/Typography'
+import { Typography } from '@/components/ui/typography/Typography'
 
 const textareaVariants = {
   default: [
