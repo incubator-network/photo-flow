@@ -37,19 +37,21 @@ const defaultTags = {
 }
 
 const variantClasses = {
-  large: 'text-large',
-  h1: 'text-h1',
-  h2: 'text-h2',
-  h3: 'text-h3',
-  regular_text_16: 'text-regular-16',
-  bold_text_16: 'text-bold-16',
-  regular_text_14: 'text-regular-14',
-  medium_text_14: 'text-medium-14',
-  bold_text_14: 'text-bold-14',
-  small_text: 'text-small',
-  semi_bold_small_text: 'text-semi-bold-small',
-  regular_link: 'text-regular-link',
-  small_link: 'text-small-link',
+  large: 'text-[26px] leading-large font-semibold',
+  h1: 'text-[20px] leading-large font-bold',
+  h2: 'text-[18px] leading-medium font-bold',
+  h3: 'text-[16px] leading-medium font-semibold',
+  regular_text_16: 'text-[16px] leading-medium font-normal',
+  bold_text_16: 'text-[16px] leading-medium font-bold',
+  regular_text_14: 'text-[14px] leading-medium font-normal',
+  medium_text_14: 'text-[14px] leading-medium font-medium',
+  bold_text_14: 'text-[14px] leading-medium font-bold',
+  small_text: 'text-[12px] leading-small font-normal',
+  semi_bold_small_text: 'text-[12px] leading-small font-semibold',
+  regular_link:
+    'text-[14px] leading-medium font-normal text-accent-500 underline cursor-pointer',
+  small_link:
+    'text-[12px] leading-small font-normal text-accent-500 underline cursor-pointer',
 }
 
 export const Typography = ({

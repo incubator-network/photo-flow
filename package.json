@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "format": "prettier --write src"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.2.5",
@@ -33,6 +34,7 @@
     "@storybook/addon-onboarding": "9.0.4",
     "@storybook/addon-vitest": "9.0.4",
     "@storybook/nextjs-vite": "9.0.4",
+    "@svgr/webpack": "^8.1.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
