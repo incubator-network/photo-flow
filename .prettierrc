@@ -12,5 +12,6 @@
   "printWidth": 80,
   "proseWrap": "preserve",
   "useTabs": false,
-  "embeddedLanguageFormatting": "auto"
+  "embeddedLanguageFormatting": "auto",
+  "plugins": ["prettier-plugin-tailwindcss"]
 }
