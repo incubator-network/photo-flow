@@ -56,7 +56,7 @@ export default function RecaptchaTest() {
   }
 
   return (
-    <div className='flex flex-col items-start  gap-3.5 my-9 ml-9'>
+    <div className='my-9 ml-9 flex flex-col items-start gap-3.5'>
       <Typography variant={'small_text'}>
         Капча появляется после 5-го нажатия кнопки
       </Typography>

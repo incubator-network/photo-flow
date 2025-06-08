@@ -28,7 +28,7 @@ export const Recaptcha = ({
     <div
       className={twMerge(
         'w-fit flex-col px-[7px] py-[8px]',
-        error ? 'border border-danger-500' : ''
+        error ? 'border-danger-500 border' : ''
       )}
     >
       <ReCAPTCHA

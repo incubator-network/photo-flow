@@ -53,34 +53,8 @@ export const Select = ({
       >
         <RadixSelect.Trigger
           className={twMerge(
-            `
-            w-full
-            bg-dark-700
-            h-[36px]
-            rounded-xs
-            border
-            shadow-[0_4px_4px_0_rgba(0,0,0,0.25)]
-            flex justify-between items-center
-            px-3
-            py-[6px]
-            text-regular-16
-
-            border-dark-100
-            hover:text-light-900
-            focus:border-accent-500
-            focus:border-2
-            focus:outline-none
-
-            data-[state=open]:bg-dark-500
-            data-[state=open]:border-light-100
-            data-[state=open]:rounded-none
-          `,
-            disabled &&
-              `
-            text-dark-100
-            border-dark-100
-            hover:text-dark-100
-  `,
+            `bg-dark-700 text-regular-16 border-dark-100 hover:text-light-900 focus:border-accent-500 data-[state=open]:bg-dark-500 data-[state=open]:border-light-100 flex h-[36px] w-full items-center justify-between rounded-xs border px-3 py-[6px] shadow-[0_4px_4px_0_rgba(0,0,0,0.25)] focus:border-2 focus:outline-none data-[state=open]:rounded-none`,
+            disabled && `text-dark-100 border-dark-100 hover:text-dark-100`,
 
             title && 'text-light-900'
           )}
@@ -103,28 +77,19 @@ export const Select = ({
           )}
           <RadixSelect.Icon
             className={twMerge(
-              `
-              block
-              w-6 h-6  transition-transform  duration-200`,
-              open && 'rotate-180 ',
+              `block h-6 w-6 transition-transform duration-200`,
+              open && 'rotate-180',
               !placeholder && 'ml-auto'
             )}
           >
-            <ArrowDown className={`fill-light-100 w-6 h-6 text-light-100`} />
+            <ArrowDown className={`fill-light-100 text-light-100 h-6 w-6`} />
           </RadixSelect.Icon>
         </RadixSelect.Trigger>
 
         <RadixSelect.Portal>
           <RadixSelect.Content
             className={twMerge(
-              `
-              shadow
-              border 
-              rounded-xs
-              data-[state=open]:rounded-none
-              overflow-hidden
-              data-[state=open]:hover:bg-accent-500
-              `,
+              `data-[state=open]:hover:bg-accent-500 overflow-hidden rounded-xs border shadow data-[state=open]:rounded-none`,
               contentClassName
             )}
             position='popper'
@@ -137,20 +102,7 @@ export const Select = ({
                   <RadixSelect.Item
                     value={item.title}
                     className={twMerge(
-                      `
-                      w-full
-                      outline-none 
-                      border-none 
-                      text-light-100
-                      bg-dark-500
-                      h-[36px]
-                      flex justify-between items-center
-                      px-3
-                      py-[6px]
-                      hover:text-accent-500
-                      hover:bg-dark-300
-                      
-                        `
+                      `text-light-100 bg-dark-500 hover:text-accent-500 hover:bg-dark-300 flex h-[36px] w-full items-center justify-between border-none px-3 py-[6px] outline-none`
                     )}
                     key={item.title}
                   >
