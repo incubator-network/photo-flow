@@ -5,7 +5,7 @@ let responseCount = 1
 export async function POST(request: Request) {
   // console.log(responseCount) // оставляю для дебага
   try {
-    const { email, recaptcha, baseUrl } = await request.json()
+    const { recaptcha } = await request.json()
 
     if (recaptcha) {
       responseCount = 1
