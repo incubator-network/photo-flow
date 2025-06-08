@@ -1,12 +1,12 @@
 'use client'
 
-import { Typography } from '@/components/typography/Typography'
-import { Input } from '@/components/input/Input'
+import { Typography } from '@/components/ui/typography/Typography'
+import { Input } from '@/components/ui/input/Input'
 import { Button } from '@/components/ui/button/Button'
-import { Card } from '@/components/ui/superCard/Card'
 import { Textarea } from '@/components/ui/textarea/Textarea'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
+import { Card } from '@/components/ui/Card/Card'
 
 type FormData = {
   description: string

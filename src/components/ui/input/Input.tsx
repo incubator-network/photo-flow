@@ -2,10 +2,10 @@
 
 import React, { InputHTMLAttributes, useState } from 'react'
 import Image from 'next/image'
-import searchIcon from '@/assets/inputIcons/search.svg'
-import eyeIcon from '@/assets/inputIcons/eye.svg'
-import eyeOffIcon from '@/assets/inputIcons/eye-off.svg'
-import { Typography } from '@/components/typography/Typography'
+import searchIcon from '@/assets/icons/search.svg'
+import eyeIcon from '@/assets/icons/eye.svg'
+import eyeOffIcon from '@/assets/icons/eye-off.svg'
+import { Typography } from '@/components/ui/typography/Typography'
 import { twMerge } from 'tailwind-merge'
 
 type InputVariant = 'default' | 'disabled' | 'error'
@@ -137,3 +137,5 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
     )
   }
 )
+
+Input.displayName = 'Input'
