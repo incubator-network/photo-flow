@@ -66,7 +66,7 @@ export default function RecaptchaTest() {
       {showCaptcha && (
         <div className='mt-4'>
           <Recaptcha
-            ref={captchaRef}
+            recaptchaRef={captchaRef}
             publicKey={'6LcxEFgrAAAAAOlnUOjd6-K_fH0qcBNjflx3Pquz'}
             error={error}
             handleCaptchaAction={handleCaptchaChange}

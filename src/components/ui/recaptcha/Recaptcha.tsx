@@ -11,7 +11,7 @@ type RecaptchaProps = {
   size?: 'normal' | 'compact' | 'invisible'
   lang?: 'en' | 'ru'
   error: boolean
-  ref: RefObject<ReCAPTCHA | null>
+  recaptchaRef: RefObject<ReCAPTCHA | null>
   handleCaptchaAction: (token: string | null) => void
 }
 
@@ -21,7 +21,7 @@ export const Recaptcha = ({
   size = 'normal',
   theme = 'dark',
   error,
-  ref,
+  recaptchaRef,
   handleCaptchaAction,
 }: RecaptchaProps) => {
   return (
@@ -32,7 +32,7 @@ export const Recaptcha = ({
       )}
     >
       <ReCAPTCHA
-        ref={ref}
+        ref={recaptchaRef}
         sitekey={publicKey}
         theme={theme}
         size={size}
