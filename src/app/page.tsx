@@ -1,12 +1,13 @@
 'use client'
 
-import { Typography } from '@/components/ui/typography/Typography'
-import { Input } from '@/components/ui/input/Input'
+import { Typography } from '@/components/typography/Typography'
+import { Input } from '@/components/input/Input'
 import { Button } from '@/components/ui/button/Button'
+import { Card } from '@/components/ui/superCard/Card'
 import { Textarea } from '@/components/ui/textarea/Textarea'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
-import { Card } from '@/components/ui/Card/Card'
+import { Calendar } from '@/components/ui/DatePicker/Calendar/Calendar'
 
 type FormData = {
   description: string
@@ -30,6 +31,8 @@ export default function Home() {
 
   return (
     <div style={{ height: '2000px', width: '120%' }}>
+
+      <Calendar/>
       <div className={'bg-danger-700 font-sans text-h1 text-center mt-20'}>
         Hello this a test string
       </div>
@@ -49,10 +52,7 @@ export default function Home() {
         <Typography variant={'h1'}>Button example</Typography>
       </Button>
       <Card className={'w-40 h-40 m-10'}>
-        <Typography variant={'bold_text_16'}>
-          Button example Button exampleButton exampleButton exampleButton
-          exampleButton exampleButton example
-        </Typography>
+        <Button>button</Button>
       </Card>
       <Input type='password' variant={'default'} />
 
