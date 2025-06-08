@@ -120,12 +120,12 @@ export const MainWithIcon = {
       },
       {
         title: 'GB',
-        path: '/public/Flag United Kingdom.svg',
+        path: '/public/Flag-United-Kingdom.svg',
         description: 'Flag United Kingdom',
       },
       {
         title: 'Russian',
-        path: '/public/Flag Russia.svg',
+        path: '/public/Flag-Russia.svg',
         description: 'Russian flag',
       },
     ],
@@ -146,12 +146,12 @@ export const MainWithIconWithoutPlaceholder = {
       },
       {
         title: 'GB',
-        path: '/public/Flag United Kingdom.svg',
+        path: '/public/Flag-United-Kingdom.svg',
         description: 'Flag United Kingdom',
       },
       {
         title: 'Russian',
-        path: '/public/Flag Russia.svg',
+        path: '/public/Flag-Russia.svg',
         description: 'Russian flag',
       },
     ],

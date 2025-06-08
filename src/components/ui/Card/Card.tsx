@@ -11,12 +11,7 @@ export const Card = (props: propsType) => {
   return (
     <Comp
       className={twMerge(
-        `
-      bg-dark-300
-        rounded-[2px]
-        border border-dark-100
-        overflow-y-auto
-        `,
+        `bg-dark-300 border-dark-100 rounded-[2px] border`,
         className
       )}
     >
