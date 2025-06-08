@@ -1,9 +1,9 @@
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
 import { ComponentPropsWithoutRef } from 'react'
 import { twMerge } from 'tailwind-merge'
-import { CheckIcon } from '@radix-ui/react-icons'
+// import { CheckIcon } from '@radix-ui/react-icons'
 
-// import CheckIcon from '@/assets/icons/checkmark-outline.svg'
+import CheckIcon from '@/assets/icons/checkmark-outline.svg'
 
 type CheckBoxProps = {
   variant?: 'default' | 'active' | 'hover' | 'focus' | 'disabled'
@@ -19,23 +19,22 @@ export const Checkbox = ({
   ...rest
 }: CheckBoxProps) => {
   const baseStyles = twMerge(
-    'relative z-10 flex items-center justify-center w-4 h-4 rounded-[2px] border-2 transition-all outline-none',
+    'relative z-10 flex items-center justify-center w-4 h-4 rounded-[2px] border-2 transition-all outline-none hover:before:opacity-10 before:bg-light-300 z-10',
+    disabled && 'border-light-900',
     variant === 'default' && 'before:bg-white',
     className
   )
 
   const wrapperClasses = twMerge(
     'relative w-8 h-8 flex items-center justify-center',
-    'before:content-[""] before:absolute before:inset-0 before:rounded-full before:opacity-0 before:transition-opacity',
-    variant === 'active' && 'before:opacity-10 before:bg-light-100',
-    variant === 'hover' && 'hover:before:opacity-10 before:bg-light-300',
-    variant === 'focus' && 'before:opacity-25 before:bg-dark-700',
-    variant === 'disabled' && 'opacity-50'
+    'before:content-[""] before:absolute before:inset-0 before:rounded-full before:opacity-0 before:transition-opacity hover:bg-dark-300 rounded-full active:bg-dark-100 focus:bg-dark-500',
+    disabled &&
+      'hover:bg-transparent focus:bg-transparent active:bg-transparent'
   )
 
   return (
     <div className='flex items-center gap-1'>
-      <div className={wrapperClasses}>
+      <div className={wrapperClasses} tabIndex={0}>
         <CheckboxPrimitive.Root
           defaultChecked
           className={baseStyles}
