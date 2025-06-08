@@ -1,12 +1,21 @@
 import ArrowLeft from '../../../../assets/Arrow left.svg'
-import { format, startOfToday } from 'date-fns'
-import { getDaysForCalendar } from '../utils/getDaysForCalendar'
+import { format } from 'date-fns'
 import { twMerge } from 'tailwind-merge'
 
-export const Calendar = () => {
-  const days = getDaysForCalendar()
+type DayType = {
+  date: Date
+  isToday: boolean
+  dayOfTheWeek: number
+  isCurrentMonth: boolean
+}
 
-  const dateToday = startOfToday()
+type CalendarProps = {
+  dayToday: Date
+  days: DayType[]
+}
+
+export const Calendar = ({ dayToday, days }: CalendarProps) => {
+  const weekDays = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
 
   return (
     <div
@@ -26,12 +35,12 @@ export const Calendar = () => {
       flex
       gap-3
       flex-col
-
+      mt-0.5
       text-center 
     `}
     >
       <div className={`flex justify-between items-center`}>
-        <p className={`font-bold`}>{format(dateToday, 'MMMM yyyy')}</p>
+        <p className={`font-bold`}>{format(dayToday, 'MMMM yyyy')}</p>
         <div className={`flex gap-0.5`}>
           <button
             className={`
@@ -66,34 +75,30 @@ export const Calendar = () => {
         </div>
       </div>
 
-      <div className={`flex text-dark-100 items-center justify-center`}>
-        <p className={`w-[36px] h-[40px] flex justify-center items-center`}>
-          Mo
-        </p>
-        <p className={`w-[36px] h-[40px] flex justify-center items-center`}>
-          Tu
-        </p>
-        <p className={`w-[36px] h-[40px] flex justify-center items-center`}>
-          We
-        </p>
-        <p className={`w-[36px] h-[40px] flex justify-center items-center`}>
-          Th
-        </p>
-        <p className={`w-[36px] h-[40px] flex justify-center items-center`}>
-          Fr
-        </p>
-        <p className={`w-[36px] h-[40px] flex justify-center items-center`}>
-          Sa
-        </p>
-        <p className={`w-[36px] h-[40px] flex justify-center items-center`}>
-          Su
-        </p>
-      </div>
+      <ul className={`flex text-dark-100 items-center justify-center`}>
+        {weekDays.map((wd, i) => {
+          return (
+            <li
+              key={i}
+              className={`w-[36px] h-[40px] flex justify-center items-center`}
+            >
+              {wd}
+            </li>
+          )
+        })}
+      </ul>
 
-      <div className={`grid grid-cols-7 grid-rows-6`}>
+      <ul
+        className={twMerge(
+          `grid grid-cols-7`,
+          days.length === 42 && `grid-rows-6`,
+          days.length === 35 && `grid-rows-5`,
+          days.length === 28 && `grid-rows-4`
+        )}
+      >
         {days.map(day => {
           return (
-            <p
+            <li
               key={String(day.date)}
               className={twMerge(
                 `
@@ -110,10 +115,10 @@ export const Calendar = () => {
               )}
             >
               {format(day.date, 'd')}
-            </p>
+            </li>
           )
         })}
-      </div>
+      </ul>
     </div>
   )
 }
