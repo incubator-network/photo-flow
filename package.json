@@ -11,7 +11,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "format": "prettier --write src",
-    "prepare": "husky"
+    "prepare": "husky install"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.2.5",
@@ -53,7 +53,7 @@
     "vitest": "^3.2.0"
   },
   "lint-staged": {
-    "*.{js, jsx, ts, tsx}": [
+    "*.{js,jsx,ts,tsx}": [
       "eslint --fix",
       "prettier --write"
     ],
