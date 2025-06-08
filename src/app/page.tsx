@@ -89,7 +89,12 @@ export default function Home() {
         />
         <hr className={'mt-10'} />
       </div>
-      <Checkbox checked={checked} onCheckedChange={setChecked} label={'some'} />
+      <Checkbox
+        variant={'hover'}
+        checked={checked}
+        onCheckedChange={setChecked}
+        label={'some'}
+      />
     </div>
   )
 }
