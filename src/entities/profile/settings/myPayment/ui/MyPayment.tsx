@@ -1,7 +1,11 @@
 'use client'
 import { Pagination } from '@/components/pagination/Pagination'
 import { useEffect, useMemo, useState } from 'react'
-const PageSize = 10
+import {
+  // useRouter,
+  useSearchParams,
+} from 'next/navigation'
+
 type PaymentData = {
   DateOfPayment: string
   EndDateSubscription: string
@@ -11,52 +15,74 @@ type PaymentData = {
 }
 export const MyPayment = () => {
   const [data, setData] = useState<PaymentData[]>([])
-  const [currentPage, setCurrentPage] = useState(1)
-  const [count, setCount] = useState(PageSize)
-  const totalPages = Math.ceil(data.length / count)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const searchParams = useSearchParams()
+  // const router = useRouter()
+
+  const itemsPerPage = Math.min(
+    Math.max(parseInt(searchParams.get('itemsPerPage') || '10', 10), 10),
+    100
+  )
+  const currentPage = Math.max(parseInt(searchParams.get('page') || '1', 10), 1)
+
+  const [itemsPerPageState, setItemsPerPageState] = useState(itemsPerPage)
+  const [currentPageState, setCurrentPageState] = useState(currentPage)
+
+  const totalPages = Math.ceil(data.length / itemsPerPageState)
 
   const currentTableData = useMemo(() => {
-    const firstPageIndex = (currentPage - 1) * count
-    const lastPageIndex = firstPageIndex + count
+    const firstItemIndex = (currentPageState - 1) * itemsPerPageState
+    const lastItemIndex = firstItemIndex + itemsPerPageState
+    return data.slice(firstItemIndex, lastItemIndex)
+  }, [currentPageState, itemsPerPageState, data])
 
-    return data.slice(firstPageIndex, lastPageIndex)
-  }, [currentPage, count, data])
   useEffect(() => {
-    const fetchData = async (): Promise<void> => {
+    const fetchData = async () => {
       try {
+        setIsLoading(true)
         const response = await fetch('/data/mockPaymentData.json')
-        if (!response.ok) {
-          throw new Error('fetch error')
-        }
-        const json: PaymentData[] = await response.json()
+        if (!response.ok)
+          throw new Error(
+            `Failed to fetch data ${response.status}: ${response.statusText}`
+          )
+        const json = await response.json()
         setData(json)
-      } catch (error) {
-        console.log(error)
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Unknown error')
+      } finally {
+        setIsLoading(false)
       }
     }
     fetchData()
-    console.log('обновление cout', count)
-  }, [count])
+  }, [])
 
-  const onChangePagination = (newPage: number, newCount: number) => {
-    if (newPage < 1) {
-      setCurrentPage(1) // Set to the first page
-    } else if (newPage > totalPages) {
-      setCurrentPage(totalPages) // Set to the last page
-    } else {
-      setCurrentPage(newPage)
-    }
-    setCount(newCount)
+  const handlePaginationChange = (page: number, perPage: number) => {
+    const validPage = Math.max(1, Math.min(page, totalPages))
+    const validPerPage = Math.max(10, Math.min(perPage, 100))
+
+    setCurrentPageState(validPage)
+    setItemsPerPageState(validPerPage)
+
+    // Если нужно обновить URL:
+    // const params = new URLSearchParams()
+    // params.set('page', validPage.toString())
+    // params.set('itemsPerPage', validPerPage.toString())
+    // router.replace(`/payments?${params.toString()}`)
   }
+
+  if (isLoading) return <div>Loading...</div>
+  if (error) return <div>Error: {error}</div>
+
   return (
     <div>
-      <table className={'relative top-5 w-full border-collapse'}>
+      <table className='mt-5 w-full border-collapse'>
         <thead className={'bg-dark-500'}>
           <tr className={'text-left font-medium'}>
             <th className='text-left font-medium'>Date of Payment</th>
             <th>End date subscription</th>
             <th>Price</th>
-            <th>Subscription Type </th>
+            <th>Subscription Type</th>
             <th>Payment Type</th>
           </tr>
         </thead>
@@ -73,10 +99,10 @@ export const MyPayment = () => {
         </tbody>
       </table>
       <Pagination
-        page={currentPage}
-        itemsCountForPage={count}
+        page={currentPageState}
+        itemsPerPage={itemsPerPageState}
         totalCount={data.length}
-        onChange={onChangePagination}
+        onChangePagination={handlePaginationChange}
       />
     </div>
   )

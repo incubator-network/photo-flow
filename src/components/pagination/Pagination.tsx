@@ -10,33 +10,33 @@ import ChevronLeftIcon from '@/assets/icons/chevron-left-icon.svg'
 export type PaginationPropsType = {
   id?: string
   page: number
-  itemsCountForPage: number
+  itemsPerPage: number
   totalCount: number
-  onChange: (page: number, count: number) => void
+  onChangePagination: (page: number, count: number) => void
 }
 
 export const Pagination = ({
   page,
-  itemsCountForPage,
+  itemsPerPage,
   totalCount,
-  onChange,
+  onChangePagination,
   id = 'pagination',
 }: PaginationPropsType) => {
-  const lastPage = Math.ceil(totalCount / itemsCountForPage)
+  const lastPage = Math.ceil(totalCount / itemsPerPage)
 
   const onChangeCallback = (_: ChangeEvent<unknown>, page: number) => {
-    onChange(page, itemsCountForPage)
+    onChangePagination(page, itemsPerPage)
   }
 
   const onChangeSelect = (value: string) => {
     console.log(value)
-    onChange(page, Number(value))
+    onChangePagination(page, Number(value))
   }
   const onPreviousPage = () => {
-    onChange(page - 1, itemsCountForPage)
+    onChangePagination(page - 1, itemsPerPage)
   }
   const onNextPage = () => {
-    onChange(page + 1, itemsCountForPage)
+    onChangePagination(page + 1, itemsPerPage)
   }
 
   return (
