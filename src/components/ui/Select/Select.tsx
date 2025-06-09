@@ -17,6 +17,7 @@ type PropsType = {
   items: Item[]
   disabled?: boolean
   contentClassName: string
+  onChangeOption?: (option: string) => void
 } & Omit<
   ComponentProps<'select'>,
   'value' | 'defaultValue' | 'onChange' | 'dir'
@@ -30,6 +31,7 @@ export const Select = ({
   disabled,
   className,
   contentClassName,
+  onChangeOption,
   ...restProps
 }: PropsType) => {
   const [open, setOpen] = useState(false)
@@ -48,14 +50,17 @@ export const Select = ({
         }}
         disabled={disabled}
         value={selectedValue}
-        onValueChange={setSelectedValue}
+        onValueChange={value => {
+          setSelectedValue(value)
+          onChangeOption?.(value)
+        }}
         {...restProps}
       >
         <RadixSelect.Trigger
           className={twMerge(
             `bg-dark-700 text-regular-16 border-dark-100 hover:text-light-900 focus:border-accent-500 data-[state=open]:bg-dark-500 data-[state=open]:border-light-100 flex h-[36px] w-full items-center justify-between rounded-xs border px-3 py-[6px] shadow-[0_4px_4px_0_rgba(0,0,0,0.25)] focus:border-2 focus:outline-none data-[state=open]:rounded-none`,
             disabled && `text-dark-100 border-dark-100 hover:text-dark-100`,
-
+            contentClassName,
             title && 'text-light-900'
           )}
         >
