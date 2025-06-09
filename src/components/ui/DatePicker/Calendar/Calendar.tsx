@@ -1,5 +1,5 @@
 import ArrowLeft from '../../../../assets/Arrow left.svg'
-import { format } from 'date-fns'
+import { addMonths, format } from 'date-fns'
 import { twMerge } from 'tailwind-merge'
 import { useMemo } from 'react'
 
@@ -18,6 +18,9 @@ type CalendarProps = {
   mode: 'single' | 'range'
   rangeStart: Date | null
   rangeEnd: Date | null
+  goToNextMonth: () => void
+  goToPrevMonth: () => void
+  offsetMonths: number
 }
 
 export const Calendar = ({
@@ -27,6 +30,9 @@ export const Calendar = ({
   onDayClick,
   rangeStart,
   rangeEnd,
+  goToNextMonth,
+  goToPrevMonth,
+  offsetMonths,
 }: CalendarProps) => {
   const weekDays = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
 
@@ -36,23 +42,32 @@ export const Calendar = ({
 
   const rangeStartStr = rangeStart?.toDateString() ?? ''
   const rangeEndStr = rangeEnd?.toDateString() ?? ''
+  const isShowCurrentMonth =
+    format(addMonths(today, offsetMonths), 'MMMM yyyy') ===
+    format(today, 'MMMM yyyy')
 
   return (
     <div
-      className={`border-dark-300 bg-dark-500 text-light-100 mt-0.5 flex h-[348px] w-[300px] flex-col gap-3 rounded-sm border px-6 py-4 text-center text-base leading-6 font-normal`}
+      className={`border-dark-300 bg-dark-500 text-light-100 mt-0.5 flex w-[300px] flex-col gap-3 rounded-sm border px-6 py-4 text-center text-base leading-6 font-normal`}
     >
       <div className={`flex items-center justify-between`}>
-        <p className={`font-bold`}>{format(today, 'MMMM yyyy')}</p>
+        <p className={`font-bold`}>
+          {format(addMonths(today, offsetMonths), 'MMMM yyyy')}
+        </p>
         <div className={`flex gap-0.5`}>
           <button
             className={`bg-dark-100 flex h-9 w-9 items-center justify-center rounded-3xl p-2`}
           >
-            <ArrowLeft className={`text-light-100 h-5 w-5`} />
+            <ArrowLeft
+              className={`text-light-100 h-5 w-5`}
+              onClick={goToPrevMonth}
+            />
           </button>
           <button
             className={`bg-dark-100 flex h-9 w-9 items-center justify-center rounded-3xl p-2`}
           >
             <ArrowLeft
+              onClick={goToNextMonth}
               className={`text-light-100 h-5 w-5 rotate-180 transform`}
             />
           </button>
@@ -75,9 +90,7 @@ export const Calendar = ({
       <ul
         className={twMerge(
           `grid grid-cols-7`,
-          days.length === 42 && `grid-rows-6`,
-          days.length === 35 && `grid-rows-5`,
-          days.length === 28 && `grid-rows-4`
+          `grid-rows-[${Math.ceil(days.length / 7)}]`
         )}
       >
         {days.map(day => {
@@ -96,7 +109,9 @@ export const Calendar = ({
                 `focus hover:bg-accent-700 flex h-9 w-9 items-center justify-center hover:rounded-none`,
                 (day.dayOfTheWeek === 5 || day.dayOfTheWeek === 6) &&
                   `text-danger-300`,
-                day.isToday && `text-accent-500 font-bold`,
+                day.isToday &&
+                  isShowCurrentMonth &&
+                  `text-accent-500 font-bold`,
                 !day.isCurrentMonth && `text-light-900`,
                 isSelected &&
                   selectedMap.size === 1 &&

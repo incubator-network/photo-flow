@@ -4,7 +4,7 @@ import { Calendar } from './Calendar/Calendar'
 import { twMerge } from 'tailwind-merge'
 import { useEffect, useRef, useState } from 'react'
 import { format } from 'date-fns'
-import { getDaysForCalendar } from './utils/getDaysForCalendar'
+import { CalendarDay, getDaysForCalendar } from './utils/getDaysForCalendar'
 import { useCalendarSelection } from './utils/useCalendarSelection'
 
 type DatePickerProps = {
@@ -15,13 +15,17 @@ type DatePickerProps = {
 
 export const DatePicker = ({ className, disabled, error }: DatePickerProps) => {
   const [isOpen, setIsOpen] = useState(false)
+  const [days, setDays] = useState<CalendarDay[]>([])
+  const [offsetMonths, setOffsetMonths] = useState<number>(0)
 
   const calendarRef = useRef<HTMLDivElement>(null)
 
-  const days = getDaysForCalendar()
-
   const { onDayClick, selectionDates, rangeStart, rangeEnd, mode, today } =
     useCalendarSelection()
+
+  useEffect(() => {
+    setDays(getDaysForCalendar(offsetMonths))
+  }, [offsetMonths])
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -37,6 +41,9 @@ export const DatePicker = ({ className, disabled, error }: DatePickerProps) => {
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [isOpen])
+
+  const goToNextMonth = () => setOffsetMonths(prev => prev + 1)
+  const goToPrevMonth = () => setOffsetMonths(prev => prev - 1)
 
   return (
     <div className={twMerge(`leading-1.5 font-normal`, className)}>
@@ -100,6 +107,9 @@ export const DatePicker = ({ className, disabled, error }: DatePickerProps) => {
               rangeEnd={rangeEnd}
               today={today}
               days={days}
+              goToNextMonth={goToNextMonth}
+              goToPrevMonth={goToPrevMonth}
+              offsetMonths={offsetMonths}
             />
           </div>
         )

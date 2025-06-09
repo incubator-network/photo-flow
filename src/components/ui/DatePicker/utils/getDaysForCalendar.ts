@@ -7,10 +7,18 @@ import {
   getDay,
   subDays,
   addDays,
+  addMonths,
 } from 'date-fns'
 
-export const getDaysForCalendar = () => {
-  const date = new Date()
+export type CalendarDay = {
+  date: Date
+  isToday: boolean
+  dayOfTheWeek: number
+  isCurrentMonth: boolean
+}
+
+export const getDaysForCalendar = (offsetMonths: number): CalendarDay[] => {
+  const date = addMonths(new Date(), offsetMonths)
   const start = startOfMonth(date)
   const end = endOfMonth(date)
   const dateToday = startOfToday()
@@ -45,7 +53,8 @@ export const getDaysForCalendar = () => {
 
   const lastDayWeekday = (getDay(end) + 6) % 7
   if (lastDayWeekday !== 6) {
-    for (let i = 1; i <= firstDayWeekday; i++) {
+    const daysToAdd = 6 - lastDayWeekday
+    for (let i = 1; i <= daysToAdd; i++) {
       const dayToAdd = addDays(end, i)
 
       const currentDay = {
