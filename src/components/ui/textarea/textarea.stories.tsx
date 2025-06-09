@@ -1,74 +1,70 @@
+import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { Textarea } from './Textarea'
-import { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { fireEvent, userEvent, within } from 'storybook/test'
 
-const meta = {
+const meta: Meta<typeof Textarea> = {
   title: 'Components/Textarea',
   component: Textarea,
   tags: ['autodocs'],
   argTypes: {
-    width: { control: 'text' },
-    height: { control: 'text' },
-  },
-} satisfies Meta<typeof Textarea>
-
-export default meta
-type Story = StoryObj<typeof meta>
-
-export const Default: Story = {
-  args: {
-    value: 'Hi bro! Good day.',
-    changeValue: () => {},
-    textareaLabel: 'Edit comment',
+    className: { control: 'text' },
+    disabled: { control: 'boolean' },
+    placeholder: { control: 'text' },
+    rows: { control: 'number' },
+    error: { control: 'text' },
   },
 }
 
-export const WithError: Story = {
+export default meta
+
+type Story = StoryObj<typeof Textarea>
+
+export const Default: Story = {
   args: {
-    value: 'Bad day.',
-    changeValue: () => {},
-    textareaLabel: 'Edit comment',
-    error: 'Error here',
+    placeholder: 'Введите текст...',
+    className: 'w-[300px]',
+  },
+}
+
+export const WithLabel: Story = {
+  args: {
+    textareaLabel: 'Описание',
+    placeholder: 'Введите описание...',
+    className: 'w-[300px]',
   },
 }
 
 export const Disabled: Story = {
   args: {
-    value: 'Disabled.',
-    changeValue: () => {},
-    textareaLabel: 'Edit comment',
     disabled: true,
+    placeholder: 'Неактивное поле',
+    className: 'w-[300px]',
   },
 }
 
-export const Hover: Story = {
+export const WithError: Story = {
   args: {
-    value: 'Hover as Default.',
-    changeValue: () => {},
-    textareaLabel: 'Edit comment',
+    textareaLabel: 'Email',
+    placeholder: 'Введите email',
+    error: 'Некорректный email',
+    className: 'w-[300px]',
   },
 }
 
-export const Focused: Story = {
+export const Controlled: Story = {
   args: {
-    value: 'In focused',
-    changeValue: () => {},
+    value: 'Контролируемое значение',
+    className: 'w-[300px]',
   },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-    const textarea = canvas.getByRole('textbox')
-    await userEvent.click(textarea)
+  render: args => {
+    return <Textarea {...args} />
   },
 }
 
-export const Active: Story = {
+export const CustomSize: Story = {
   args: {
-    value: 'Press to active',
-    changeValue: () => {},
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-    const textarea = canvas.getByRole('textbox')
-    await fireEvent.mouseDown(textarea)
+    rows: 5,
+    cols: 40,
+    placeholder: 'Большое текстовое поле',
+    className: 'w-full',
   },
 }
