@@ -1,11 +1,13 @@
 'use client'
 import React, { ChangeEvent } from 'react'
-// import SuperSelect from '../../../hw07/common/c5-SuperSelect/SuperSelect'
-import { Pagination } from '@mui/material'
+import { Pagination as PaginationMui } from '@mui/material'
 import { twMerge } from 'tailwind-merge'
-// import s from './SuperPagination.module.css'
+import { Typography } from '@/components/ui/typography/Typography'
+import { Select } from '@/components/ui/Select/Select'
+import ChevronRightIcon from '@/assets/icons/chevron-right-icon.svg'
+import ChevronLeftIcon from '@/assets/icons/chevron-left-icon.svg'
 
-export type SuperPaginationPropsType = {
+export type PaginationPropsType = {
   id?: string
   page: number
   itemsCountForPage: number
@@ -13,66 +15,91 @@ export type SuperPaginationPropsType = {
   onChange: (page: number, count: number) => void
 }
 
-const SuperPagination: React.FC<SuperPaginationPropsType> = ({
+export const Pagination = ({
   page,
   itemsCountForPage,
   totalCount,
   onChange,
-  id = 'hw15',
-}) => {
+  id = 'pagination',
+}: PaginationPropsType) => {
   const lastPage = Math.ceil(totalCount / itemsCountForPage)
 
   const onChangeCallback = (_: ChangeEvent<unknown>, page: number) => {
     onChange(page, itemsCountForPage)
   }
 
-  const onChangeSelect = (event: ChangeEvent<HTMLSelectElement>) => {
-    // пишет студент
-    onChange(page, Number(event.currentTarget.value))
+  const onChangeSelect = (value: string) => {
+    console.log(value)
+    onChange(page, Number(value))
+  }
+  const onPreviousPage = () => {
+    onChange(page - 1, itemsCountForPage)
+  }
+  const onNextPage = () => {
+    onChange(page + 1, itemsCountForPage)
   }
 
   return (
-    <div className={twMerge('flex, items-center')}>
-      <Pagination
+    <div className={twMerge('mt-[30px] inline-flex items-center')}>
+      <ChevronLeftIcon
+        className={twMerge(
+          'mx-[15px] disabled:opacity-50',
+          page <= 1 && 'opacity-50'
+        )}
+        onClick={onPreviousPage}
+      />
+
+      <PaginationMui
         shape='rounded'
         variant='outlined'
         color='primary'
         id={id + '-pagination'}
-        sx={
-          {
-            // стили для Pagination // пишет студент
-          }
-        }
+        className={''}
+        sx={{
+          '& .MuiPaginationItem-root': {
+            color: 'white',
+            border: '1px solid transparent',
+            backgroundColor: 'transparent',
+            '&:hover': {
+              borderColor: 'blue',
+            },
+          },
+          '& .MuiPaginationItem-root.Mui-selected': {
+            backgroundColor: 'white',
+            borderColor: 'white',
+            color: 'black',
+          },
+        }}
         page={page}
         count={lastPage}
         onChange={onChangeCallback}
         hideNextButton
         hidePrevButton
       />
-
-      <span className={twMerge('capitalize pl-[30px] pr-[10px]')}>
-        показать
-      </span>
-
-      <select
-        id={'select'}
-        value={itemsCountForPage}
-        onChange={onChangeSelect}
+      <ChevronRightIcon
+        className={twMerge('mx-[15px]', page >= lastPage && 'opacity-50')}
+        onClick={onNextPage}
       />
-      {/*<SuperSelect*/}
-      {/*  id={id + '-pagination-select'}*/}
-      {/*  value={itemsCountForPage}*/}
-      {/*  options={[*/}
-      {/*    { id: 4, value: 4 },*/}
-      {/*    { id: 7, value: 7 },*/}
-      {/*    { id: 10, value: 10 },*/}
-      {/*  ]}*/}
-      {/*  onChange={e => onChangeSelect(e)}*/}
-      {/*/>*/}
-
-      <span className={twMerge('p-x-[10px]')}>строк в таблице</span>
+      <Typography
+        variant={'regular_text_14'}
+        className={twMerge('pr-[15px] pl-[30px] capitalize')}
+      >
+        Show
+      </Typography>
+      <Select
+        items={[
+          { title: '10' },
+          { title: '20' },
+          { title: '30' },
+          { title: '50' },
+          { title: '100' },
+        ]}
+        contentClassName={'w-[52px]   '}
+        onChangeOption={value => onChangeSelect(value)}
+      />
+      <Typography variant={'regular_text_14'} className={twMerge('px-[15px]')}>
+        on page
+      </Typography>
     </div>
   )
 }
-
-export default SuperPagination
