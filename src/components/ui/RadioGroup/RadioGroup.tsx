@@ -21,19 +21,8 @@ export const Radio = ({
     <RadioGroup.Root
       defaultValue={items[0].title}
       className={twMerge(
-        `
-      font-normal
-      text-sm
-      leading-1.5;
-      text-light-100
-      flex
-      gap-11
-      
-      `,
-        disabled &&
-          `
-      text-light-900
-      `,
+        `leading-1.5; text-light-100 flex gap-11 text-sm font-normal`,
+        disabled && `text-light-900`,
         className
       )}
       {...restProps}
@@ -43,19 +32,9 @@ export const Radio = ({
           <div className={`flex items-center gap-[2px]`} key={item.id}>
             <div
               className={twMerge(
-                `
-              rounded-full
-              hover:bg-dark-300
-              focus:bg-dark-500
-              active:bg-dark-100
-              
-              `,
+                `hover:bg-dark-300 focus:bg-dark-500 active:bg-dark-100 rounded-full`,
                 disabled &&
-                  `
-                  hover:bg-transparent
-                  focus:bg-transparent
-                  active:bg-transparent
-                  `
+                  `hover:bg-transparent focus:bg-transparent active:bg-transparent`
               )}
             >
               <RadioGroup.Item
@@ -63,43 +42,15 @@ export const Radio = ({
                 id={item.id}
                 disabled={disabled}
                 className={twMerge(
-                  `
-                      w-5 h-5
-                      rounded-full
-                      border-[2px]
-                      border-light-100
-                      flex
-                      items-center
-                      justify-center
-                      m-2
-                        focus:outline-none
-                        focus:ring-8
-                        focus:ring-dark-500
-                        focus:bg-dark-500
-                      `,
+                  `border-light-100 focus:ring-dark-500 focus:bg-dark-500 m-2 flex h-5 w-5 items-center justify-center rounded-full border-[2px] focus:ring-8 focus:outline-none`,
                   disabled &&
-                    `
-                    border-dark-100
-                    focus:outline-none
-                    focus:ring-0
-                    focus:ring-transparent
-                    focus:bg-transparent
-                    `
+                    `border-dark-100 focus:bg-transparent focus:ring-0 focus:ring-transparent focus:outline-none`
                 )}
               >
                 <RadioGroup.Indicator
                   className={twMerge(
-                    `
-                      w-[10px] 
-                      h-[10px] 
-                      bg-light-100 
-                      rounded-full
-                      
-                    `,
-                    disabled &&
-                      `
-                      bg-dark-100
-                    `
+                    `bg-light-100 h-[10px] w-[10px] rounded-full`,
+                    disabled && `bg-dark-100`
                   )}
                 />
               </RadioGroup.Item>
