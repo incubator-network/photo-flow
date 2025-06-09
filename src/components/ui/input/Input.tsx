@@ -1,10 +1,9 @@
 'use client'
 
 import React, { InputHTMLAttributes, useState } from 'react'
-import Image from 'next/image'
-import searchIcon from '@/assets/icons/search.svg'
-import eyeIcon from '@/assets/icons/eye.svg'
-import eyeOffIcon from '@/assets/icons/eye-off.svg'
+import SearchIcon from '@/assets/icons/search.svg'
+import EyeIcon from '@/assets/icons/eye.svg'
+import EyeOffIcon from '@/assets/icons/eye-off.svg'
 import { Typography } from '@/components/ui/typography/Typography'
 import { twMerge } from 'tailwind-merge'
 
@@ -93,16 +92,12 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
             {...props}
           />
           {type === 'search' && (
-            <Image
-              src={searchIcon}
-              alt='Search'
+            <SearchIcon
               className={twMerge(
                 'absolute top-1/2 left-3 -translate-y-1/2 transform ' +
                   'brightness-0 invert filter',
                 disabled && 'opacity-50'
               )}
-              width={20}
-              height={20}
             />
           )}
           {type === 'password' && (
@@ -116,12 +111,7 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
                 disabled && 'opacity-50'
               )}
             >
-              <Image
-                src={showPassword ? eyeOffIcon : eyeIcon}
-                alt={showPassword ? 'Hide password' : 'Show password'}
-                width={24}
-                height={24}
-              />
+              {showPassword ? <EyeOffIcon /> : <EyeIcon />}
             </button>
           )}
         </div>
