@@ -1,7 +1,6 @@
 import ArrowLeft from '../../../../assets/Arrow left.svg'
 import { format } from 'date-fns'
 import { twMerge } from 'tailwind-merge'
-import { useCalendarSelection } from '../utils/useCalendarSelection'
 import { useMemo } from 'react'
 
 type DayType = {
@@ -12,15 +11,24 @@ type DayType = {
 }
 
 type CalendarProps = {
-  dayToday: Date
+  today: Date
   days: DayType[]
+  selectionDates: Date[]
+  onDayClick: (day: Date) => void
+  mode: 'single' | 'range'
+  rangeStart: Date | null
+  rangeEnd: Date | null
 }
 
-export const Calendar = ({ dayToday, days }: CalendarProps) => {
+export const Calendar = ({
+  today,
+  days,
+  selectionDates,
+  onDayClick,
+  rangeStart,
+  rangeEnd,
+}: CalendarProps) => {
   const weekDays = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
-
-  const { onDayClick, selectionDates, rangeStart, rangeEnd } =
-    useCalendarSelection()
 
   const selectedMap = useMemo(() => {
     return new Set(selectionDates.map(d => d.toDateString()))
@@ -34,7 +42,7 @@ export const Calendar = ({ dayToday, days }: CalendarProps) => {
       className={`border-dark-300 bg-dark-500 text-light-100 mt-0.5 flex h-[348px] w-[300px] flex-col gap-3 rounded-sm border px-6 py-4 text-center text-base leading-6 font-normal`}
     >
       <div className={`flex items-center justify-between`}>
-        <p className={`font-bold`}>{format(dayToday, 'MMMM yyyy')}</p>
+        <p className={`font-bold`}>{format(today, 'MMMM yyyy')}</p>
         <div className={`flex gap-0.5`}>
           <button
             className={`bg-dark-100 flex h-9 w-9 items-center justify-center rounded-3xl p-2`}
@@ -85,17 +93,23 @@ export const Calendar = ({ dayToday, days }: CalendarProps) => {
                 onDayClick(day.date)
               }}
               className={twMerge(
-                `flex h-9 w-9 items-center justify-center`,
+                `focus hover:bg-accent-700 flex h-9 w-9 items-center justify-center hover:rounded-none`,
                 (day.dayOfTheWeek === 5 || day.dayOfTheWeek === 6) &&
                   `text-danger-300`,
                 day.isToday && `text-accent-500 font-bold`,
                 !day.isCurrentMonth && `text-light-900`,
                 isSelected &&
                   selectedMap.size === 1 &&
-                  `bg-accent-900 rounded-full`,
-                isSelected && selectedMap.size > 1 && `bg-accent-900`,
-                isRangeStart && selectedMap.size > 1 && `rounded-l-full`,
-                isRangeEnd && selectedMap.size > 1 && `rounded-r-full`
+                  `bg-accent-900 rounded-full hover:rounded-full`,
+                isSelected &&
+                  selectedMap.size > 1 &&
+                  `bg-accent-900 hover:bg-accent-700`,
+                isRangeStart &&
+                  selectedMap.size > 1 &&
+                  `hover:bg-accent-700 rounded-l-full hover:rounded-l-full`,
+                isRangeEnd &&
+                  selectedMap.size > 1 &&
+                  `hover:bg-accent-700 rounded-r-full hover:rounded-r-full`
               )}
             >
               {format(day.date, 'd')}

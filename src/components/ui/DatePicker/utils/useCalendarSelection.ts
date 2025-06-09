@@ -1,4 +1,4 @@
-import { compareAsc, isSameDay } from 'date-fns'
+import { compareAsc, isSameDay, startOfToday } from 'date-fns'
 import { useMemo, useState } from 'react'
 import { getDatesBetween } from './getDatesBetween'
 
@@ -8,6 +8,7 @@ type UseCalendarSelectionReturn = {
   mode: 'single' | 'range'
   rangeStart: Date | null
   rangeEnd: Date | null
+  today: Date
 }
 
 export const useCalendarSelection = (): UseCalendarSelectionReturn => {
@@ -15,6 +16,7 @@ export const useCalendarSelection = (): UseCalendarSelectionReturn => {
   const [mode, setMode] = useState<'single' | 'range'>('single')
   const [rangeStart, setRangeStart] = useState<Date | null>(null)
   const [rangeEnd, setRangeEnd] = useState<Date | null>(null)
+  const today = startOfToday()
 
   const onDayClick = (day: Date) => {
     const isSelectedDate = selectionDates.some(d => isSameDay(d, day))
@@ -62,5 +64,6 @@ export const useCalendarSelection = (): UseCalendarSelectionReturn => {
     mode,
     rangeStart,
     rangeEnd,
+    today,
   }
 }

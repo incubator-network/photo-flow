@@ -2,82 +2,67 @@ import OpenedCalendarIcon from '@/assets/calendar-opened.svg'
 import ClosedCalendarIcon from '@/assets/calendar-closed.svg'
 import { Calendar } from './Calendar/Calendar'
 import { twMerge } from 'tailwind-merge'
-import { useState } from 'react'
-import { startOfToday } from 'date-fns/startOfToday'
+import { useEffect, useRef, useState } from 'react'
 import { format } from 'date-fns'
 import { getDaysForCalendar } from './utils/getDaysForCalendar'
+import { useCalendarSelection } from './utils/useCalendarSelection'
 
 type DatePickerProps = {
   className?: string
+  disabled?: boolean
+  error?: { isError: boolean; errorText?: string }
 }
 
-export const DatePicker = ({ className }: DatePickerProps) => {
+export const DatePicker = ({ className, disabled, error }: DatePickerProps) => {
   const [isOpen, setIsOpen] = useState(false)
 
-  const disabled = false // Имитация disabled
-  const isError = false // Получение ошибки
-  const dateIsSelected = false // Переделать на получение даты или ренджей
+  const calendarRef = useRef<HTMLDivElement>(null)
+
   const days = getDaysForCalendar()
-  const dayToday = startOfToday()
+
+  const { onDayClick, selectionDates, rangeStart, rangeEnd, mode, today } =
+    useCalendarSelection()
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        isOpen &&
+        calendarRef.current &&
+        !calendarRef.current.contains(e.target as Node)
+      ) {
+        setIsOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [isOpen])
 
   return (
-    <div
-      className={twMerge(
-        `
-      leading-1.5
-      font-normal
-        `,
-        className
-      )}
-    >
-      <p
-        className={`
-        text-sm
-        text-light-900
-        `}
-      >
-        Date
-      </p>
+    <div className={twMerge(`leading-1.5 font-normal`, className)}>
+      <p className={`text-light-900 text-sm`}>Date</p>
       <button
         disabled={disabled}
         className={twMerge(
-          `
-        h-[36px]
-        border
-        border-dark-300
-        rounded-sm
-        p-[6px_12px]
-        bg-dark-700
-        py-1.5 px-3
-        inline-flex
-        gap-6
-        items-center
-        text-light-100
-        
-
-        hover:bg-dark-500
-        hover:border-dark-100
-
-        focus:border-accent-700
-        focus:border-2
-
-        disabled:text-light-900
-        disabled:bg-dark-500
-        disabled:border-dark-300
-        `,
-          isOpen && `bg-dark-500`,
-          isError &&
-            `
-          bg-dark-500
-          border-danger-500
-          text-danger-500
-          
-          `,
-          dateIsSelected && `bg-dark-500`
+          `border-dark-300 bg-dark-700 text-light-100 hover:bg-dark-500 hover:border-dark-100 disabled:text-light-900 disabled:bg-dark-500 disabled:border-dark-300 inline-flex h-[36px] items-center gap-6 rounded-sm border p-[6px_12px] px-3 py-1.5 disabled:border`,
+          isOpen && `bg-dark-500 border`,
+          !isOpen &&
+            `focus:border-accent-700 focus:border-2 focus:outline-none`,
+          error?.isError && `bg-dark-500 border-danger-500 text-danger-500`,
+          mode === 'range' && !isOpen && `bg-dark-500`
         )}
         onClick={() => setIsOpen(!isOpen)}
       >
-        <p>{format(dayToday, 'dd/MM/yyyy')}</p>
+        {mode === 'range' && rangeStart && rangeEnd && (
+          <p>
+            {format(rangeStart, 'dd/MM/yyyy')} -{' '}
+            {format(rangeEnd, 'dd/MM/yyyy')}
+          </p>
+        )}
+        {mode === 'single' && selectionDates.length === 1 && (
+          <p>{format(selectionDates[0], 'dd/MM/yyyy')}</p>
+        )}
+        {!selectionDates.length && <p>{format(today, 'dd/MM/yyyy')}</p>}
 
         {isOpen ? (
           <OpenedCalendarIcon className={`h-6 w-6`} />
@@ -85,27 +70,39 @@ export const DatePicker = ({ className }: DatePickerProps) => {
           <ClosedCalendarIcon
             className={twMerge(
               `text-light-100 h-6 w-6`,
-              isError && ` text-danger-500`
+              error?.isError && `text-danger-500`
             )}
           />
         )}
       </button>
-      {isError ? (
+      {error?.isError ? (
         isOpen ? (
           <p
-            className={`font-normal text-xs leading-[1.33333] text-danger-500`}
+            className={`text-danger-500 text-xs leading-[1.33333] font-normal`}
           >
             Error, select current month or last month
           </p>
         ) : (
           <p
-            className={`font-normal text-xs leading-[1.33333] text-danger-500`}
+            className={`text-danger-500 text-xs leading-[1.33333] font-normal`}
           >
-            Error!
+            {error.errorText || 'Error! '}
           </p>
         )
       ) : (
-        isOpen && <Calendar dayToday={dayToday} days={days} />
+        isOpen && (
+          <div ref={calendarRef} className={`w-[300px]`}>
+            <Calendar
+              onDayClick={onDayClick}
+              mode={mode}
+              selectionDates={selectionDates}
+              rangeStart={rangeStart}
+              rangeEnd={rangeEnd}
+              today={today}
+              days={days}
+            />
+          </div>
+        )
       )}
     </div>
   )
