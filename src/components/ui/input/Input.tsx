@@ -2,10 +2,10 @@
 
 import React, { InputHTMLAttributes, useState } from 'react'
 import Image from 'next/image'
-import searchIcon from '@/assets/inputIcons/search.svg'
-import eyeIcon from '@/assets/inputIcons/eye.svg'
-import eyeOffIcon from '@/assets/inputIcons/eye-off.svg'
-import { Typography } from '@/components/typography/Typography'
+import searchIcon from '@/assets/icons/search.svg'
+import eyeIcon from '@/assets/icons/eye.svg'
+import eyeOffIcon from '@/assets/icons/eye-off.svg'
+import { Typography } from '@/components/ui/typography/Typography'
 import { twMerge } from 'tailwind-merge'
 
 type InputVariant = 'default' | 'disabled' | 'error'
@@ -75,7 +75,7 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
         {'search' !== type && (
           <Typography
             variant={'regular_text_14'}
-            className={'capitalize text-light-900'}
+            className={'text-light-900 capitalize'}
           >
             {type}
           </Typography>
@@ -97,8 +97,8 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
               src={searchIcon}
               alt='Search'
               className={twMerge(
-                'absolute left-3 top-1/2 transform -translate-y-1/2 ' +
-                  'filter brightness-0 invert',
+                'absolute top-1/2 left-3 -translate-y-1/2 transform ' +
+                  'brightness-0 invert filter',
                 disabled && 'opacity-50'
               )}
               width={20}
@@ -111,8 +111,8 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
               disabled={disabled}
               onClick={togglePasswordVisibility}
               className={twMerge(
-                ' absolute right-3 top-1/2 transform -translate-y-1/2 ' +
-                  'filter brightness-0 invert',
+                'absolute top-1/2 right-3 -translate-y-1/2 transform ' +
+                  'brightness-0 invert filter',
                 disabled && 'opacity-50'
               )}
             >
@@ -128,7 +128,7 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
         {errorText && (
           <Typography
             variant={'regular_text_14'}
-            className={twMerge('text-danger-500 pt-0 ml-0 capitalize')}
+            className={twMerge('text-danger-500 ml-0 pt-0 capitalize')}
           >
             {errorText}
           </Typography>
@@ -137,3 +137,5 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
     )
   }
 )
+
+Input.displayName = 'Input'
