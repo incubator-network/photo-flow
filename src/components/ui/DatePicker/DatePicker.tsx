@@ -11,9 +11,15 @@ type DatePickerProps = {
   className?: string
   disabled?: boolean
   error?: { isError: boolean; errorText?: string }
+  onDatesChange?: (dates: Date[]) => void
 }
 
-export const DatePicker = ({ className, disabled, error }: DatePickerProps) => {
+export const DatePicker = ({
+  className,
+  disabled,
+  error,
+  onDatesChange,
+}: DatePickerProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const [days, setDays] = useState<CalendarDay[]>([])
   const [offsetMonths, setOffsetMonths] = useState<number>(0)
@@ -25,7 +31,8 @@ export const DatePicker = ({ className, disabled, error }: DatePickerProps) => {
 
   useEffect(() => {
     setDays(getDaysForCalendar(offsetMonths))
-  }, [offsetMonths])
+    onDatesChange?.(selectionDates)
+  }, [offsetMonths, selectionDates, onDatesChange])
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
