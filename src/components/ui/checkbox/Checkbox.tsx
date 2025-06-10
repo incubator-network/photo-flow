@@ -2,7 +2,6 @@ import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
 import { ComponentPropsWithoutRef } from 'react'
 import { twMerge } from 'tailwind-merge'
 // import { CheckIcon } from '@radix-ui/react-icons'
-
 import CheckIcon from '@/assets/icons/checkmark-outline.svg'
 
 type CheckBoxProps = {
@@ -21,26 +20,24 @@ export const Checkbox = ({
   const baseStyles = twMerge(
     'relative z-10 flex items-center justify-center w-4 h-4 rounded-[2px] border-2 transition-all outline-none hover:before:opacity-10 before:bg-light-300 z-10',
     disabled && 'border-light-900',
-    variant === 'default' && 'before:bg-white',
-    className
+    variant === 'default' && 'before:bg-white'
   )
 
   const wrapperClasses = twMerge(
     'relative w-8 h-8 flex items-center justify-center',
-    'before:content-[""] before:absolute before:inset-0 before:rounded-full before:opacity-0 before:transition-opacity hover:bg-dark-300 rounded-full active:bg-dark-100 focus:bg-dark-500',
+    'before:content-[""] before:absolute before:inset-0 before:rounded-full before:opacity-0 before:transition-opacity hover:bg-dark-300 rounded-full active:bg-dark-100 focus-visible:bg-dark-300 focus-visible:outline-none',
     disabled &&
       'hover:bg-transparent focus:bg-transparent active:bg-transparent'
   )
 
   return (
-    <div className='flex items-center gap-1'>
+    <div className={twMerge('flex items-center gap-2', className)}>
       <div className={wrapperClasses} tabIndex={0}>
         <CheckboxPrimitive.Root
-          defaultChecked
           className={baseStyles}
           id={id}
-          {...rest}
           disabled={disabled}
+          {...rest}
         >
           <CheckboxPrimitive.Indicator>
             <CheckIcon className='text-dark-900 bg-light-100' />

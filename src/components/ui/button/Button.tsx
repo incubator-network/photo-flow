@@ -37,7 +37,7 @@ export const Button = (props: PropsType) => {
   return (
     <Comp
       className={twMerge(
-        'rounded-xs border border-transparent px-6 py-1.5',
+        'cursor-pointer rounded-xs border border-transparent px-6 py-1.5',
         variantStyles[variant],
         className
       )}
