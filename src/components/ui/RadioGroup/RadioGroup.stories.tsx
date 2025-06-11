@@ -25,6 +25,6 @@ export const Disabled: Story = {
       { title: 'RadioGroup1', id: '1231' },
       { title: 'RadioGroup', id: '12333' },
     ],
-    disabled: true
+    disabled: true,
   },
 }
