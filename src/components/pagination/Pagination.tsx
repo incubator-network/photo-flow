@@ -1,6 +1,5 @@
 'use client'
-import React from 'react'
-// import { Pagination as PaginationMui } from '@mui/material'
+import React, { useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { Typography } from '@/components/ui/typography/Typography'
 import { Select } from '@/components/ui/Select/Select'
@@ -23,6 +22,7 @@ export const Pagination = ({
   onChangePagination,
   // id = 'pagination',
 }: PaginationPropsType) => {
+  const [selectValue, setSelectValue] = useState('10')
   const paginationRange = usePagination({
     currentPage,
     pageSize: itemsPerPage,
@@ -40,6 +40,7 @@ export const Pagination = ({
 
   const onChangeSelect = (value: string) => {
     console.log(value)
+    setSelectValue(value)
     onChangePagination(currentPage, Number(value))
   }
   const onPreviousPage = () => {
@@ -97,6 +98,7 @@ export const Pagination = ({
         Show
       </Typography>
       <Select
+        value={selectValue}
         items={[
           { title: '10' },
           { title: '20' },
@@ -104,8 +106,8 @@ export const Pagination = ({
           { title: '50' },
           { title: '100' },
         ]}
-        contentClassName={'w-[52px]   '}
-        onChangeOption={value => onChangeSelect(value)}
+        className={'w-[52px]'}
+        onValueChange={value => onChangeSelect(value)}
       />
       <Typography variant={'regular_text_14'} className={twMerge('px-[15px]')}>
         on page
