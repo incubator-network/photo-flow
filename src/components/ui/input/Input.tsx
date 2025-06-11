@@ -79,7 +79,7 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
             {type}
           </Typography>
         )}
-        <div className='relative w-[280px]'>
+        <div className={twMerge(`relative w-[280px]`, className)}>
           <input
             ref={ref}
             type={inputType}
@@ -87,7 +87,8 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
             className={twMerge(
               'w-full',
               variantStyles[currentVariant],
-              inputPadding
+              inputPadding,
+              className
             )}
             {...props}
           />
@@ -108,10 +109,15 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
               className={twMerge(
                 'absolute top-1/2 right-3 -translate-y-1/2 transform ' +
                   'brightness-0 invert filter',
+                '',
                 disabled && 'opacity-50'
               )}
             >
-              {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+              {showPassword ? (
+                <EyeOffIcon className='h-6 w-6' />
+              ) : (
+                <EyeIcon className='h-6 w-6' />
+              )}
             </button>
           )}
         </div>
