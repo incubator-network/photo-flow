@@ -87,7 +87,8 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
             className={twMerge(
               'w-full',
               variantStyles[currentVariant],
-              inputPadding
+              inputPadding,
+              className
             )}
             {...props}
           />
