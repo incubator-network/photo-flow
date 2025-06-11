@@ -17,7 +17,8 @@ type Props = InputHTMLAttributes<HTMLInputElement> & {
 
 const baseStyle = `
   flex items-center justify-center
-  w-[280px] h-[36px] px-[12px]
+   w-[280px] h-[36px]
+   px-[12px]
   text-regular-16 leading-medium
   bg-transparent
   border
@@ -30,7 +31,7 @@ const baseStyle = `
   hover:border-light-900
   focus:border-accent-500 focus:bg-dark-500 focus:text-light-100
   active:border-light-100! active:bg-dark-500! active:text-light-100!
-  not-placeholder-shown:text-light-100  
+  not-placeholder-shown:text-light-100   
 `
 
 const variantStyles = {
@@ -87,7 +88,8 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
             className={twMerge(
               'w-full',
               variantStyles[currentVariant],
-              inputPadding
+              inputPadding,
+              className
             )}
             {...props}
           />
