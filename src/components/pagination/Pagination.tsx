@@ -1,42 +1,52 @@
 'use client'
-import React, { ChangeEvent } from 'react'
-import { Pagination as PaginationMui } from '@mui/material'
+import React from 'react'
+// import { Pagination as PaginationMui } from '@mui/material'
 import { twMerge } from 'tailwind-merge'
 import { Typography } from '@/components/ui/typography/Typography'
 import { Select } from '@/components/ui/Select/Select'
 import ChevronRightIcon from '@/assets/icons/chevron-right-icon.svg'
 import ChevronLeftIcon from '@/assets/icons/chevron-left-icon.svg'
+import { usePagination } from '@/components/hooks/usePagintaion'
 
 export type PaginationPropsType = {
   id?: string
-  page: number
+  currentPage: number
   itemsPerPage: number
   totalCount: number
   onChangePagination: (page: number, count: number) => void
 }
 
 export const Pagination = ({
-  page,
+  currentPage,
   itemsPerPage,
   totalCount,
   onChangePagination,
-  id = 'pagination',
+  // id = 'pagination',
 }: PaginationPropsType) => {
-  const lastPage = Math.ceil(totalCount / itemsPerPage)
+  const paginationRange = usePagination({
+    currentPage,
+    pageSize: itemsPerPage,
+    totalCount,
+  })
+  if (currentPage === 0 || paginationRange!.length < 2) {
+    return null
+  }
+  const lastPage: number = Number(paginationRange?.[paginationRange.length - 1])
 
-  const onChangeCallback = (_: ChangeEvent<unknown>, page: number) => {
-    onChangePagination(page, itemsPerPage)
+  const onChangeCallback = (e: React.MouseEvent<HTMLLIElement>) => {
+    const pageNumber = Number(e.currentTarget.textContent)
+    onChangePagination(pageNumber, itemsPerPage)
   }
 
   const onChangeSelect = (value: string) => {
     console.log(value)
-    onChangePagination(page, Number(value))
+    onChangePagination(currentPage, Number(value))
   }
   const onPreviousPage = () => {
-    onChangePagination(page - 1, itemsPerPage)
+    onChangePagination(currentPage - 1, itemsPerPage)
   }
   const onNextPage = () => {
-    onChangePagination(page + 1, itemsPerPage)
+    onChangePagination(currentPage + 1, itemsPerPage)
   }
 
   return (
@@ -44,40 +54,36 @@ export const Pagination = ({
       <ChevronLeftIcon
         className={twMerge(
           'mx-[15px] disabled:opacity-50',
-          page <= 1 && 'opacity-50'
+          currentPage <= 1 && 'opacity-50'
         )}
         onClick={onPreviousPage}
       />
+      <ul className={'flex list-none items-center justify-center gap-x-3'}>
+        {paginationRange?.map((pageNumber, index) => {
+          if (pageNumber.toString() === '...') {
+            return <li key={`${pageNumber}+${index}`}>&#8230;</li>
+          }
+          return (
+            <li
+              key={pageNumber}
+              onClick={e => onChangeCallback(e)}
+              className={`text-regular-14 flex max-h-[24px] max-w-[24px] items-center justify-center rounded-md border border-transparent bg-transparent p-2 text-white hover:cursor-pointer hover:border-blue-500 ${
+                currentPage === pageNumber
+                  ? 'border-white bg-white !text-black'
+                  : ''
+              }`}
+            >
+              {pageNumber}
+            </li>
+          )
+        })}
+      </ul>
 
-      <PaginationMui
-        shape='rounded'
-        variant='outlined'
-        color='primary'
-        id={id + '-pagination'}
-        className={''}
-        sx={{
-          '& .MuiPaginationItem-root': {
-            color: 'white',
-            border: '1px solid transparent',
-            backgroundColor: 'transparent',
-            '&:hover': {
-              borderColor: 'blue',
-            },
-          },
-          '& .MuiPaginationItem-root.Mui-selected': {
-            backgroundColor: 'white',
-            borderColor: 'white',
-            color: 'black',
-          },
-        }}
-        page={page}
-        count={lastPage}
-        onChange={onChangeCallback}
-        hideNextButton
-        hidePrevButton
-      />
       <ChevronRightIcon
-        className={twMerge('mx-[15px]', page >= lastPage && 'opacity-50')}
+        className={twMerge(
+          'mx-[15px]',
+          currentPage >= lastPage && 'opacity-50'
+        )}
         onClick={onNextPage}
       />
       <Typography

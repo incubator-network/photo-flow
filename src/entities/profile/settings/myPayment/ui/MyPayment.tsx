@@ -99,7 +99,7 @@ export const MyPayment = () => {
         </tbody>
       </table>
       <Pagination
-        page={currentPageState}
+        currentPage={currentPageState}
         itemsPerPage={itemsPerPageState}
         totalCount={data.length}
         onChangePagination={handlePaginationChange}
