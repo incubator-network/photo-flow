@@ -58,7 +58,11 @@ export const Pagination = ({
         )}
         onClick={onPreviousPage}
       />
-      <ul className={'flex list-none items-center justify-center gap-x-3'}>
+      <ul
+        className={
+          'flex max-w-xs list-none items-center justify-center gap-x-3 select-none'
+        }
+      >
         {paginationRange?.map((pageNumber, index) => {
           if (pageNumber.toString() === '...') {
             return <li key={`${pageNumber}+${index}`}>&#8230;</li>
@@ -67,7 +71,7 @@ export const Pagination = ({
             <li
               key={pageNumber}
               onClick={e => onChangeCallback(e)}
-              className={`text-regular-14 flex max-h-[24px] max-w-[24px] items-center justify-center rounded-md border border-transparent bg-transparent p-2 text-white hover:cursor-pointer hover:border-blue-500 ${
+              className={`text-regular-14 flex max-h-[24px] max-w-[24px] items-center justify-center rounded-md border border-transparent bg-transparent p-4 text-white hover:cursor-pointer hover:border-blue-500 ${
                 currentPage === pageNumber
                   ? 'border-white bg-white !text-black'
                   : ''
