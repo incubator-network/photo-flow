@@ -1,7 +1,7 @@
 import * as Dialog from '@radix-ui/react-dialog'
-import { Cross2Icon } from '@radix-ui/react-icons'
 import { ComponentPropsWithoutRef } from 'react'
 import { twMerge } from 'tailwind-merge'
+import ClosePicture from '@/../public/close.svg'
 
 type Props = {
   open: boolean
@@ -42,11 +42,13 @@ export const ModalWindow = ({
               <Dialog.Close asChild className={''}>
                 <button
                   className={
-                    'h-[24px] w-[24px] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-blue-700'
+                    'h-[24px] w-[24px] cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-blue-700'
                   }
                   aria-label='Close'
                 >
-                  <Cross2Icon className={'h-[24px] w-[24px]'} />
+                  <ClosePicture
+                    className={'m-auto h-[24px] w-[24px] fill-white'}
+                  />
                 </button>
               </Dialog.Close>
             </Dialog.Title>
@@ -57,11 +59,13 @@ export const ModalWindow = ({
             >
               <button
                 className={
-                  'h-[24px] w-[24px] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-blue-700'
+                  'h-[24px] w-[24px] cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-blue-700'
                 }
                 aria-label='Close'
               >
-                <Cross2Icon className={'h-[24px] w-[24px]'} />
+                <ClosePicture
+                  className={'m-auto h-[24px] w-[24px] fill-white'}
+                />
               </button>
             </Dialog.Close>
           )}
