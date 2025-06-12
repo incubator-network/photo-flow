@@ -37,7 +37,7 @@ export const Button = (props: PropsType) => {
   return (
     <Comp
       className={twMerge(
-        'py-1.5 px-6 rounded-xs border border-transparent',
+        'flex items-center justify-center py-1.5 px-6 rounded-xs border border-transparent',
         variantStyles[variant],
         className
       )}
