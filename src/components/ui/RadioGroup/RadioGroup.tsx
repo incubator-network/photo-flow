@@ -9,6 +9,8 @@ type Item = {
 
 type RadioProps = {
   items: Item[]
+  value: string
+  onValueChange: (value: string) => void
 } & RadioGroup.RadioGroupProps
 
 export const Radio = ({
