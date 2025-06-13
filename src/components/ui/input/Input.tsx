@@ -47,7 +47,7 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
       variant = 'default',
       errorText = '',
       disabled = false,
-      className = 'w-[280px]',
+      className = '',
       label,
       ...props
     },
@@ -65,7 +65,7 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
     const inputType =
       type === 'password' ? (showPassword ? 'text' : 'password') : type
     return (
-      <div className={'text-left'}>
+      <div className={twMerge('text-left', className)}>
         {'search' !== type && (
           <Typography
             variant={'regular_text_14'}
@@ -82,8 +82,7 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
             className={twMerge(
               'w-full',
               variantStyles[currentVariant],
-              inputPadding,
-              className
+              inputPadding
             )}
             {...props}
           />

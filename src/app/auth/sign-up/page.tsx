@@ -13,12 +13,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { RegistrationFields, signUpSchema } from '@/lib/schemas/signUpSchema'
 import { useRegistrationMutation } from '@/lib/api/authApi'
 import { useState } from 'react'
+import { ModalWindow } from '@/components/ui/modalWindow/ModalWindow'
 
 export default function SingUp() {
   const [userNameError, setUserNameError] = useState<string | null>(null)
   const [emailError, setEmailError] = useState<string | null>(null)
-  // const [isOpenModalWindow, setIsOpenModalWindow] = useState(false)
-  // const [email, setEmail] = useState<string>('')
+  const [isOpenModalWindow, setIsOpenModalWindow] = useState(false)
+  const [email, setEmail] = useState<string>('')
 
   console.log('RENDER FORM')
   const {
@@ -51,9 +52,9 @@ export default function SingUp() {
     })
       .unwrap()
       .then(() => {
-        // setEmail(data.email)
+        setEmail(data.email)
         reset()
-        // setIsOpenModalWindow(true)
+        setIsOpenModalWindow(true)
       })
       .catch(err => {
         if (err.data.messages[0].field === 'userName') {
@@ -138,25 +139,25 @@ export default function SingUp() {
           <Typography variant={'h3'}>Sign In</Typography>
         </Link>
       </Button>
-      {/*{isOpenModalWindow && (*/}
-      {/*  <ModalWindow*/}
-      {/*    modalTitle={'Email sent'}*/}
-      {/*    open={isOpenModalWindow}*/}
-      {/*    onClose={() => setIsOpenModalWindow(false)}*/}
-      {/*  >*/}
-      {/*    <div className={'relative mt-7.5 px-6'}>*/}
-      {/*      <Typography className={'mb-4.5'} variant={'regular_text_16'}>*/}
-      {/*        We have sent a link to confirm your email to {email}*/}
-      {/*      </Typography>*/}
-      {/*      <Button*/}
-      {/*        onClick={() => setIsOpenModalWindow(false)}*/}
-      {/*        className={'float-right w-24'}*/}
-      {/*      >*/}
-      {/*        OK*/}
-      {/*      </Button>*/}
-      {/*    </div>*/}
-      {/*  </ModalWindow>*/}
-      {/*)}*/}
+      {isOpenModalWindow && (
+        <ModalWindow
+          modalTitle={'Email sent'}
+          open={isOpenModalWindow}
+          onClose={() => setIsOpenModalWindow(false)}
+        >
+          <div className={'relative mt-7.5 px-6'}>
+            <Typography className={'mb-4.5'} variant={'regular_text_16'}>
+              We have sent a link to confirm your email to {email}
+            </Typography>
+            <Button
+              onClick={() => setIsOpenModalWindow(false)}
+              className={'float-right w-24'}
+            >
+              OK
+            </Button>
+          </div>
+        </ModalWindow>
+      )}
     </Card>
   )
 }
