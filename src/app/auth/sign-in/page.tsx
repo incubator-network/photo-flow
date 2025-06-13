@@ -7,11 +7,17 @@ import { Button } from '@/components/ui/button/Button'
 import { LoginFields, signInSchema } from '@/lib/schemas/signInSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { useLoginMutation } from '@/lib/api/authApi'
+import { useState } from 'react'
 
 export default function SignIn() {
+  const [login] = useLoginMutation()
+  const [loginError, setLoginError] = useState('')
+
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<LoginFields>({
     mode: 'onTouched',
@@ -22,11 +28,23 @@ export default function SignIn() {
     },
   })
 
-  const onSubmit = (data: LoginFields) => {
-    console.log(data)
-    if (errors) {
-      console.log(errors)
-    }
+  const onSubmit = async (data: LoginFields) => {
+    await login(data)
+      .unwrap()
+      .then(data => {
+        console.log(data)
+        reset()
+      })
+
+      .catch(error => {
+        console.log(error.data.messages)
+        console.log(error)
+        setLoginError(
+          error.data.messages.charAt(0).toUpperCase() +
+            error.data.messages.slice(1)
+        )
+        reset()
+      })
   }
 
   return (
@@ -50,6 +68,13 @@ export default function SignIn() {
           </a>
         </div>
 
+        {loginError && (
+          <p
+            className={`text-danger-500 flex justify-center text-lg font-semibold`}
+          >
+            {loginError}
+          </p>
+        )}
         <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col`}>
           <div className='mb-9 flex flex-col gap-6'>
             <Input
@@ -58,6 +83,9 @@ export default function SignIn() {
               className={`w-full`}
               errorText={errors ? errors.email?.message : ''}
               {...register('email')}
+              onChange={() => {
+                setLoginError('')
+              }}
             />
             <Input
               placeholder='**********'
@@ -65,6 +93,9 @@ export default function SignIn() {
               className={`w-full`}
               errorText={errors ? errors.password?.message : ''}
               {...register('password')}
+              onChange={() => {
+                setLoginError('')
+              }}
             />
           </div>
 
