@@ -18,8 +18,8 @@ type Props = InputHTMLAttributes<HTMLInputElement> & {
 
 const baseStyle = `
   flex items-center justify-center
-  h-[36px] px-[12px]
-  text-regular-14
+  h-[36px] px-[12px] py-[6px]
+  text-regular-16 leading-medium
   bg-transparent
   border
   border-dark-100
@@ -37,7 +37,7 @@ const baseStyle = `
 const variantStyles = {
   default: baseStyle,
   disabled: `${baseStyle} border-dark-300 disabled:opacity-50`,
-  error: `${baseStyle} border-danger-500 text-light-100 text-regular-14`,
+  error: `${baseStyle} border-danger-500 text-light-100`,
 }
 
 export const Input = React.forwardRef<HTMLInputElement, Props>(
@@ -47,8 +47,8 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
       variant = 'default',
       errorText = '',
       disabled = false,
-      className = 'w-[280px]',
-      label = '',
+      className = '',
+      label,
       ...props
     },
     ref
@@ -74,9 +74,7 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
             {label ? label : type}
           </Typography>
         )}
-        <div
-          className={twMerge('relative flex w-full items-center', className)}
-        >
+        <div className={'relative flex w-full items-center'}>
           <input
             ref={ref}
             type={inputType}
@@ -84,8 +82,7 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
             className={twMerge(
               'w-full',
               variantStyles[currentVariant],
-              inputPadding,
-              className
+              inputPadding
             )}
             {...props}
           />
@@ -120,7 +117,7 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
         {errorText && (
           <Typography
             variant={'regular_text_14'}
-            className={twMerge('text-danger-500 ml-0 pt-0 capitalize')}
+            className={twMerge('text-danger-500 ml-0 pt-0')}
           >
             {errorText}
           </Typography>
