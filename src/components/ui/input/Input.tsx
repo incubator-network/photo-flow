@@ -31,7 +31,7 @@ const baseStyle = `
   hover:border-light-900
   focus:border-accent-500 focus:bg-dark-500 focus:text-light-100
   active:border-light-100! active:bg-dark-500! active:text-light-100!
-  not-placeholder-shown:text-light-100  
+  not-placeholder-shown:text-light-100   
 `
 
 const variantStyles = {
@@ -47,7 +47,7 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
       variant = 'default',
       errorText = '',
       disabled = false,
-      className = '',
+      className,
       label,
       ...props
     },

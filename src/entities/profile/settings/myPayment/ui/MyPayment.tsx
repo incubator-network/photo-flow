@@ -1,5 +1,5 @@
 'use client'
-import { Pagination } from '@/components/pagination/Pagination'
+import { Pagination } from '@/components/ui/pagination/Pagination'
 import { useEffect, useMemo, useState } from 'react'
 import {
   // useRouter,

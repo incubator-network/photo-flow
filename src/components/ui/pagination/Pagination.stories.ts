@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { Pagination } from '@/components/pagination/Pagination'
+import { Pagination } from '@/components/ui/pagination/Pagination'
 import { action } from 'storybook/actions'
-import { PaginationPropsType } from '@/components/pagination/Pagination'
+import { PaginationPropsType } from '@/components/ui/pagination/Pagination'
 
 const meta: Meta<PaginationPropsType> = {
   component: Pagination,

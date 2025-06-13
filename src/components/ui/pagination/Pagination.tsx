@@ -106,7 +106,7 @@ export const Pagination = ({
           { title: '50' },
           { title: '100' },
         ]}
-        className={'w-[52px]'}
+        className={''}
         onValueChange={value => onChangeSelect(value)}
       />
       <Typography variant={'regular_text_14'} className={twMerge('px-[15px]')}>
