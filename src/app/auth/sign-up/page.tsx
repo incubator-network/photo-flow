@@ -12,14 +12,19 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { RegistrationFields, signUpSchema } from '@/lib/schemas/signUpSchema'
 import { useRegistrationMutation } from '@/lib/api/authApi'
+import { useState } from 'react'
 
 export default function SingUp() {
-  // const router = useRouter()
+  const [userNameError, setUserNameError] = useState<string | null>(null)
+  const [emailError, setEmailError] = useState<string | null>(null)
+  // const [isOpenModalWindow, setIsOpenModalWindow] = useState(false)
+  // const [email, setEmail] = useState<string>('')
 
+  console.log('RENDER FORM')
   const {
     register,
     handleSubmit,
-    // reset,
+    reset,
     formState: { errors, isValid, isDirty },
   } = useForm<RegistrationFields>({
     mode: 'onTouched',
@@ -37,23 +42,33 @@ export default function SingUp() {
 
   const onSubmit: SubmitHandler<RegistrationFields> = async data => {
     console.log(data)
-    try {
-      await registration({
-        userName: data.username,
-        email: data.email,
-        password: data.password,
-        baseUrl: window.location.origin,
+
+    await registration({
+      userName: data.username,
+      email: data.email,
+      password: data.password,
+      baseUrl: window.location.origin,
+    })
+      .unwrap()
+      .then(() => {
+        // setEmail(data.email)
+        reset()
+        // setIsOpenModalWindow(true)
       })
-      // reset()
-      // router.push('/sign-up/confirm-email')
-    } catch (err: unknown) {
-      console.log(err)
-    }
+      .catch(err => {
+        if (err.data.messages[0].field === 'userName') {
+          setUserNameError('User with this username is already registered')
+        }
+        if (err.data.messages[0].field === 'email') {
+          setEmailError('User with this email is already registered')
+        }
+      })
   }
 
   return (
-    // margin не забыть убрать!!!
-    <Card className={'m-10 flex max-w-[378px] flex-col items-center p-6'}>
+    <Card
+      className={'mx-auto my-6 flex max-w-[378px] flex-col items-center p-6'}
+    >
       <Typography variant={'h1'} className={'mb-3'}>
         Sign Up
       </Typography>
@@ -69,14 +84,18 @@ export default function SingUp() {
           <Input
             className={'min-h-[84px]'}
             type={'username'}
-            errorText={errors.username?.message}
-            {...register('username')}
+            errorText={errors.username?.message || userNameError}
+            {...register('username', {
+              onChange: () => setUserNameError(null),
+            })}
           />
           <Input
             className={'min-h-[84px]'}
             type={'Email'}
-            errorText={errors.email?.message}
-            {...register('email')}
+            errorText={errors.email?.message || emailError}
+            {...register('email', {
+              onChange: () => setEmailError(null),
+            })}
           />
           <Input
             className={'min-h-[84px]'}
@@ -85,6 +104,7 @@ export default function SingUp() {
             {...register('password')}
           />
           <Input
+            label={'Password confirmation'}
             type={'password'}
             errorText={errors.passwordConfirmation?.message}
             {...register('passwordConfirmation')}
@@ -94,16 +114,19 @@ export default function SingUp() {
           <Checkbox required id={'agreement'} {...register('agreement')} />
           <Typography variant={'small_text'}>
             I agree to the&nbsp;
-            <Link href={'/sign-up/terms'}>
+            <Link href={'/auth/sign-up/terms'}>
               <Typography variant={'small_link'}>Terms of Service</Typography>
             </Link>
             <Typography variant={'small_text'}> and </Typography>
-            <Link href={'/sign-up/privacy'}>
+            <Link href={'/auth/sign-up/privacy'}>
               <Typography variant={'small_link'}>Privacy Policy</Typography>
             </Link>
           </Typography>
         </div>
-        <Button className={'w-full'} disabled={!isValid || !isDirty}>
+        <Button
+          className={'w-full'}
+          disabled={!isValid || !isDirty || !!userNameError || !!emailError}
+        >
           <Typography variant={'h3'}>Sign Up</Typography>
         </Button>
       </form>
@@ -111,8 +134,29 @@ export default function SingUp() {
         Do you have an account?
       </Typography>
       <Button className={'w-full text-center'} variant={'text'} asChild>
-        <Link href={'/sign-in'}>Sign In</Link>
+        <Link href={'/auth/sign-in'}>
+          <Typography variant={'h3'}>Sign In</Typography>
+        </Link>
       </Button>
+      {/*{isOpenModalWindow && (*/}
+      {/*  <ModalWindow*/}
+      {/*    modalTitle={'Email sent'}*/}
+      {/*    open={isOpenModalWindow}*/}
+      {/*    onClose={() => setIsOpenModalWindow(false)}*/}
+      {/*  >*/}
+      {/*    <div className={'relative mt-7.5 px-6'}>*/}
+      {/*      <Typography className={'mb-4.5'} variant={'regular_text_16'}>*/}
+      {/*        We have sent a link to confirm your email to {email}*/}
+      {/*      </Typography>*/}
+      {/*      <Button*/}
+      {/*        onClick={() => setIsOpenModalWindow(false)}*/}
+      {/*        className={'float-right w-24'}*/}
+      {/*      >*/}
+      {/*        OK*/}
+      {/*      </Button>*/}
+      {/*    </div>*/}
+      {/*  </ModalWindow>*/}
+      {/*)}*/}
     </Card>
   )
 }
