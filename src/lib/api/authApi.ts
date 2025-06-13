@@ -21,10 +21,21 @@ export const authApi = baseApi.injectEndpoints({
       query: ({ confirmationCode }) => ({
         url: '/auth/registration-confirmation',
         method: 'POST',
-        body: confirmationCode,
+        body: { confirmationCode },
+      }),
+    }),
+    resendEmail: build.mutation<void, { email: string; baseUrl: string }>({
+      query: body => ({
+        url: '/auth/registration-email-resending',
+        method: 'POST',
+        body,
       }),
     }),
   }),
 })
 
-export const { useRegistrationMutation, useConfirmEmailMutation } = authApi
+export const {
+  useRegistrationMutation,
+  useConfirmEmailMutation,
+  useResendEmailMutation,
+} = authApi
