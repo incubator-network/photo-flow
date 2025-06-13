@@ -16,7 +16,7 @@ export default function RecaptchaTest() {
 
   async function checkGoogleCaptcha(token: string) {
     try {
-      const response = await fetch('api/verify', {
+      const response = await fetch('/auth/api/verify', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ export default function RecaptchaTest() {
       return
     }
     try {
-      const response = await fetch('api/verify', {
+      const response = await fetch('/auth/api/verify', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
