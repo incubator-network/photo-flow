@@ -37,7 +37,7 @@ const baseStyle = `
 const variantStyles = {
   default: baseStyle,
   disabled: `${baseStyle} border-dark-300 disabled:opacity-50`,
-  error: `${baseStyle} border-danger-500 text-light-100 text-regular-14`,
+  error: `${baseStyle} border-danger-500 text-light-100`,
 }
 
 export const Input = React.forwardRef<HTMLInputElement, Props>(
