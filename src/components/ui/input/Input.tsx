@@ -18,8 +18,8 @@ type Props = InputHTMLAttributes<HTMLInputElement> & {
 
 const baseStyle = `
   flex items-center justify-center
+  text-regular-16 leading-medium
   h-[36px] px-[12px]
-  text-regular-14
   bg-transparent
   border
   border-dark-100
@@ -31,7 +31,7 @@ const baseStyle = `
   hover:border-light-900
   focus:border-accent-500 focus:bg-dark-500 focus:text-light-100
   active:border-light-100! active:bg-dark-500! active:text-light-100!
-  not-placeholder-shown:text-light-100  
+  not-placeholder-shown:text-light-100   
 `
 
 const variantStyles = {
@@ -47,8 +47,8 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
       variant = 'default',
       errorText = '',
       disabled = false,
-      className = 'w-[280px]',
-      label = '',
+      className,
+      label,
       ...props
     },
     ref
