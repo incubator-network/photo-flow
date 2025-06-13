@@ -12,8 +12,8 @@ type InputVariant = 'default' | 'disabled' | 'error'
 type Props = InputHTMLAttributes<HTMLInputElement> & {
   variant?: InputVariant
   errorText?: string | null
-  label?: string
   disabled?: boolean
+  label?: string
 }
 
 const baseStyle = `
@@ -36,15 +36,8 @@ const baseStyle = `
 
 const variantStyles = {
   default: baseStyle,
-  disabled: `${baseStyle}
-    border-dark-300
-    disabled:opacity-50 
-  `,
-  error: `${baseStyle}
-    border-danger-500
-    text-light-100
-    text-regular-14
-  `,
+  disabled: `${baseStyle} border-dark-300 disabled:opacity-50`,
+  error: `${baseStyle} border-danger-500 text-light-100 text-regular-14`,
 }
 
 export const Input = React.forwardRef<HTMLInputElement, Props>(
@@ -54,8 +47,8 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
       variant = 'default',
       errorText = '',
       disabled = false,
+      className = 'w-[280px]',
       label,
-      className = '',
       ...props
     },
     ref
@@ -72,7 +65,7 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
     const inputType =
       type === 'password' ? (showPassword ? 'text' : 'password') : type
     return (
-      <div className={twMerge('text-left', className)}>
+      <div className={'text-left'}>
         {'search' !== type && (
           <Typography
             variant={'regular_text_14'}
@@ -81,7 +74,7 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
             {label ? label : type}
           </Typography>
         )}
-        <div className='relative'>
+        <div className={'relative flex w-full items-center'}>
           <input
             ref={ref}
             type={inputType}
@@ -89,13 +82,15 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
             className={twMerge(
               'w-full',
               variantStyles[currentVariant],
-              inputPadding
+              inputPadding,
+              className
             )}
             {...props}
           />
           {type === 'search' && (
             <SearchIcon
               className={twMerge(
+                'h-6 w-6',
                 'absolute top-1/2 left-3 -translate-y-1/2 transform ' +
                   'brightness-0 invert filter',
                 disabled && 'opacity-50'
@@ -108,12 +103,15 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
               disabled={disabled}
               onClick={togglePasswordVisibility}
               className={twMerge(
-                'absolute top-1/2 right-3 -translate-y-1/2 transform ' +
-                  'brightness-0 invert filter',
+                'absolute top-1/2 right-3 -translate-y-1/2 brightness-0 invert filter',
                 disabled && 'opacity-50'
               )}
             >
-              {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+              {showPassword ? (
+                <EyeOffIcon className={'h-6 w-6'} />
+              ) : (
+                <EyeIcon className={'h-6 w-6'} />
+              )}
             </button>
           )}
         </div>
