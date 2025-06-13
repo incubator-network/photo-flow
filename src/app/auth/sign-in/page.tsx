@@ -1,0 +1,99 @@
+'use client'
+import GoogleIcon from '@/../public/google.svg'
+import GitHubIcon from '@/../public/GitHubIcon.svg'
+import Link from 'next/link'
+import { Input } from '@/components/ui/input/Input'
+import { Button } from '@/components/ui/button/Button'
+import { LoginFields, signInSchema } from '@/lib/schemas/signInSchema'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+
+export default function SignIn() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFields>({
+    mode: 'onTouched',
+    resolver: zodResolver(signInSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  })
+
+  const onSubmit = (data: LoginFields) => {
+    console.log(data)
+    if (errors) {
+      console.log(errors)
+    }
+  }
+
+  return (
+    <>
+      <p>header</p>
+      <section
+        className={`border-dark-300 bg-dark-500 mx-auto w-[380px] rounded-xs border border-solid p-6`}
+      >
+        <h2
+          className={`mb-[13px] flex justify-center text-xl leading-[1.8] font-bold`}
+        >
+          Sign In
+        </h2>
+
+        <div className={`mb-6 flex items-center justify-center gap-15`}>
+          <a href='#'>
+            <GoogleIcon className='h-9 w-9' />
+          </a>
+          <a href='#'>
+            <GitHubIcon className='h-9 w-9' />
+          </a>
+        </div>
+
+        <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col`}>
+          <div className='mb-9 flex flex-col gap-6'>
+            <Input
+              placeholder='Epam@epam.com'
+              type='email'
+              className={`w-full`}
+              errorText={errors ? errors.email?.message : ''}
+              {...register('email')}
+            />
+            <Input
+              placeholder='**********'
+              type='password'
+              className={`w-full`}
+              errorText={errors ? errors.password?.message : ''}
+              {...register('password')}
+            />
+          </div>
+
+          <Button
+            asChild
+            variant='text'
+            className='text-light-900 mb-6 flex justify-end p-0 text-sm leading-[1.71]'
+          >
+            <Link href={'/auth/forgot-password'}>Forgot Password</Link>
+          </Button>
+          <div className='flex flex-col items-center'>
+            <Button
+              variant='primary'
+              className='mb-[18px] flex w-full justify-center font-semibold'
+              type='submit'
+            >
+              Sign In
+            </Button>
+            <p className='mb-[6px] leading-[1.5]'>Don’t have an account?</p>
+            <Button
+              asChild
+              variant='text'
+              className='leading-[1.5] font-semibold'
+            >
+              <Link href={'/auth/sign-up'}>Sign Up</Link>
+            </Button>
+          </div>
+        </form>
+      </section>
+    </>
+  )
+}

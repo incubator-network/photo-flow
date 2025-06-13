@@ -110,7 +110,7 @@ export const Select = ({
                     {item.path ? (
                       <div
                         className={twMerge(
-                          `'flex gap-3' items-center`,
+                          `flex items-center gap-3`,
                           !placeholder && `mx-auto`
                         )}
                       >

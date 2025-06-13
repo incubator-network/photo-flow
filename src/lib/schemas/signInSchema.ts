@@ -16,4 +16,4 @@ export const signInSchema = z.object({
     ),
 })
 
-export type TSignInSchema = z.infer<typeof signInSchema>
+export type LoginFields = z.infer<typeof signInSchema>
