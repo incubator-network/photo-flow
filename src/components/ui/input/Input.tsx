@@ -12,6 +12,7 @@ type InputVariant = 'default' | 'disabled' | 'error'
 type Props = InputHTMLAttributes<HTMLInputElement> & {
   variant?: InputVariant
   errorText?: string | null
+  label?: string
   disabled?: boolean
 }
 
@@ -53,6 +54,7 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
       variant = 'default',
       errorText = '',
       disabled = false,
+      label,
       className = '',
       ...props
     },
@@ -76,7 +78,7 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
             variant={'regular_text_14'}
             className={'text-light-900 capitalize'}
           >
-            {type}
+            {label ? label : type}
           </Typography>
         )}
         <div className='relative'>
