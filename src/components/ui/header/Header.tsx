@@ -93,10 +93,10 @@ export const Header = memo(
           {!isLoggedIn && (
             <div className={'flex gap-[24px]'}>
               <Button variant={'outline'} asChild>
-                <Link href={'/login'}>Log in</Link>
+                <Link href={'/auth/login'}>Log in</Link>
               </Button>
               <Button asChild>
-                <Link href={'/registration'}>Sign up</Link>
+                <Link href={'/auth/sign-up'}>Sign up</Link>
               </Button>
             </div>
           )}
