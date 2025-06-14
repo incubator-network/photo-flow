@@ -4,10 +4,11 @@ import Image from 'next/image'
 import { Input } from '@/components/ui/input/Input'
 import { Button } from '@/components/ui/button/Button'
 import { useResendEmailMutation } from '@/lib/api/authApi'
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 export default function Page() {
   const [email, setEmail] = useState<string>('')
+  const [error, setError] = useState<string | null>(null)
 
   const [resendEmail] = useResendEmailMutation()
 
@@ -16,6 +17,15 @@ export default function Page() {
       await resendEmail({ email, baseUrl: window.location.origin })
     } catch (err) {
       console.log(err)
+    }
+  }
+
+  const validateEmail = (e: React.FocusEvent<HTMLInputElement>) => {
+    const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+    if (!re.test(e.target.value)) {
+      setError('email must be ex@ex.com')
+    } else {
+      setError(null)
     }
   }
 
@@ -32,8 +42,11 @@ export default function Page() {
         the link again
       </Typography>
       <Input
+        placeholder={'example@example.com'}
+        onBlur={validateEmail}
+        errorText={error}
         type={'email'}
-        className={'mb-6 w-[230px]'}
+        className={'mb-1 min-h-[84px] w-[230px]'}
         value={email}
         onChange={e => setEmail(e.target.value)}
       />
