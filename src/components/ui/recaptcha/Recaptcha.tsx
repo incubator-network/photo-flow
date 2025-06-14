@@ -4,7 +4,6 @@ import ReCAPTCHA from 'react-google-recaptcha'
 import { twMerge } from 'tailwind-merge'
 import { RefObject } from 'react'
 import { Typography } from '@/components/ui/typography/Typography'
-import { captchaAction } from '@/features/auth/captcha/captchaAction'
 
 type RecaptchaProps = {
   theme?: 'dark' | 'light'
@@ -13,7 +12,7 @@ type RecaptchaProps = {
   className?: string
   error: boolean
   recaptchaRef: RefObject<ReCAPTCHA | null>
-  isCaptchaVerifiedAction: (isHuman: boolean) => void
+  handleCaptchaAction: (token: string | null) => void
 }
 
 export const Recaptcha = ({
@@ -23,13 +22,8 @@ export const Recaptcha = ({
   className,
   error,
   recaptchaRef,
-  isCaptchaVerifiedAction,
+  handleCaptchaAction,
 }: RecaptchaProps) => {
-  const handleCaptchaAction = async (token: string | null) => {
-    const isCaptchaVerified = await captchaAction(token)
-    isCaptchaVerifiedAction(isCaptchaVerified)
-  }
-
   return (
     <div
       className={twMerge(
@@ -40,7 +34,7 @@ export const Recaptcha = ({
     >
       <ReCAPTCHA
         ref={recaptchaRef}
-        sitekey={'6LcxEFgrAAAAAOlnUOjd6-K_fH0qcBNjflx3Pquz'}
+        sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string}
         theme={theme}
         size={size}
         hl={lang}
