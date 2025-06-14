@@ -1,10 +1,9 @@
 'use client'
 
 import React, { InputHTMLAttributes, useState } from 'react'
-import Image from 'next/image'
-import searchIcon from '@/assets/icons/search.svg'
-import eyeIcon from '@/assets/icons/eye.svg'
-import eyeOffIcon from '@/assets/icons/eye-off.svg'
+import SearchIcon from '@/assets/icons/search.svg'
+import EyeIcon from '@/assets/icons/eye.svg'
+import EyeOffIcon from '@/assets/icons/eye-off.svg'
 import { Typography } from '@/components/ui/typography/Typography'
 import { twMerge } from 'tailwind-merge'
 
@@ -14,11 +13,12 @@ type Props = InputHTMLAttributes<HTMLInputElement> & {
   variant?: InputVariant
   errorText?: string | null
   disabled?: boolean
+  label?: string
 }
 
 const baseStyle = `
   flex items-center justify-center
-  w-[280px] h-[36px] px-[12px]
+  h-[36px] px-[12px] py-[6px]
   text-regular-16 leading-medium
   bg-transparent
   border
@@ -36,15 +36,8 @@ const baseStyle = `
 
 const variantStyles = {
   default: baseStyle,
-  disabled: `${baseStyle}
-    border-dark-300
-    disabled:opacity-50 
-  `,
-  error: `${baseStyle}
-    border-danger-500
-    text-light-100
-    text-regular-14
-  `,
+  disabled: `${baseStyle} border-dark-300 disabled:opacity-50`,
+  error: `${baseStyle} border-danger-500 text-light-100`,
 }
 
 export const Input = React.forwardRef<HTMLInputElement, Props>(
@@ -55,6 +48,7 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
       errorText = '',
       disabled = false,
       className = '',
+      label,
       ...props
     },
     ref
@@ -77,10 +71,10 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
             variant={'regular_text_14'}
             className={'text-light-900 capitalize'}
           >
-            {type}
+            {label ? label : type}
           </Typography>
         )}
-        <div className='relative w-[280px]'>
+        <div className={'relative flex w-full items-center'}>
           <input
             ref={ref}
             type={inputType}
@@ -93,16 +87,13 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
             {...props}
           />
           {type === 'search' && (
-            <Image
-              src={searchIcon}
-              alt='Search'
+            <SearchIcon
               className={twMerge(
+                'h-6 w-6',
                 'absolute top-1/2 left-3 -translate-y-1/2 transform ' +
                   'brightness-0 invert filter',
                 disabled && 'opacity-50'
               )}
-              width={20}
-              height={20}
             />
           )}
           {type === 'password' && (
@@ -111,24 +102,22 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
               disabled={disabled}
               onClick={togglePasswordVisibility}
               className={twMerge(
-                'absolute top-1/2 right-3 -translate-y-1/2 transform ' +
-                  'brightness-0 invert filter',
+                'absolute top-1/2 right-3 -translate-y-1/2 brightness-0 invert filter',
                 disabled && 'opacity-50'
               )}
             >
-              <Image
-                src={showPassword ? eyeOffIcon : eyeIcon}
-                alt={showPassword ? 'Hide password' : 'Show password'}
-                width={24}
-                height={24}
-              />
+              {showPassword ? (
+                <EyeOffIcon className={'h-6 w-6'} />
+              ) : (
+                <EyeIcon className={'h-6 w-6'} />
+              )}
             </button>
           )}
         </div>
         {errorText && (
           <Typography
             variant={'regular_text_14'}
-            className={twMerge('text-danger-500 ml-0 pt-0 capitalize')}
+            className={twMerge('text-danger-500 ml-0 pt-0')}
           >
             {errorText}
           </Typography>

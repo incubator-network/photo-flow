@@ -32,8 +32,8 @@ const defaultTags = {
   bold_text_14: 'p',
   small_text: 'span',
   semi_bold_small_text: 'span',
-  regular_link: 'a',
-  small_link: 'a',
+  regular_link: 'p',
+  small_link: 'span',
 }
 
 const variantClasses = {
