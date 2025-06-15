@@ -115,17 +115,17 @@ export const MainWithIcon = {
     items: [
       {
         title: 'Our employer',
-        path: '/public/google.svg',
+        path: '@/assets/icons/google.svg',
         description: 'Our employer',
       },
       {
         title: 'GB',
-        path: '/public/Flag-United-Kingdom.svg',
+        path: '@/assets/icons/Flag-United-Kingdom.svg',
         description: 'Flag United Kingdom',
       },
       {
         title: 'Russian',
-        path: '/public/Flag-Russia.svg',
+        path: '@/assets/icons/Flag-Russia.svg',
         description: 'Russian flag',
       },
     ],
@@ -141,17 +141,17 @@ export const MainWithIconWithoutPlaceholder = {
     items: [
       {
         title: 'Our employer',
-        path: '/public/google.svg',
+        path: '@/assets/icons/google.svg',
         description: 'Our employer',
       },
       {
         title: 'GB',
-        path: '/public/Flag-United-Kingdom.svg',
+        path: '@/assets/icons/Flag-United-Kingdom.svg',
         description: 'Flag United Kingdom',
       },
       {
         title: 'Russian',
-        path: '/public/Flag-Russia.svg',
+        path: '@/assets/icons/Flag-Russia.svg',
         description: 'Russian flag',
       },
     ],

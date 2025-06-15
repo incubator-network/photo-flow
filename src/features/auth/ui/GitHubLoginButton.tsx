@@ -1,5 +1,5 @@
 'use client'
-import { IconGitHub } from '@/components/ui/icons/IconGitHub/IconGitHub'
+import IconGitHub from '@/assets/icons/github-svgrepo-com.svg'
 export const GitHubLoginButton = () => {
   const handleLogin = () => {
     const redirect = encodeURIComponent(
@@ -9,12 +9,7 @@ export const GitHubLoginButton = () => {
   }
   return (
     <button className='cursor-pointer' onClick={handleLogin}>
-      <IconGitHub
-        width={'34'}
-        height={'34'}
-        viewBox={'0 0 25 25'}
-        fill={'white'}
-      />
+      <IconGitHub width={'34'} height={'34'} />
     </button>
   )
 }
