@@ -31,6 +31,17 @@ export const authApi = baseApi.injectEndpoints({
         body,
       }),
     }),
+
+    googleLogin: build.mutation<
+      { accessToken: string; email: string },
+      { code: string; redirectUrl: string }
+    >({
+      query: body => ({
+        url: '/api/v1/auth/google/login',
+        method: 'POST',
+        body,
+      }),
+    }),
     logout: build.mutation<void, void>({
       query: () => ({
         url: '/auth/logout',
@@ -41,6 +52,7 @@ export const authApi = baseApi.injectEndpoints({
 })
 
 export const {
+  useGoogleLoginMutation,
   useRegistrationMutation,
   useConfirmEmailMutation,
   useResendEmailMutation,
