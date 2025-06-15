@@ -1,6 +1,9 @@
 'use client'
-import { useLogoutMutation } from '@/lib/api/authApi'
+
 import { Button } from '@/components/ui/button/Button'
+import { router } from 'next/client'
+import { useLogoutMutation } from '@/lib/api/authApi'
+import { Typography } from '@/components/ui/typography/Typography'
 
 export default function Logout() {
   const [logout] = useLogoutMutation()
@@ -9,7 +12,10 @@ export default function Logout() {
     await logout()
       .then(res => {
         console.log(res)
-        if (res.data === '204') console.log(res, 'Logout successful')
+        if (res.data) {
+          router.push('/sign-in')
+          console.log(res, 'Logout successful')
+        }
       })
       .catch(error => {
         console.log(error.data.messages)
@@ -23,7 +29,12 @@ export default function Logout() {
         className='text-light-100 font-semibold'
         onClick={logoutHandler}
       >
-        Logout
+        <Typography
+          variant='medium_text_14'
+          className='text-light-100 font-semibold'
+        >
+          Logout
+        </Typography>
       </Button>
     </div>
   )
