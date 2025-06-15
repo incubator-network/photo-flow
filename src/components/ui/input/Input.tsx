@@ -13,11 +13,12 @@ type Props = InputHTMLAttributes<HTMLInputElement> & {
   variant?: InputVariant
   errorText?: string | null
   disabled?: boolean
+  label?: string
 }
 
 const baseStyle = `
   flex items-center justify-center
-  w-[280px] h-[36px] px-[12px]
+  h-[36px] px-[12px] py-[6px]
   text-regular-16 leading-medium
   bg-transparent
   border
@@ -35,15 +36,8 @@ const baseStyle = `
 
 const variantStyles = {
   default: baseStyle,
-  disabled: `${baseStyle}
-    border-dark-300
-    disabled:opacity-50 
-  `,
-  error: `${baseStyle}
-    border-danger-500
-    text-light-100
-    text-regular-14
-  `,
+  disabled: `${baseStyle} border-dark-300 disabled:opacity-50`,
+  error: `${baseStyle} border-danger-500 text-light-100`,
 }
 
 export const Input = React.forwardRef<HTMLInputElement, Props>(
@@ -54,6 +48,7 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
       errorText = '',
       disabled = false,
       className = '',
+      label,
       ...props
     },
     ref
@@ -76,10 +71,10 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
             variant={'regular_text_14'}
             className={'text-light-900 capitalize'}
           >
-            {type}
+            {label ? label : type}
           </Typography>
         )}
-        <div className='relative w-[280px]'>
+        <div className={'relative flex w-full items-center'}>
           <input
             ref={ref}
             type={inputType}
@@ -87,14 +82,14 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
             className={twMerge(
               'w-full',
               variantStyles[currentVariant],
-              inputPadding,
-              className
+              inputPadding
             )}
             {...props}
           />
           {type === 'search' && (
             <SearchIcon
               className={twMerge(
+                'h-6 w-6',
                 'absolute top-1/2 left-3 -translate-y-1/2 transform ' +
                   'brightness-0 invert filter',
                 disabled && 'opacity-50'
@@ -107,19 +102,22 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
               disabled={disabled}
               onClick={togglePasswordVisibility}
               className={twMerge(
-                'absolute top-1/2 right-3 -translate-y-1/2 transform ' +
-                  'brightness-0 invert filter',
+                'absolute top-1/2 right-3 -translate-y-1/2 brightness-0 invert filter',
                 disabled && 'opacity-50'
               )}
             >
-              {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+              {showPassword ? (
+                <EyeOffIcon className={'h-6 w-6'} />
+              ) : (
+                <EyeIcon className={'h-6 w-6'} />
+              )}
             </button>
           )}
         </div>
         {errorText && (
           <Typography
             variant={'regular_text_14'}
-            className={twMerge('text-danger-500 ml-0 pt-0 capitalize')}
+            className={twMerge('text-danger-500 ml-0 pt-0')}
           >
             {errorText}
           </Typography>
