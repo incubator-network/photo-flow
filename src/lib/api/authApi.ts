@@ -1,4 +1,5 @@
 import { baseApi } from '@/lib/api/baseApi'
+import { ForgotPasswordRequest } from '@/lib/api/authApi.types'
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: build => ({
@@ -37,6 +38,13 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
       }),
     }),
+    forgotPassword: build.mutation<void, ForgotPasswordRequest>({
+      query: body => ({
+        url: '/auth/password-recovery',
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 })
 
@@ -45,4 +53,5 @@ export const {
   useConfirmEmailMutation,
   useResendEmailMutation,
   useLogoutMutation,
+  useForgotPasswordMutation,
 } = authApi
