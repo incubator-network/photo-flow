@@ -5,6 +5,7 @@ import { Typography } from '@/components/ui/typography/Typography'
 import { useRouter } from 'next/navigation'
 import { ModalWindow } from '@/components/ui/modalWindow/ModalWindow'
 import { useState } from 'react'
+import LogoutIcon from '@/assets/icons/logout.svg'
 
 export default function Logout() {
   const [logout] = useLogoutMutation()
@@ -12,46 +13,50 @@ export default function Logout() {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const logoutHandler = async () => {
+    setIsModalOpen(true)
     try {
       await logout().unwrap()
-      router.push('auth/sign-in')
-      localStorage.removeItem('auth-token')
+      // localStorage.removeItem('auth-token')
+      router.push('/auth/sign-in')
     } catch (error) {
       console.error('logout error', error)
+    } finally {
+      setIsModalOpen(false)
     }
   }
   return (
     <div>
       <p>header</p>
-      <Button
-        variant='text'
-        className='text-light-100 font-semibold'
-        onClick={logoutHandler}
+      <div
+        className={'al flex cursor-pointer items-center gap-3'}
+        onClick={() => setIsModalOpen(true)}
       >
-        <Typography
-          variant='medium_text_14'
-          className='text-light-100 font-semibold'
-        >
-          Logout
-        </Typography>
-      </Button>
+        <LogoutIcon className={'h-9 w-9'} />
+        <Typography variant='regular_text_14'>Log Out</Typography>
+      </div>
 
       <ModalWindow
-        modalTitle='Logout confirmation'
+        modalTitle='Log Out'
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       >
         <div className='relative mt-7.5 px-6'>
-          <div className='flex justify-end gap-4'>
+          <div className='pb-7.5'>
+            <Typography variant='regular_text_14'>
+              Are you really want to log out of your account
+            </Typography>
+            <Typography variant={'bold_text_16'}>“Epam@epam.com”?</Typography>
+          </div>
+          <div className='flex justify-end gap-6'>
             <Button
-              variant='secondary'
-              onClick={() => setIsModalOpen(false)}
+              variant={'outline'}
+              onClick={logoutHandler}
               className='w-24'
             >
-              No
-            </Button>
-            <Button onClick={logoutHandler} className='w-24'>
               Yes
+            </Button>
+            <Button onClick={() => setIsModalOpen(false)} className='w-24'>
+              No
             </Button>
           </div>
         </div>
