@@ -29,7 +29,8 @@
     "react-hook-form": "^7.57.0",
     "react-redux": "^9.2.0",
     "styled-jsx": "^5.1.7",
-    "tailwind-merge": "^3.3.0"
+    "tailwind-merge": "^3.3.0",
+    "zod": "^3.25.56"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "4",
