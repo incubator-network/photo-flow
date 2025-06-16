@@ -6,6 +6,7 @@ export const baseApi = createApi({
   baseQuery: async (args, api, extraOptions) => {
     const result = await fetchBaseQuery({
       baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
+      credentials: 'include',
       prepareHeaders: headers => {
         headers.set(
           'Authorization',

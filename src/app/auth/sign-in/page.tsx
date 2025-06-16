@@ -1,5 +1,5 @@
 'use client'
-import GoogleIcon from '@/../public/google.svg'
+import GoogleIcon from '@/assets/icons/google.svg'
 import GitHubIcon from '@/../public/GitHubIcon.svg'
 import Link from 'next/link'
 import { Input } from '@/components/ui/input/Input'
@@ -9,10 +9,23 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useLoginMutation } from '@/lib/api/authApi'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useLazyGetProfileQuery } from '@/lib/api/profileApi'
+
+type ApiError = {
+  status: number
+  data: {
+    error: string
+    messages: string
+    statusCode: number
+  }
+}
 
 export default function SignIn() {
   const [login] = useLoginMutation()
   const [loginError, setLoginError] = useState('')
+  const [profile] = useLazyGetProfileQuery()
+  const router = useRouter()
 
   const {
     register,
@@ -29,22 +42,35 @@ export default function SignIn() {
   })
 
   const onSubmit = async (data: LoginFields) => {
-    await login(data)
-      .unwrap()
-      .then(data => {
-        console.log(data)
-        reset()
-      })
+    try {
+      await login(data)
+      const loginResponse = await login(data).unwrap()
+      localStorage.setItem('auth-token', loginResponse.accessToken)
 
-      .catch(error => {
-        console.log(error.data.messages)
-        console.log(error)
+      const profileResponse = await profile().unwrap()
+      console.log(profileResponse)
+
+      if (profileResponse.firstName && profileResponse.lastName) {
+        // Если есть имя, фамилия в профиле(создан, заполнен)
+        router.push('/profile') // Изменить на название роута в будущем
+      } else {
+        // Если профиль не создан
+        router.push('/profileCreate') // Изменить на название роута в будущем
+      }
+    } catch (error: unknown) {
+      const apiError = error as ApiError
+
+      if (apiError.data) {
         setLoginError(
-          error.data.messages.charAt(0).toUpperCase() +
-            error.data.messages.slice(1)
+          apiError.data?.messages.charAt(0).toUpperCase() +
+            apiError.data?.messages.slice(1)
         )
-        reset()
-      })
+      } else {
+        console.log(error)
+      }
+    } finally {
+      reset()
+    }
   }
 
   return (
