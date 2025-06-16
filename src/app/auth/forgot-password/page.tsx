@@ -11,7 +11,7 @@ import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { useForgotPasswordMutation } from '@/lib/api/authApi'
 import { ModalWindow } from '@/components/ui/modalWindow/ModalWindow'
-import { ForgotPasswordRequestError } from '@/lib/api/authApi.types'
+import { ForgotPasswordResponseError } from '@/lib/api/authApi.types'
 
 type FormData = {
   email: string
@@ -63,7 +63,7 @@ export default function ForgotPassword() {
         'status' in error &&
         'data' in error
       ) {
-        const apiError = error as ForgotPasswordRequestError
+        const apiError = error as ForgotPasswordResponseError
         if (apiError.status === 400) {
           setError(apiError.data.messages[0].message)
           setCaptchaToken(null)

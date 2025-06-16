@@ -4,7 +4,7 @@ export type ForgotPasswordRequest = {
   baseUrl: string
 }
 
-export type ForgotPasswordRequestError = {
+export type ForgotPasswordResponseError = {
   status: number
   data: {
     error: string
