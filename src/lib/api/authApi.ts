@@ -34,7 +34,7 @@ export const authApi = baseApi.injectEndpoints({
     }),
     login: build.mutation<{ accessToken: string }, LoginFields>({
       query: body => ({
-        url: 'auth/login',
+        url: '/auth/login',
         method: 'POST',
         body,
       }),
@@ -45,7 +45,7 @@ export const authApi = baseApi.injectEndpoints({
       { code: string; redirectUrl: string }
     >({
       query: body => ({
-        url: '/api/v1/auth/google/login',
+        url: '/auth/google/login',
         method: 'POST',
         body,
       }),

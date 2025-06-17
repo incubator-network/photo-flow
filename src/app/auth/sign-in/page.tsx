@@ -11,6 +11,7 @@ import { useLoginMutation } from '@/lib/api/authApi'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useLazyGetProfileQuery } from '@/lib/api/profileApi'
+import { Typography } from '@/components/ui/typography/Typography'
 
 type ApiError = {
   status: number
@@ -46,6 +47,7 @@ export default function SignIn() {
       await login(data)
       const loginResponse = await login(data).unwrap()
       localStorage.setItem('auth-token', loginResponse.accessToken)
+      reset()
 
       const profileResponse = await profile().unwrap()
       console.log(profileResponse)
@@ -61,15 +63,10 @@ export default function SignIn() {
       const apiError = error as ApiError
 
       if (apiError.data) {
-        setLoginError(
-          apiError.data?.messages.charAt(0).toUpperCase() +
-            apiError.data?.messages.slice(1)
-        )
+        setLoginError('The email or password are incorrect. Try again please')
       } else {
         console.log(error)
       }
-    } finally {
-      reset()
     }
   }
 
@@ -95,11 +92,9 @@ export default function SignIn() {
         </div>
 
         {loginError && (
-          <p
-            className={`text-danger-500 flex justify-center text-lg font-semibold`}
-          >
+          <Typography variant={'h3'} className={'text-danger-500 text-center'}>
             {loginError}
-          </p>
+          </Typography>
         )}
         <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col`}>
           <div className='mb-9 flex flex-col gap-6'>
@@ -117,7 +112,7 @@ export default function SignIn() {
               placeholder='**********'
               type='password'
               className={`w-full`}
-              errorText={errors ? errors.password?.message : ''}
+              errorText={errors.password?.message}
               {...register('password')}
               onChange={() => {
                 setLoginError('')
@@ -128,9 +123,13 @@ export default function SignIn() {
           <Button
             asChild
             variant='text'
-            className='text-light-900 mb-6 flex justify-end p-0 text-sm leading-[1.71]'
+            className='text-light-900 mb-6 ml-auto w-[112px] border-0 p-0'
           >
-            <Link href={'/auth/forgot-password'}>Forgot Password</Link>
+            <Link href={'/auth/forgot-password'}>
+              <Typography variant={'regular_text_14'}>
+                Forgot Password
+              </Typography>
+            </Link>
           </Button>
           <div className='flex flex-col items-center'>
             <Button
