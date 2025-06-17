@@ -22,9 +22,10 @@ export default function ForgotPassword() {
     register,
     handleSubmit,
     reset,
-    clearErrors,
     formState: { errors },
-  } = useForm<FormData>()
+  } = useForm<FormData>({
+    mode: 'onTouched',
+  })
 
   const [forgotPassword, { isLoading }] = useForgotPasswordMutation()
 
@@ -85,11 +86,6 @@ export default function ForgotPassword() {
     if (token) setCaptchaToken(token)
   }
 
-  function resetErrors() {
-    setError(null)
-    clearErrors('email')
-  }
-
   return (
     <div className={'flex h-[100vh] items-center justify-center'}>
       <Card className='bg-dark-500 m-auto flex w-[378px] flex-col items-center px-[24px] pt-[24px] pb-[16px]'>
@@ -113,7 +109,6 @@ export default function ForgotPassword() {
                 message: 'The email must match the format example@example.com',
               },
             })}
-            onChange={resetErrors}
           />
           <Typography
             variant='regular_text_14'
