@@ -11,8 +11,8 @@ export const signInSchema = z.object({
     .min(6, 'The password must be at least 6 characters long')
     .max(20, 'The password must not exceed 20 characters.')
     .regex(
-      /^(?=.*[A-Za-z])(?=.*\d).+$/,
-      `Password must contain at least one special character: ${specialChars}`
+      /^(?=.*[A-Z])(?=.*\d)(?=.*[!\"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~])[A-Za-z\d!\"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]+$/,
+      `Password must contain at least one uppercase letter, one digit, and one special character: ${specialChars}`
     ),
 })
 

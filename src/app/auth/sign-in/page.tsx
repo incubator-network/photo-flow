@@ -1,6 +1,6 @@
 'use client'
 import GoogleIcon from '@/assets/icons/google.svg'
-import GitHubIcon from '@/../public/GitHubIcon.svg'
+import GitHubIcon from '@/assets/icons/github-svgrepo-com.svg'
 import Link from 'next/link'
 import { Input } from '@/components/ui/input/Input'
 import { Button } from '@/components/ui/button/Button'
@@ -11,6 +11,7 @@ import { useLoginMutation } from '@/lib/api/authApi'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useLazyGetProfileQuery } from '@/lib/api/profileApi'
+import { Card } from '@/components/ui/Card/Card'
 
 type ApiError = {
   status: number
@@ -76,7 +77,7 @@ export default function SignIn() {
   return (
     <>
       <p>header</p>
-      <section
+      <Card
         className={`border-dark-300 bg-dark-500 mx-auto w-[380px] rounded-xs border border-solid p-6`}
       >
         <h2
@@ -150,7 +151,7 @@ export default function SignIn() {
             </Button>
           </div>
         </form>
-      </section>
+      </Card>
     </>
   )
 }
