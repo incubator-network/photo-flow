@@ -2,7 +2,7 @@
 
 import IconGoogle from '@/assets/icons/google.svg'
 
-export const LoginWithGoogleButton = () => {
+export const GoogleLoginButton = () => {
   const handleLogin = () => {
     const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID
 
@@ -16,7 +16,7 @@ export const LoginWithGoogleButton = () => {
 
   return (
     <button className='cursor-pointer' onClick={handleLogin}>
-      <IconGoogle width={'34'} height={'34'} />
+      <IconGoogle width={'36'} height={'36'} />
     </button>
   )
 }
