@@ -1,5 +1,6 @@
 import { baseApi } from '@/lib/api/baseApi'
 import { ForgotPasswordRequest } from '@/lib/api/authApi.types'
+import { LoginFields } from '../schemas/signInSchema'
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: build => ({
@@ -32,6 +33,24 @@ export const authApi = baseApi.injectEndpoints({
         body,
       }),
     }),
+    login: build.mutation<{ accessToken: string }, LoginFields>({
+      query: body => ({
+        url: '/auth/login',
+        method: 'POST',
+        body,
+      }),
+    }),
+
+    googleLogin: build.mutation<
+      { accessToken: string; email: string },
+      { code: string; redirectUrl: string }
+    >({
+      query: body => ({
+        url: '/auth/google/login',
+        method: 'POST',
+        body,
+      }),
+    }),
     logout: build.mutation<void, void>({
       query: () => ({
         url: '/auth/logout',
@@ -49,6 +68,7 @@ export const authApi = baseApi.injectEndpoints({
 })
 
 export const {
+  useGoogleLoginMutation,
   useRegistrationMutation,
   useConfirmEmailMutation,
   useResendEmailMutation,
