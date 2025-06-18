@@ -109,6 +109,7 @@ export default function ForgotPassword() {
                 message: 'The email must match the format example@example.com',
               },
             })}
+            onChange={() => setError(null)}
           />
           <Typography
             variant='regular_text_14'
@@ -140,8 +141,7 @@ export default function ForgotPassword() {
           variant='text'
           disabled={isLoading}
         >
-          {/*/!*<Link href='/auth/sign-in'>Back to Sign In</Link>*!/ // нужно добавить sing-in, иначе ругается husky*/}
-          <Link href='/'>Back to Sign In</Link>
+          <Link href='/auth/sign-in'>Back to Sign In</Link>
         </Button>
 
         {showCaptcha && (
