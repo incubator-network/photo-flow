@@ -9,7 +9,7 @@ export const GitHubLoginButton = () => {
   }
   return (
     <button className='cursor-pointer' onClick={handleLogin}>
-      <IconGitHub width={'34'} height={'34'} />
+      <IconGitHub width={'36'} height={'36'} />
     </button>
   )
 }

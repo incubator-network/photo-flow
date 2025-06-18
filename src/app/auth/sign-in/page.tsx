@@ -1,6 +1,4 @@
 'use client'
-import GoogleIcon from '@/assets/icons/google.svg'
-import GitHubIcon from '@/assets/icons/github-svgrepo-com.svg'
 import Link from 'next/link'
 import { Input } from '@/components/ui/input/Input'
 import { Button } from '@/components/ui/button/Button'
@@ -13,6 +11,7 @@ import { useRouter } from 'next/navigation'
 import { useLazyGetProfileQuery } from '@/lib/api/profileApi'
 import { Card } from '@/components/ui/Card/Card'
 import { Typography } from '@/components/ui/typography/Typography'
+import { GitHubLoginButton, GoogleLoginButton } from '@/features/auth/ui'
 
 type ApiError = {
   status: number
@@ -33,7 +32,7 @@ export default function SignIn() {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<LoginFields>({
     mode: 'onTouched',
     resolver: zodResolver(signInSchema),
@@ -45,7 +44,6 @@ export default function SignIn() {
 
   const onSubmit = async (data: LoginFields) => {
     try {
-      await login(data)
       const loginResponse = await login(data).unwrap()
       localStorage.setItem('auth-token', loginResponse.accessToken)
       reset()
@@ -71,86 +69,76 @@ export default function SignIn() {
     }
   }
 
-  return (
-    <>
-      <p>header</p>
-      <Card
-        className={`border-dark-300 bg-dark-500 mx-auto w-[380px] rounded-xs border border-solid p-6`}
-      >
-        <h2
-          className={`mb-[13px] flex justify-center text-xl leading-[1.8] font-bold`}
-        >
-          Sign In
-        </h2>
+  const resetInputError = () => {
+    if (loginError) {
+      setLoginError('')
+    }
+  }
 
-        <div className={`mb-6 flex items-center justify-center gap-15`}>
-          <a href='#'>
-            <GoogleIcon className='h-9 w-9' />
-          </a>
-          <a href='#'>
-            <GitHubIcon className='h-9 w-9' />
-          </a>
+  return (
+    <Card className={`mx-auto mt-9 w-[380px] p-6`}>
+      <Typography variant={'h1'} className={'mb-[14px] text-center'}>
+        Sign In
+      </Typography>
+      <div className={'mb-6 flex justify-center gap-15'}>
+        <GitHubLoginButton />
+        <GoogleLoginButton />
+      </div>
+      {loginError && (
+        <Typography variant={'h3'} className={'text-danger-500 text-center'}>
+          {loginError}
+        </Typography>
+      )}
+      <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col`}>
+        <div className='mb-9 flex flex-col gap-6'>
+          <Input
+            placeholder='Epam@epam.com'
+            type='email'
+            className={`w-full`}
+            errorText={errors.email?.message}
+            {...register('email', {
+              onChange: resetInputError,
+            })}
+          />
+          <Input
+            placeholder='**********'
+            type='password'
+            className={`w-full`}
+            errorText={errors.password?.message}
+            {...register('password', {
+              onChange: resetInputError,
+            })}
+          />
         </div>
 
-        {loginError && (
-          <Typography variant={'h3'} className={'text-danger-500 text-center'}>
-            {loginError}
-          </Typography>
-        )}
-        <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col`}>
-          <div className='mb-9 flex flex-col gap-6'>
-            <Input
-              placeholder='Epam@epam.com'
-              type='email'
-              className={`w-full`}
-              errorText={errors ? errors.email?.message : ''}
-              {...register('email')}
-              onChange={() => {
-                setLoginError('')
-              }}
-            />
-            <Input
-              placeholder='**********'
-              type='password'
-              className={`w-full`}
-              errorText={errors.password?.message}
-              {...register('password')}
-              onChange={() => {
-                setLoginError('')
-              }}
-            />
-          </div>
-
+        <Button
+          asChild
+          variant='text'
+          className='text-light-900 mb-6 ml-auto w-[112px] border-0 p-0'
+        >
+          <Link href={'/auth/forgot-password'}>
+            <Typography variant={'regular_text_14'}>Forgot Password</Typography>
+          </Link>
+        </Button>
+        <div className='flex flex-col items-center'>
+          <Button
+            variant='primary'
+            className='mb-[18px] flex w-full justify-center font-semibold'
+            type='submit'
+            disabled={!isValid || !!loginError}
+          >
+            Sign In
+          </Button>
+          <p className='mb-[6px] leading-[1.5]'>Don’t have an account?</p>
           <Button
             asChild
             variant='text'
-            className='text-light-900 mb-6 ml-auto w-[112px] border-0 p-0'
+            className='leading-[1.5] font-semibold'
           >
-            <Link href={'/auth/forgot-password'}>
-              <Typography variant={'regular_text_14'}>
-                Forgot Password
-              </Typography>
-            </Link>
+            <Link href={'/auth/sign-up'}>Sign Up</Link>
           </Button>
-          <div className='flex flex-col items-center'>
-            <Button
-              variant='primary'
-              className='mb-[18px] flex w-full justify-center font-semibold'
-              type='submit'
-            >
-              Sign In
-            </Button>
-            <p className='mb-[6px] leading-[1.5]'>Don’t have an account?</p>
-            <Button
-              asChild
-              variant='text'
-              className='leading-[1.5] font-semibold'
-            >
-              <Link href={'/auth/sign-up'}>Sign Up</Link>
-            </Button>
-          </div>
-        </form>
-      </Card>
-    </>
+        </div>
+      </form>
+    </Card>
   )
 }
