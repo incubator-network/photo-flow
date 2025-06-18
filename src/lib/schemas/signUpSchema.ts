@@ -23,7 +23,7 @@ export const signUpSchema = z
       ),
     // проверить наличие чекбокса
     passwordConfirmation: z.string(),
-    agreement: z.boolean(),
+    agreement: z.boolean().refine(val => val),
   })
   .refine(data => data.password === data.passwordConfirmation, {
     message: 'Passwords must match',
