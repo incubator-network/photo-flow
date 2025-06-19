@@ -5,6 +5,12 @@ import {
 } from '@/lib/api/authApi.types'
 import { LoginFields } from '../schemas/signInSchema'
 
+type User = {
+  userId: number
+  userName: string
+  email: string
+  isBlocked: boolean
+}
 export const authApi = baseApi.injectEndpoints({
   endpoints: build => ({
     registration: build.mutation<
@@ -43,7 +49,6 @@ export const authApi = baseApi.injectEndpoints({
         body,
       }),
     }),
-
     googleLogin: build.mutation<
       { accessToken: string; email: string },
       { code: string; redirectUrl: string }
@@ -59,6 +64,12 @@ export const authApi = baseApi.injectEndpoints({
         url: '/auth/logout',
         method: 'POST',
       }),
+    }),
+    getMe: build.query<User, void>({
+      query: () => ({
+        url: '/auth/me',
+        method: 'GET',
+       }),
     }),
     forgotPassword: build.mutation<void, ForgotPasswordRequest>({
       query: body => ({
@@ -105,6 +116,7 @@ export const {
   useLogoutMutation,
   useForgotPasswordMutation,
   useLoginMutation,
+  useGetMeQuery,
   useCreateNewPasswordMutation,
   useResendPasswordEmailMutation,
   useCheckRecoveryCodeMutation,
