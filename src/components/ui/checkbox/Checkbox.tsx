@@ -1,5 +1,5 @@
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
-import { ComponentPropsWithoutRef } from 'react'
+import { ComponentProps } from 'react'
 import { twMerge } from 'tailwind-merge'
 // import { CheckIcon } from '@radix-ui/react-icons'
 import CheckIcon from '@/assets/icons/checkmark-outline.svg'
@@ -7,7 +7,7 @@ import CheckIcon from '@/assets/icons/checkmark-outline.svg'
 type CheckBoxProps = {
   variant?: 'default' | 'active' | 'hover' | 'focus' | 'disabled'
   label?: string
-} & ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>
+} & ComponentProps<typeof CheckboxPrimitive.Root>
 
 export const Checkbox = ({
   variant = 'default',
@@ -18,7 +18,7 @@ export const Checkbox = ({
   ...rest
 }: CheckBoxProps) => {
   const baseStyles = twMerge(
-    'relative z-10 flex items-center justify-center w-4 h-4 rounded-[2px] border-2 transition-all outline-none hover:before:opacity-10 before:bg-light-300 z-10',
+    'relative flex items-center justify-center w-4 h-4 rounded-[2px] border-2 transition-all outline-none hover:before:opacity-10 before:bg-light-300',
     disabled && 'border-light-900',
     variant === 'default' && 'before:bg-white'
   )
