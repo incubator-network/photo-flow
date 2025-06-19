@@ -19,10 +19,13 @@ export default function GoogleCallback() {
 
     const doLogin = async () => {
       try {
-        await googleLogin({
+        const res = await googleLogin({
           code,
           redirectUrl: 'http://localhost:3000/auth/google/callback',
         }).unwrap()
+
+        localStorage.setItem('auth-token', res.accessToken)
+
         router.push('/')
       } catch (err) {
         console.error('❌ Ошибка авторизации через Google', err)
