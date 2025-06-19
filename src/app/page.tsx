@@ -11,7 +11,7 @@ export default function Home() {
 
   useEffect(() => {
     if (error && 'status' in error && error.status === 401) {
-      router.push('/auth/sign-up')
+      router.push('/auth/sign-in')
     }
   }, [error, router])
 
