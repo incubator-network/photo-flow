@@ -18,7 +18,7 @@ export const Checkbox = ({
   ...rest
 }: CheckBoxProps) => {
   const baseStyles = twMerge(
-    'relative z-10 flex items-center justify-center w-4 h-4 rounded-[2px] border-2 transition-all outline-none hover:before:opacity-10 before:bg-light-300 z-10',
+    'relative flex items-center justify-center w-4 h-4 rounded-[2px] border-2 transition-all outline-none hover:before:opacity-10 before:bg-light-300',
     disabled && 'border-light-900',
     variant === 'default' && 'before:bg-white'
   )

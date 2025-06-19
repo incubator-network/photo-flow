@@ -2,8 +2,6 @@
 
 import { Card } from '@/components/ui/Card/Card'
 import { Typography } from '@/components/ui/typography/Typography'
-import GitHubIcon from '@/assets/icons/github-svgrepo-com.svg'
-import GoogleIcon from '@/assets/icons/google.svg'
 import { Input } from '@/components/ui/input/Input'
 import { Checkbox } from '@/components/ui/checkbox/Checkbox'
 import { Button } from '@/components/ui/button/Button'
@@ -14,6 +12,7 @@ import { RegistrationFields, signUpSchema } from '@/lib/schemas/signUpSchema'
 import { useRegistrationMutation } from '@/lib/api/authApi'
 import { useState } from 'react'
 import { ModalWindow } from '@/components/ui/modalWindow/ModalWindow'
+import { GitHubLoginButton, GoogleLoginButton } from '@/features/auth/ui'
 
 export default function SingUp() {
   const [userNameError, setUserNameError] = useState<string | null>(null)
@@ -49,7 +48,7 @@ export default function SingUp() {
       userName: data.username,
       email: data.email,
       password: data.password,
-      baseUrl: window.location.origin,
+      baseUrl: window.location.origin + '/auth/sign-up',
     })
       .unwrap()
       .then(() => {
@@ -75,8 +74,8 @@ export default function SingUp() {
         Sign Up
       </Typography>
       <div className={'mb-6 flex gap-15'}>
-        <GitHubIcon className={'h-9 w-9'} />
-        <GoogleIcon className={'h-9 w-9'} />
+        <GitHubLoginButton />
+        <GoogleLoginButton />
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -151,25 +150,23 @@ export default function SingUp() {
           <Typography variant={'h3'}>Sign In</Typography>
         </Link>
       </Button>
-      {isOpenModalWindow && (
-        <ModalWindow
-          modalTitle={'Email sent'}
-          open={isOpenModalWindow}
-          onClose={() => setIsOpenModalWindow(false)}
-        >
-          <div className={'relative mt-7.5 px-6'}>
-            <Typography className={'mb-4.5'} variant={'regular_text_16'}>
-              We have sent a link to confirm your email to {email}
-            </Typography>
-            <Button
-              onClick={() => setIsOpenModalWindow(false)}
-              className={'float-right w-24'}
-            >
-              OK
-            </Button>
-          </div>
-        </ModalWindow>
-      )}
+      <ModalWindow
+        modalTitle={'Email sent'}
+        open={isOpenModalWindow}
+        onClose={() => setIsOpenModalWindow(false)}
+      >
+        <div className={'relative mt-7.5 px-6'}>
+          <Typography className={'mb-4.5'} variant={'regular_text_16'}>
+            We have sent a link to confirm your email to {email}
+          </Typography>
+          <Button
+            onClick={() => setIsOpenModalWindow(false)}
+            className={'float-right w-24'}
+          >
+            OK
+          </Button>
+        </div>
+      </ModalWindow>
     </Card>
   )
 }
