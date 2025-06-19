@@ -1,3 +1,4 @@
+import React from 'react'
 import { HTMLAttributes } from 'react'
 import { Slot } from '@radix-ui/react-slot'
 import { twMerge } from 'tailwind-merge'

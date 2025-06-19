@@ -1,11 +1,12 @@
 'use client'
 
 import React, { InputHTMLAttributes, useState } from 'react'
-import SearchIcon from '@/assets/icons/search.svg'
-import EyeIcon from '@/assets/icons/eye.svg'
-import EyeOffIcon from '@/assets/icons/eye-off.svg'
-import { Typography } from '@/components/ui/typography/Typography'
+import SearchIcon from '../../../assets/icons/search.svg'
+import EyeIcon from '../../../assets/icons/eye.svg'
+import EyeOffIcon from '../../../assets/icons/eye-off.svg'
+// import { Typography } from '@/components/ui/typography/Typography'
 import { twMerge } from 'tailwind-merge'
+import { Typography } from '../typography/Typography'
 
 type InputVariant = 'default' | 'disabled' | 'error'
 

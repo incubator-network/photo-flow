@@ -1,7 +1,7 @@
-import { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { Input } from '@/components/ui/input/Input'
+import React from 'react'
+import { Input } from './Input'
 
-const meta: Meta<typeof Input> = {
+const meta = {
   title: 'Components/Input',
   component: Input,
   parameters: {
@@ -28,10 +28,10 @@ const meta: Meta<typeof Input> = {
 
   tags: ['autodocs'],
 }
-type Story = StoryObj<typeof meta>
+
 export default meta
 
-export const VariantDefault: Story = {
+export const VariantDefault = {
   args: {
     type: 'text',
     variant: 'default',
@@ -46,9 +46,14 @@ export const VariantError = {
     errorText: 'Error text',
   },
 }
-export const VariantDisabled = () => (
-  <Input type='search' variant='disabled' placeholder='Disabled' disabled />
-)
+export const VariantDisabled = {
+  args: {
+    type: 'search',
+    variant: 'disabled',
+    placeholder: 'Disabled',
+    disabled: true,
+  },
+}
 
 // История для тестирования всех типов
 export const AllTypes = () => (

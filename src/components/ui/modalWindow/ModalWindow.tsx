@@ -1,7 +1,7 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import { ComponentPropsWithoutRef } from 'react'
 import { twMerge } from 'tailwind-merge'
-import ClosePicture from '@/assets/icons/close.svg'
+import ClosePicture from '../../../assets/icons/close.svg'
 
 type Props = {
   open: boolean
