@@ -1,6 +1,12 @@
 import { baseApi } from '@/lib/api/baseApi'
 import { LoginFields } from '../schemas/signInSchema'
 
+type User = {
+  userId: number
+  userName: string
+  email: string
+  isBlocked: boolean
+}
 export const authApi = baseApi.injectEndpoints({
   endpoints: build => ({
     registration: build.mutation<
@@ -56,6 +62,13 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
       }),
     }),
+
+    getMe: build.query<User, void>({
+      query: () => ({
+        url: '/auth/me',
+        method: 'GET',
+      }),
+    }),
   }),
 })
 
@@ -66,4 +79,5 @@ export const {
   useResendEmailMutation,
   useLogoutMutation,
   useLoginMutation,
+  useGetMeQuery,
 } = authApi
