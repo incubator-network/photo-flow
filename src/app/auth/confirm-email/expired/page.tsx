@@ -5,7 +5,6 @@ import { Input } from '@/components/ui/input/Input'
 import { Button } from '@/components/ui/button/Button'
 import { useResendEmailMutation } from '@/lib/api/authApi'
 import React, { useState } from 'react'
-import { useState } from 'react'
 import { ResponseError } from '@/lib/api/authApi.types'
 import { ModalWindow } from '@/components/ui/modalWindow/ModalWindow'
 
@@ -29,7 +28,6 @@ export default function Page() {
     }
   }
 
-
   const validateEmail = (e: React.FocusEvent<HTMLInputElement>) => {
     const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
     if (!re.test(e.target.value)) {
@@ -37,7 +35,7 @@ export default function Page() {
     } else {
       setError(null)
     }
-
+  }
   const onCloseModal = () => {
     setEmail('')
     setIsOpenModalWindow(false)
@@ -61,7 +59,6 @@ export default function Page() {
         errorText={error}
         type={'email'}
         className={'mb-1 min-h-[84px] w-[230px]'}
-        errorText={error}
         value={email}
         onChange={e => {
           setError(null)
@@ -95,7 +92,6 @@ export default function Page() {
           </Button>
         </div>
       </ModalWindow>
-      )
     </div>
   )
 }
