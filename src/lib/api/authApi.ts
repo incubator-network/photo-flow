@@ -1,4 +1,8 @@
 import { baseApi } from '@/lib/api/baseApi'
+import {
+  ForgotPasswordRequest,
+  ResendEmailRequest,
+} from '@/lib/api/authApi.types'
 import { LoginFields } from '../schemas/signInSchema'
 
 type User = {
@@ -31,7 +35,7 @@ export const authApi = baseApi.injectEndpoints({
         body: { confirmationCode },
       }),
     }),
-    resendEmail: build.mutation<void, { email: string; baseUrl: string }>({
+    resendEmail: build.mutation<void, ResendEmailRequest>({
       query: body => ({
         url: '/auth/registration-email-resending',
         method: 'POST',
@@ -45,7 +49,6 @@ export const authApi = baseApi.injectEndpoints({
         body,
       }),
     }),
-
     googleLogin: build.mutation<
       { accessToken: string; email: string },
       { code: string; redirectUrl: string }
@@ -62,11 +65,44 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
       }),
     }),
-
     getMe: build.query<User, void>({
       query: () => ({
         url: '/auth/me',
         method: 'GET',
+       }),
+    }),
+    forgotPassword: build.mutation<void, ForgotPasswordRequest>({
+      query: body => ({
+        url: '/auth/password-recovery',
+        method: 'POST',
+        body,
+      }),
+    }),
+    createNewPassword: build.mutation<
+      void,
+      { newPassword: string; recoveryCode: string | null }
+    >({
+      query: body => ({
+        url: '/auth/new-password',
+        method: 'POST',
+        body,
+      }),
+    }),
+    resendPasswordEmail: build.mutation<void, ResendEmailRequest>({
+      query: body => ({
+        url: '/auth/password-recovery-resending',
+        method: 'POST',
+        body,
+      }),
+    }),
+    checkRecoveryCode: build.mutation<
+      { email: string },
+      { recoveryCode: string | null }
+    >({
+      query: body => ({
+        url: '/auth/check-recovery-code',
+        method: 'POST',
+        body,
       }),
     }),
   }),
@@ -78,6 +114,10 @@ export const {
   useConfirmEmailMutation,
   useResendEmailMutation,
   useLogoutMutation,
+  useForgotPasswordMutation,
   useLoginMutation,
   useGetMeQuery,
+  useCreateNewPasswordMutation,
+  useResendPasswordEmailMutation,
+  useCheckRecoveryCodeMutation,
 } = authApi
