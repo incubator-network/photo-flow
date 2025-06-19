@@ -1,5 +1,8 @@
 import { baseApi } from '@/lib/api/baseApi'
-import { ForgotPasswordRequest } from '@/lib/api/authApi.types'
+import {
+  ForgotPasswordRequest,
+  ResendEmailRequest,
+} from '@/lib/api/authApi.types'
 import { LoginFields } from '../schemas/signInSchema'
 
 export const authApi = baseApi.injectEndpoints({
@@ -26,7 +29,7 @@ export const authApi = baseApi.injectEndpoints({
         body: { confirmationCode },
       }),
     }),
-    resendEmail: build.mutation<void, { email: string; baseUrl: string }>({
+    resendEmail: build.mutation<void, ResendEmailRequest>({
       query: body => ({
         url: '/auth/registration-email-resending',
         method: 'POST',
@@ -64,6 +67,33 @@ export const authApi = baseApi.injectEndpoints({
         body,
       }),
     }),
+    createNewPassword: build.mutation<
+      void,
+      { newPassword: string; recoveryCode: string | null }
+    >({
+      query: body => ({
+        url: '/auth/new-password',
+        method: 'POST',
+        body,
+      }),
+    }),
+    resendPasswordEmail: build.mutation<void, ResendEmailRequest>({
+      query: body => ({
+        url: '/auth/password-recovery-resending',
+        method: 'POST',
+        body,
+      }),
+    }),
+    checkRecoveryCode: build.mutation<
+      { email: string },
+      { recoveryCode: string | null }
+    >({
+      query: body => ({
+        url: '/auth/check-recovery-code',
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 })
 
@@ -74,4 +104,8 @@ export const {
   useResendEmailMutation,
   useLogoutMutation,
   useForgotPasswordMutation,
+  useLoginMutation,
+  useCreateNewPasswordMutation,
+  useResendPasswordEmailMutation,
+  useCheckRecoveryCodeMutation,
 } = authApi

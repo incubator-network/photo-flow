@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: '/', // Исходный путь (главная страница)
+        source: '/auth/sign-up', // Исходный путь (главная страница)
         has: [
           // Условия для срабатывания редиректа
           {
@@ -25,6 +25,23 @@ const nextConfig: NextConfig = {
         ],
         destination: '/auth/confirm-email?code=:code', // Куда перенаправляем
         permanent: false, // 301 (постоянный) или 302 (временный) редирект
+      },
+      {
+        source: '/auth/forgot-password',
+        has: [
+          {
+            type: 'query',
+            key: 'code',
+            value: '(?<code>.*)',
+          },
+          {
+            type: 'query', // Проверяем query-параметры
+            key: 'email', // Параметр `code` должен существовать
+            value: '(?<email>.*)', // Регулярка: любое значение (и сохраняем в группу `code`)
+          },
+        ],
+        destination: '/auth/check-code-password?code=:code&email=:email',
+        permanent: false,
       },
     ]
   },

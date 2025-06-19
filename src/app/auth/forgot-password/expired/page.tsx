@@ -1,36 +1,29 @@
 'use client'
 import { Typography } from '@/components/ui/typography/Typography'
 import Image from 'next/image'
-import { Input } from '@/components/ui/input/Input'
 import { Button } from '@/components/ui/button/Button'
-import { useResendEmailMutation } from '@/lib/api/authApi'
+import { useResendPasswordEmailMutation } from '@/lib/api/authApi'
+import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
-import { ResponseError } from '@/lib/api/authApi.types'
 import { ModalWindow } from '@/components/ui/modalWindow/ModalWindow'
 
-export default function Page() {
-  const [email, setEmail] = useState<string>('')
-  const [error, setError] = useState<string | null>(null)
+export default function ExpiredPasswordPage() {
   const [isOpenModalWindow, setIsOpenModalWindow] = useState(false)
 
-  const [resendEmail] = useResendEmailMutation()
+  const [resendPasswordLink] = useResendPasswordEmailMutation()
+  const searchParams = useSearchParams()
+  const email = searchParams.get('email')
 
   const sendVerificationLink = async () => {
     try {
-      await resendEmail({
+      await resendPasswordLink({
         email,
-        baseUrl: window.location.origin + '/auth/sign-up',
-      }).unwrap()
+        baseUrl: window.location.origin + '/auth/forgot-password',
+      })
       setIsOpenModalWindow(true)
     } catch (err) {
-      const incorrectInput = err as ResponseError
-      setError(incorrectInput.data.messages[0].message)
+      console.log(err)
     }
-  }
-
-  const onCloseModal = () => {
-    setEmail('')
-    setIsOpenModalWindow(false)
   }
 
   return (
@@ -45,22 +38,8 @@ export default function Page() {
         Looks like the verification link has expired. Not to worry, we can send
         the link again
       </Typography>
-      <Input
-        type={'email'}
-        className={'mb-6 w-[230px]'}
-        errorText={error}
-        value={email}
-        onChange={e => {
-          setError(null)
-          setEmail(e.target.value)
-        }}
-      />
-      <Button
-        onClick={sendVerificationLink}
-        className={'mb-9'}
-        disabled={!email}
-      >
-        Resend verification link
+      <Button onClick={sendVerificationLink} className={'mb-9'}>
+        Resend link
       </Button>
       <Image
         width={474}
@@ -71,18 +50,20 @@ export default function Page() {
       <ModalWindow
         modalTitle={'Email sent'}
         open={isOpenModalWindow}
-        onClose={onCloseModal}
+        onClose={() => setIsOpenModalWindow(false)}
       >
         <div className={'relative mt-7.5 px-6'}>
           <Typography className={'mb-4.5'} variant={'regular_text_16'}>
             We have sent a link to confirm your email to {email}
           </Typography>
-          <Button onClick={onCloseModal} className={'float-right w-24'}>
+          <Button
+            onClick={() => setIsOpenModalWindow(false)}
+            className={'float-right w-24'}
+          >
             OK
           </Button>
         </div>
       </ModalWindow>
-      )
     </div>
   )
 }
