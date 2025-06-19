@@ -47,7 +47,7 @@ export default function SingUp() {
       userName: data.username,
       email: data.email,
       password: data.password,
-      baseUrl: window.location.origin,
+      baseUrl: window.location.origin + '/auth/sign-up',
     })
       .unwrap()
       .then(() => {
@@ -138,25 +138,23 @@ export default function SingUp() {
           <Typography variant={'h3'}>Sign In</Typography>
         </Link>
       </Button>
-      {isOpenModalWindow && (
-        <ModalWindow
-          modalTitle={'Email sent'}
-          open={isOpenModalWindow}
-          onClose={() => setIsOpenModalWindow(false)}
-        >
-          <div className={'relative mt-7.5 px-6'}>
-            <Typography className={'mb-4.5'} variant={'regular_text_16'}>
-              We have sent a link to confirm your email to {email}
-            </Typography>
-            <Button
-              onClick={() => setIsOpenModalWindow(false)}
-              className={'float-right w-24'}
-            >
-              OK
-            </Button>
-          </div>
-        </ModalWindow>
-      )}
+      <ModalWindow
+        modalTitle={'Email sent'}
+        open={isOpenModalWindow}
+        onClose={() => setIsOpenModalWindow(false)}
+      >
+        <div className={'relative mt-7.5 px-6'}>
+          <Typography className={'mb-4.5'} variant={'regular_text_16'}>
+            We have sent a link to confirm your email to {email}
+          </Typography>
+          <Button
+            onClick={() => setIsOpenModalWindow(false)}
+            className={'float-right w-24'}
+          >
+            OK
+          </Button>
+        </div>
+      </ModalWindow>
     </Card>
   )
 }

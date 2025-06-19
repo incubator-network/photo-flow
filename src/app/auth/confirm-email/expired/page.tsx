@@ -5,18 +5,32 @@ import { Input } from '@/components/ui/input/Input'
 import { Button } from '@/components/ui/button/Button'
 import { useResendEmailMutation } from '@/lib/api/authApi'
 import { useState } from 'react'
+import { ResponseError } from '@/lib/api/authApi.types'
+import { ModalWindow } from '@/components/ui/modalWindow/ModalWindow'
 
 export default function Page() {
   const [email, setEmail] = useState<string>('')
+  const [error, setError] = useState<string | null>(null)
+  const [isOpenModalWindow, setIsOpenModalWindow] = useState(false)
 
   const [resendEmail] = useResendEmailMutation()
 
   const sendVerificationLink = async () => {
     try {
-      await resendEmail({ email, baseUrl: window.location.origin })
+      await resendEmail({
+        email,
+        baseUrl: window.location.origin + '/auth/sign-up',
+      }).unwrap()
+      setIsOpenModalWindow(true)
     } catch (err) {
-      console.log(err)
+      const incorrectInput = err as ResponseError
+      setError(incorrectInput.data.messages[0].message)
     }
+  }
+
+  const onCloseModal = () => {
+    setEmail('')
+    setIsOpenModalWindow(false)
   }
 
   return (
@@ -34,8 +48,12 @@ export default function Page() {
       <Input
         type={'email'}
         className={'mb-6 w-[230px]'}
+        errorText={error}
         value={email}
-        onChange={e => setEmail(e.target.value)}
+        onChange={e => {
+          setError(null)
+          setEmail(e.target.value)
+        }}
       />
       <Button
         onClick={sendVerificationLink}
@@ -50,6 +68,21 @@ export default function Page() {
         src={'/expired-email.webp'}
         alt={'expired email link'}
       />
+      <ModalWindow
+        modalTitle={'Email sent'}
+        open={isOpenModalWindow}
+        onClose={onCloseModal}
+      >
+        <div className={'relative mt-7.5 px-6'}>
+          <Typography className={'mb-4.5'} variant={'regular_text_16'}>
+            We have sent a link to confirm your email to {email}
+          </Typography>
+          <Button onClick={onCloseModal} className={'float-right w-24'}>
+            OK
+          </Button>
+        </div>
+      </ModalWindow>
+      )
     </div>
   )
 }
