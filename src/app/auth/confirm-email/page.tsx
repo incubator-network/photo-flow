@@ -2,10 +2,7 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
-import {
-  useCheckRecoveryCodeMutation,
-  useConfirmEmailMutation,
-} from '@/lib/api/authApi'
+import { useConfirmEmailMutation } from '@/lib/api/authApi'
 import { ResponseError } from '@/lib/api/authApi.types'
 
 export default function ConfirmationPage() {
@@ -13,15 +10,12 @@ export default function ConfirmationPage() {
   const searchParams = useSearchParams()
   const code = searchParams.get('code')
   const [confirmEmail] = useConfirmEmailMutation()
-  const [checkCode] = useCheckRecoveryCodeMutation()
 
   useEffect(() => {
     if (!code) return
 
     const checkCodeValidity = async () => {
       try {
-        await checkCode({ recoveryCode: code }).unwrap()
-
         await confirmEmail({ confirmationCode: code }).unwrap()
         router.push('/auth/confirm-email/success')
       } catch (e) {
@@ -33,6 +27,6 @@ export default function ConfirmationPage() {
       }
     }
     checkCodeValidity()
-  }, [code, router, confirmEmail, checkCode])
+  }, [code, router, confirmEmail])
   return <></>
 }
