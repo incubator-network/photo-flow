@@ -1,8 +1,8 @@
 'use client'
 
-import { IconGoogle } from '@/components/ui/icons/IconGoogle/IconGoogle'
+import IconGoogle from '@/assets/icons/google.svg'
 
-export const LoginWithGoogleButton = () => {
+export const GoogleLoginButton = () => {
   const handleLogin = () => {
     const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID
 
@@ -16,7 +16,7 @@ export const LoginWithGoogleButton = () => {
 
   return (
     <button className='cursor-pointer' onClick={handleLogin}>
-      <IconGoogle width={'34'} height={'34'} viewBox={'0 0 25 25'} />
+      <IconGoogle width={'36'} height={'36'} />
     </button>
   )
 }

@@ -6,20 +6,20 @@ import { RefObject } from 'react'
 import { Typography } from '@/components/ui/typography/Typography'
 
 type RecaptchaProps = {
-  publicKey: string
   theme?: 'dark' | 'light'
   size?: 'normal' | 'compact' | 'invisible'
   lang?: 'en' | 'ru'
+  className?: string
   error: boolean
   recaptchaRef: RefObject<ReCAPTCHA | null>
   handleCaptchaAction: (token: string | null) => void
 }
 
 export const Recaptcha = ({
-  publicKey,
   lang = 'en',
   size = 'normal',
   theme = 'dark',
+  className,
   error,
   recaptchaRef,
   handleCaptchaAction,
@@ -28,12 +28,13 @@ export const Recaptcha = ({
     <div
       className={twMerge(
         'w-fit flex-col px-[7px] py-[8px]',
-        error ? 'border-danger-500 border' : ''
+        error ? 'border-danger-500 border' : '',
+        className
       )}
     >
       <ReCAPTCHA
         ref={recaptchaRef}
-        sitekey={publicKey}
+        sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string}
         theme={theme}
         size={size}
         hl={lang}
