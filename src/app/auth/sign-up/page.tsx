@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input/Input'
 import { Checkbox } from '@/components/ui/checkbox/Checkbox'
 import { Button } from '@/components/ui/button/Button'
 import Link from 'next/link'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { RegistrationFields, signUpSchema } from '@/lib/schemas/signUpSchema'
 import { useRegistrationMutation } from '@/lib/api/authApi'
@@ -25,6 +25,7 @@ export default function SingUp() {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors, isValid, isDirty },
   } = useForm<RegistrationFields>({
     mode: 'onTouched',
@@ -111,7 +112,18 @@ export default function SingUp() {
           />
         </div>
         <div className={'mb-3 flex w-full items-center'}>
-          <Checkbox required id={'agreement'} {...register('agreement')} />
+          <Controller
+            name='agreement'
+            control={control}
+            render={({ field }) => (
+              <Checkbox
+                id={'agreement'}
+                checked={field.value}
+                onCheckedChange={field.onChange}
+                ref={field.ref}
+              />
+            )}
+          />
           <Typography variant={'small_text'}>
             I agree to the&nbsp;
             <Link href={'/auth/sign-up/terms'}>
