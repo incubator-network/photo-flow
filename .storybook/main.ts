@@ -1,3 +1,5 @@
+import path from 'path'
+
 const config = {
   core: { builder: 'webpack5' },
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
@@ -46,7 +48,29 @@ const config = {
       return rule
     })
 
-    // Добавь SVGR loader для svg
+    // CSS loader
+    const cssRule = config.module.rules.find(
+      rule => rule.test && rule.test.toString().includes('css')
+    )
+    if (cssRule) {
+      cssRule.use = [
+        {
+          loader: 'style-loader',
+        },
+        {
+          loader: 'css-loader',
+        },
+        {
+          loader: 'postcss-loader',
+          options: {
+            postcssOptions: {
+              config: require.resolve('../postcss.config.mjs'),
+            },
+          },
+        },
+      ]
+    }
+    // SVGR loader для svg
     config.module.rules.push({
       test: /\.svg$/,
       use: [
@@ -56,8 +80,15 @@ const config = {
         },
       ],
     })
+    // alias "@"
+    config.resolve = config.resolve || {}
+    config.resolve.alias = {
+      ...(config.resolve.alias || {}),
+      '@': path.resolve(__dirname, '../src'),
+    }
     return config
   },
+
   docs: {
     autodocs: true,
     reactDocgen: 'react-docgen-typescript',

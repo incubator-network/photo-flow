@@ -24,7 +24,8 @@ const textareaVariants = {
   ].join(' '),
 }
 
-interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+export interface TextareaProps
+  extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   className: string
   value?: string
   changeValue?: (value: string) => void

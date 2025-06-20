@@ -1,7 +1,6 @@
-import { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { Checkbox } from '@/components/ui/checkbox/Checkbox'
+import { Checkbox } from './Checkbox'
 
-const meta: Meta<typeof Checkbox> = {
+const meta = {
   title: 'Components/Checkbox',
   component: Checkbox,
   tags: ['autodocs'],
@@ -21,33 +20,31 @@ const meta: Meta<typeof Checkbox> = {
 
 export default meta
 
-type Story = StoryObj<typeof meta>
-
-export const Default: Story = {
+export const Default = {
   args: {
     variant: 'default',
     children: 'Checkbox',
   },
 }
-export const Active: Story = {
+export const Active = {
   args: {
     variant: 'active',
     children: 'Checkbox',
   },
 }
-export const Hover: Story = {
+export const Hover = {
   args: {
     variant: 'hover',
     children: 'Checkbox',
   },
 }
-export const Focus: Story = {
+export const Focus = {
   args: {
     variant: 'focus',
     children: 'Checkbox',
   },
 }
-export const Disabled: Story = {
+export const Disabled = {
   args: {
     variant: 'disabled',
     children: 'Checkbox',
