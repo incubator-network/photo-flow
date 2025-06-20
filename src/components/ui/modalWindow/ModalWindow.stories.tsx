@@ -1,36 +1,33 @@
-import { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { ModalWindow } from './ModalWindow'
-import { fn } from 'storybook/test'
 
 const meta = {
   title: 'Components/ModalWindow',
   component: ModalWindow,
   args: {
-    onClose: fn(),
+    onClose: () => {},
     open: true,
   },
   parameters: {
     layout: 'centered',
   },
-} satisfies Meta<typeof ModalWindow>
+}
 
 export default meta
-type Story = StoryObj<typeof meta>
 
-export const Default: Story = {
+export const Default = {
   args: {
     modalTitle: 'Default Modal',
     children: <div className='p-6'>Modal content goes here</div>,
   },
 }
 
-export const WithoutTitle: Story = {
+export const WithoutTitle = {
   args: {
     children: <div className='p-6'>This children</div>,
   },
 }
 
-export const CustomSize: Story = {
+export const CustomSize = {
   args: {
     modalTitle: 'Custom Size',
     className: 'h-[300px] w-[500px]',
@@ -38,7 +35,7 @@ export const CustomSize: Story = {
   },
 }
 
-export const WithCustomOverlay: Story = {
+export const WithCustomOverlay = {
   args: {
     modalTitle: 'Custom Overlay',
     overlayClassName: 'bg-blue-900/30 backdrop-blur-md',
@@ -46,7 +43,7 @@ export const WithCustomOverlay: Story = {
   },
 }
 
-export const InitiallyClosed: Story = {
+export const InitiallyClosed = {
   args: {
     open: false,
     modalTitle: 'Closed Modal',

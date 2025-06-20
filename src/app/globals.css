@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* @import 'tailwindcss'; */
+@import 'tailwindcss';
 @import '@fontsource-variable/inter';
 
 @theme {

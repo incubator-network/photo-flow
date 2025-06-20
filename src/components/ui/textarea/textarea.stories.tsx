@@ -1,7 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { Textarea } from './Textarea'
+import { Textarea, TextareaProps } from './Textarea'
 
-const meta: Meta<typeof Textarea> = {
+const meta = {
   title: 'Components/Textarea',
   component: Textarea,
   tags: ['autodocs'],
@@ -16,16 +15,14 @@ const meta: Meta<typeof Textarea> = {
 
 export default meta
 
-type Story = StoryObj<typeof Textarea>
-
-export const Default: Story = {
+export const Default = {
   args: {
     placeholder: 'Введите текст...',
     className: 'w-[300px]',
   },
 }
 
-export const WithLabel: Story = {
+export const WithLabel = {
   args: {
     textareaLabel: 'Описание',
     placeholder: 'Введите описание...',
@@ -33,7 +30,7 @@ export const WithLabel: Story = {
   },
 }
 
-export const Disabled: Story = {
+export const Disabled = {
   args: {
     disabled: true,
     placeholder: 'Неактивное поле',
@@ -41,7 +38,7 @@ export const Disabled: Story = {
   },
 }
 
-export const WithError: Story = {
+export const WithError = {
   args: {
     textareaLabel: 'Email',
     placeholder: 'Введите email',
@@ -50,17 +47,17 @@ export const WithError: Story = {
   },
 }
 
-export const Controlled: Story = {
+export const Controlled = {
   args: {
     value: 'Контролируемое значение',
     className: 'w-[300px]',
   },
-  render: args => {
+  render: (args: TextareaProps) => {
     return <Textarea {...args} />
   },
 }
 
-export const CustomSize: Story = {
+export const CustomSize = {
   args: {
     rows: 5,
     cols: 40,

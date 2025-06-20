@@ -1,10 +1,9 @@
-import { Meta } from '@storybook/nextjs-vite'
-import { Select } from '@/components/ui/Select/Select'
+import { Select } from './Select'
 
 const meta = {
   component: Select,
   tags: ['autodocs'],
-} satisfies Meta<typeof Select>
+}
 export default meta
 
 export const Main = {
