@@ -12,7 +12,7 @@ export default function GitHubCallbackFinalPage() {
     const email = searchParams.get('email')
 
     if (token) {
-      localStorage.setItem('access_token', token)
+      localStorage.setItem('auth-token', token)
       console.log('✅ GitHub login complete:', email)
 
       router.replace('/')

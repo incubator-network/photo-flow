@@ -38,11 +38,12 @@ export default function Logout() {
       <ModalWindow
         modalTitle='Log Out'
         open={isModalOpen}
+        className='h-[240px] w-[438px]'
         onClose={() => setIsModalOpen(false)}
       >
         <div className='relative mt-7.5 px-6'>
           <div className='pb-7.5'>
-            <Typography variant='regular_text_14'>
+            <Typography variant='regular_text_16'>
               Are you really want to log out of your account
             </Typography>
             <Typography variant={'bold_text_16'}>“Epam@epam.com”?</Typography>
