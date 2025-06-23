@@ -71,7 +71,7 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
             variant={'regular_text_14'}
             className={'text-light-900 capitalize'}
           >
-            {label ? label : type}
+            {label == '' || label ? label : type}
           </Typography>
         )}
         <div className={'relative flex w-full items-center'}>
