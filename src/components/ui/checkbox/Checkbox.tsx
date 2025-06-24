@@ -3,7 +3,7 @@ import { ComponentProps } from 'react'
 import { twMerge } from 'tailwind-merge'
 // import { CheckIcon } from '@radix-ui/react-icons'
 import CheckIcon from '@/assets/icons/checkmark-outline.svg'
-
+import React from 'react'
 type CheckBoxProps = {
   variant?: 'default' | 'active' | 'hover' | 'focus' | 'disabled'
   label?: string
