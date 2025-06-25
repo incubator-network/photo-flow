@@ -2,6 +2,7 @@ import * as RadixSelect from '@radix-ui/react-select'
 import { twMerge } from 'tailwind-merge'
 import { ComponentProps, useState } from 'react'
 import ArrowDown from '@/assets/icons/arrow-down.svg'
+import Image from 'next/image'
 
 type Item = {
   title: string
@@ -61,14 +62,20 @@ export const Select = ({
           {selectedItem?.path && placeholder ? (
             <div className='flex items-center gap-3'>
               <RadixSelect.Icon>
-                <img src={selectedItem.path} alt={selectedItem.description} />
+                <Image
+                  src={selectedItem.path}
+                  alt={selectedItem.description || 'image of selected item'}
+                />
               </RadixSelect.Icon>
               <span>{selectedItem.title}</span>
             </div>
           ) : selectedItem?.path && !placeholder ? (
             <div className='flex items-center gap-3'>
               <RadixSelect.Icon>
-                <img src={selectedItem.path} alt={selectedItem.description} />
+                <Image
+                  src={selectedItem.path}
+                  alt={selectedItem.description || 'image of selected item'}
+                />
               </RadixSelect.Icon>
             </div>
           ) : (
@@ -109,7 +116,7 @@ export const Select = ({
                         className={twMerge(`flex items-center gap-3`, !placeholder && `mx-auto`)}
                       >
                         <RadixSelect.Icon>
-                          <img src={item.path} alt={item.description} />
+                          <Image src={item.path} alt={item.description || 'select icon'} />
                         </RadixSelect.Icon>
                         {placeholder && <RadixSelect.ItemText>{item.title}</RadixSelect.ItemText>}
                       </div>
