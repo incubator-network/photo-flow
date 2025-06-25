@@ -2,16 +2,17 @@
 import Link from 'next/link'
 import { Input } from '@/components/ui/input/Input'
 import { Button } from '@/components/ui/button/Button'
-import { LoginFields, signInSchema } from '@/lib/schemas/signInSchema'
+import { LoginFields, signInSchema } from '@/lib/feature/auth/schemas/signInSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { useLoginMutation } from '@/lib/api/authApi'
+import { useLoginMutation } from '@/lib/feature/auth/api/authApi'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useLazyGetProfileQuery } from '@/lib/api/profileApi'
+import { useLazyGetProfileQuery } from '@/lib/feature/profile/api/profileApi'
 import { Card } from '@/components/ui/Card/Card'
 import { Typography } from '@/components/ui/typography/Typography'
-import { GitHubLoginButton, GoogleLoginButton } from '@/features/auth/ui'
+import { GitHubLoginButton, GoogleLoginButton } from '@/lib/feature/auth/ui'
+import { AUTH_TOKEN } from '@/constants'
 
 type ApiError = {
   status: number
@@ -45,7 +46,7 @@ export default function SignIn() {
   const onSubmit = async (data: LoginFields) => {
     try {
       const loginResponse = await login(data).unwrap()
-      localStorage.setItem('auth-token', loginResponse.accessToken)
+      localStorage.setItem(AUTH_TOKEN, loginResponse.accessToken)
       reset()
 
       const profileResponse = await profile().unwrap()
@@ -130,11 +131,7 @@ export default function SignIn() {
             Sign In
           </Button>
           <p className='mb-[6px] leading-[1.5]'>Don’t have an account?</p>
-          <Button
-            asChild
-            variant='text'
-            className='leading-[1.5] font-semibold'
-          >
+          <Button asChild variant='text' className='leading-[1.5] font-semibold'>
             <Link href={'/auth/sign-up'}>Sign Up</Link>
           </Button>
         </div>

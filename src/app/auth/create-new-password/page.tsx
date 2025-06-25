@@ -9,8 +9,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import {
   createNewPasswordSchema,
   NewPasswordFields,
-} from '@/lib/schemas/createNewPasswordSchema'
-import { useCreateNewPasswordMutation } from '@/lib/api/authApi'
+} from '@/lib/feature/auth/schemas/createNewPasswordSchema'
+import { useCreateNewPasswordMutation } from '@/lib/feature/auth/api/authApi'
 import { useRouter, useSearchParams } from 'next/navigation'
 
 export default function CreateNewPassword() {
@@ -49,11 +49,7 @@ export default function CreateNewPassword() {
   }
 
   return (
-    <Card
-      className={
-        'mx-auto mt-15 flex w-[378px] flex-col items-center px-6 pt-6 pb-9'
-      }
-    >
+    <Card className={'mx-auto mt-15 flex w-[378px] flex-col items-center px-6 pt-6 pb-9'}>
       <Typography variant={'h1'} className={'mb-9.5'}>
         Create New Password
       </Typography>
@@ -72,10 +68,7 @@ export default function CreateNewPassword() {
           label={'Password confirmation'}
           {...register('passwordConfirmation')}
         />
-        <Typography
-          variant={'regular_text_14'}
-          className={'text-light-900 mb-10'}
-        >
+        <Typography variant={'regular_text_14'} className={'text-light-900 mb-10'}>
           Your password must be between 6 and 20 characters
         </Typography>
         <Button className={'w-full'} disabled={!isValid}>

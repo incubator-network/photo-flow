@@ -4,7 +4,8 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { AppDispatch } from '@/lib/store'
 import { useDispatch } from 'react-redux'
-import { useGoogleLoginMutation } from '@/lib/api/authApi'
+import { useGoogleLoginMutation } from '@/lib/feature/auth/api/authApi'
+import { AUTH_TOKEN } from '@/constants'
 
 export default function GoogleCallback() {
   const router = useRouter()
@@ -24,7 +25,7 @@ export default function GoogleCallback() {
           redirectUrl: 'http://localhost:3000/auth/google/callback',
         }).unwrap()
 
-        localStorage.setItem('auth-token', res.accessToken)
+        localStorage.setItem(AUTH_TOKEN, res.accessToken)
 
         router.push('/')
       } catch (err) {

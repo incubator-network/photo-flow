@@ -3,9 +3,9 @@ import { Typography } from '@/components/ui/typography/Typography'
 import Image from 'next/image'
 import { Input } from '@/components/ui/input/Input'
 import { Button } from '@/components/ui/button/Button'
-import { useResendEmailMutation } from '@/lib/api/authApi'
+import { useResendEmailMutation } from '@/lib/feature/auth/api/authApi'
 import React, { useState } from 'react'
-import { ResponseError } from '@/lib/api/authApi.types'
+import { ResponseError } from '@/lib/feature/auth/api/authApi.types'
 import { ModalWindow } from '@/components/ui/modalWindow/ModalWindow'
 
 export default function Page() {
@@ -46,12 +46,8 @@ export default function Page() {
       <Typography className={'mb-5'} variant={'h1'}>
         Email verification link expired
       </Typography>
-      <Typography
-        className={'mb-[30px] max-w-[294px] text-center'}
-        variant={'regular_text_16'}
-      >
-        Looks like the verification link has expired. Not to worry, we can send
-        the link again
+      <Typography className={'mb-[30px] max-w-[294px] text-center'} variant={'regular_text_16'}>
+        Looks like the verification link has expired. Not to worry, we can send the link again
       </Typography>
       <Input
         placeholder={'example@example.com'}
@@ -65,24 +61,11 @@ export default function Page() {
           setEmail(e.target.value)
         }}
       />
-      <Button
-        onClick={sendVerificationLink}
-        className={'mb-9'}
-        disabled={!email}
-      >
+      <Button onClick={sendVerificationLink} className={'mb-9'} disabled={!email}>
         Resend verification link
       </Button>
-      <Image
-        width={474}
-        height={352}
-        src={'/expired-email.webp'}
-        alt={'expired email link'}
-      />
-      <ModalWindow
-        modalTitle={'Email sent'}
-        open={isOpenModalWindow}
-        onClose={onCloseModal}
-      >
+      <Image width={474} height={352} src={'/expired-email.webp'} alt={'expired email link'} />
+      <ModalWindow modalTitle={'Email sent'} open={isOpenModalWindow} onClose={onCloseModal}>
         <div className={'relative mt-7.5 px-6'}>
           <Typography className={'mb-4.5'} variant={'regular_text_16'}>
             We have sent a link to confirm your email to {email}

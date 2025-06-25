@@ -2,6 +2,7 @@
 
 import { useSearchParams, useRouter } from 'next/navigation'
 import { useEffect } from 'react'
+import { AUTH_TOKEN } from '@/constants'
 
 export default function GitHubCallbackFinalPage() {
   const searchParams = useSearchParams()
@@ -12,7 +13,7 @@ export default function GitHubCallbackFinalPage() {
     const email = searchParams.get('email')
 
     if (token) {
-      localStorage.setItem('auth-token', token)
+      localStorage.setItem(AUTH_TOKEN, token)
       console.log('✅ GitHub login complete:', email)
 
       router.replace('/')

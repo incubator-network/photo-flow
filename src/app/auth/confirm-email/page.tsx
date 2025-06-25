@@ -2,8 +2,8 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
-import { useConfirmEmailMutation } from '@/lib/api/authApi'
-import { ResponseError } from '@/lib/api/authApi.types'
+import { useConfirmEmailMutation } from '@/lib/feature/auth/api/authApi'
+import { ResponseError } from '@/lib/feature/auth/api/authApi.types'
 
 export default function ConfirmationPage() {
   const router = useRouter()

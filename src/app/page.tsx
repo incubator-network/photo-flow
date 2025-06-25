@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { useGetMeQuery } from '@/lib/api/authApi'
+import { useGetMeQuery } from '@/lib/feature/auth/api/authApi'
 import { useEffect } from 'react'
 
 export default function Home() {

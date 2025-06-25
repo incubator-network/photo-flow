@@ -48,10 +48,8 @@ const variantClasses = {
   bold_text_14: 'text-[14px] leading-medium font-bold',
   small_text: 'text-[12px] leading-small font-normal',
   semi_bold_small_text: 'text-[12px] leading-small font-semibold',
-  regular_link:
-    'text-[14px] leading-medium font-normal text-accent-500 underline cursor-pointer',
-  small_link:
-    'text-[12px] leading-small font-normal text-accent-500 underline cursor-pointer',
+  regular_link: 'text-[14px] leading-medium font-normal text-accent-500 underline cursor-pointer',
+  small_link: 'text-[12px] leading-small font-normal text-accent-500 underline cursor-pointer',
 }
 
 export const Typography = ({
@@ -63,10 +61,7 @@ export const Typography = ({
 }: PropsType) => {
   const Component = asChild ? Slot : defaultTags[variant]
   return (
-    <Component
-      className={twMerge(variantClasses[variant], className)}
-      {...props}
-    >
+    <Component className={twMerge(variantClasses[variant], className)} {...props}>
       {children}
     </Component>
   )

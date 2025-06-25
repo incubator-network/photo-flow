@@ -1,11 +1,12 @@
 'use client'
 import { Button } from '@/components/ui/button/Button'
-import { useLogoutMutation } from '@/lib/api/authApi'
+import { useLogoutMutation } from '@/lib/feature/auth/api/authApi'
 import { Typography } from '@/components/ui/typography/Typography'
 import { useRouter } from 'next/navigation'
 import { ModalWindow } from '@/components/ui/modalWindow/ModalWindow'
 import { useState } from 'react'
 import LogoutIcon from '@/assets/icons/logout.svg'
+import { AUTH_TOKEN } from '@/constants'
 
 export default function Logout() {
   const [logout] = useLogoutMutation()
@@ -16,7 +17,7 @@ export default function Logout() {
     setIsModalOpen(true)
     try {
       await logout().unwrap()
-      // localStorage.removeItem('auth-token')
+      localStorage.removeItem(AUTH_TOKEN)
       router.push('/auth/sign-in')
     } catch (error) {
       console.error('logout error', error)
@@ -49,11 +50,7 @@ export default function Logout() {
             <Typography variant={'bold_text_16'}>“Epam@epam.com”?</Typography>
           </div>
           <div className='flex justify-end gap-6'>
-            <Button
-              variant={'outline'}
-              onClick={logoutHandler}
-              className='w-24'
-            >
+            <Button variant={'outline'} onClick={logoutHandler} className='w-24'>
               Yes
             </Button>
             <Button onClick={() => setIsModalOpen(false)} className='w-24'>

@@ -2,7 +2,7 @@
 import { Typography } from '@/components/ui/typography/Typography'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button/Button'
-import { useResendPasswordEmailMutation } from '@/lib/api/authApi'
+import { useResendPasswordEmailMutation } from '@/lib/feature/auth/api/authApi'
 import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { ModalWindow } from '@/components/ui/modalWindow/ModalWindow'
@@ -31,22 +31,13 @@ export default function ExpiredPasswordPage() {
       <Typography className={'mb-5'} variant={'h1'}>
         Email verification link expired
       </Typography>
-      <Typography
-        className={'mb-[30px] max-w-[294px] text-center'}
-        variant={'regular_text_16'}
-      >
-        Looks like the verification link has expired. Not to worry, we can send
-        the link again
+      <Typography className={'mb-[30px] max-w-[294px] text-center'} variant={'regular_text_16'}>
+        Looks like the verification link has expired. Not to worry, we can send the link again
       </Typography>
       <Button onClick={sendVerificationLink} className={'mb-9'}>
         Resend link
       </Button>
-      <Image
-        width={474}
-        height={352}
-        src={'/expired-email.webp'}
-        alt={'expired email link'}
-      />
+      <Image width={474} height={352} src={'/expired-email.webp'} alt={'expired email link'} />
       <ModalWindow
         modalTitle={'Email sent'}
         open={isOpenModalWindow}
@@ -56,10 +47,7 @@ export default function ExpiredPasswordPage() {
           <Typography className={'mb-4.5'} variant={'regular_text_16'}>
             We have sent a link to confirm your email to {email}
           </Typography>
-          <Button
-            onClick={() => setIsOpenModalWindow(false)}
-            className={'float-right w-24'}
-          >
+          <Button onClick={() => setIsOpenModalWindow(false)} className={'float-right w-24'}>
             OK
           </Button>
         </div>

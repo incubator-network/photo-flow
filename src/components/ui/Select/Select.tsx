@@ -17,10 +17,7 @@ type PropsType = {
   disabled?: boolean
   value: string
   onValueChange: (value: string) => void
-} & Omit<
-  ComponentProps<'select'>,
-  'value' | 'defaultValue' | 'onChange' | 'dir'
->
+} & Omit<ComponentProps<'select'>, 'value' | 'defaultValue' | 'onChange' | 'dir'>
 
 export const Select = ({
   onOpenChange,
@@ -109,19 +106,12 @@ export const Select = ({
                   >
                     {item.path ? (
                       <div
-                        className={twMerge(
-                          `flex items-center gap-3`,
-                          !placeholder && `mx-auto`
-                        )}
+                        className={twMerge(`flex items-center gap-3`, !placeholder && `mx-auto`)}
                       >
                         <RadixSelect.Icon>
                           <img src={item.path} alt={item.description} />
                         </RadixSelect.Icon>
-                        {placeholder && (
-                          <RadixSelect.ItemText>
-                            {item.title}
-                          </RadixSelect.ItemText>
-                        )}
+                        {placeholder && <RadixSelect.ItemText>{item.title}</RadixSelect.ItemText>}
                       </div>
                     ) : (
                       <RadixSelect.ItemText>{item.title}</RadixSelect.ItemText>

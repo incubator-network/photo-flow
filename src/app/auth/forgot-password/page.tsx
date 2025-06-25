@@ -9,9 +9,9 @@ import { Input } from '@/components/ui/input/Input'
 import { Card } from '@/components/ui/Card/Card'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
-import { useForgotPasswordMutation } from '@/lib/api/authApi'
+import { useForgotPasswordMutation } from '@/lib/feature/auth/api/authApi'
 import { ModalWindow } from '@/components/ui/modalWindow/ModalWindow'
-import { ResponseError } from '@/lib/api/authApi.types'
+import { ResponseError } from '@/lib/feature/auth/api/authApi.types'
 
 type FormData = {
   email: string
@@ -58,12 +58,7 @@ export default function ForgotPassword() {
       setShowCaptcha(false)
       setIsModalOpened(true)
     } catch (error: unknown) {
-      if (
-        error !== null &&
-        typeof error === 'object' &&
-        'status' in error &&
-        'data' in error
-      ) {
+      if (error !== null && typeof error === 'object' && 'status' in error && 'data' in error) {
         const apiError = error as ResponseError
         if (apiError.status === 400) {
           setError(apiError.data.messages[0].message)
@@ -92,11 +87,7 @@ export default function ForgotPassword() {
         <Typography variant='h1' className='mb-[37px]'>
           Forgot Password
         </Typography>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className={'mb-[24px]'}
-          noValidate
-        >
+        <form onSubmit={handleSubmit(onSubmit)} className={'mb-[24px]'} noValidate>
           <Input
             type={'email'}
             placeholder={'Epam@epam.com'}
@@ -111,17 +102,11 @@ export default function ForgotPassword() {
             })}
             onChange={() => setError(null)}
           />
-          <Typography
-            variant='regular_text_14'
-            className='text-light-900 mb-[17px]'
-          >
+          <Typography variant='regular_text_14' className='text-light-900 mb-[17px]'>
             Enter your email address and we will send you further instructions
           </Typography>
           {isEmailSent && (
-            <Typography
-              variant='regular_text_14'
-              className='text-light-100 mb-[23px]'
-            >
+            <Typography variant='regular_text_14' className='text-light-100 mb-[23px]'>
               The link has been sent by email.
               <br />
               If you don’t receive an email send link again
