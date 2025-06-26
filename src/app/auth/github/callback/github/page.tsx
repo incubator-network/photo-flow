@@ -1,26 +1,10 @@
-'use client'
+import { Suspense } from 'react'
+import GitHubCallback from '@/app/auth/github/callback/github/GitHubCallback'
 
-import { useSearchParams, useRouter } from 'next/navigation'
-import { useEffect } from 'react'
-import { AUTH_TOKEN } from '@/constants'
-
-export default function GitHubCallbackFinalPage() {
-  const searchParams = useSearchParams()
-  const router = useRouter()
-
-  useEffect(() => {
-    const token = searchParams.get('accessToken')
-    const email = searchParams.get('email')
-
-    if (token) {
-      localStorage.setItem(AUTH_TOKEN, token)
-      console.log('✅ GitHub login complete:', email)
-
-      router.replace('/')
-    } else {
-      console.warn('❌ Нет accessToken в URL')
-    }
-  }, [searchParams, router])
-
-  return <p>Завершаем вход через GitHub...</p>
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Завершаем вход через github...</div>}>
+      <GitHubCallback />
+    </Suspense>
+  )
 }
