@@ -31,7 +31,7 @@ type UserPostsResponse = {
       id: number
       userName: string
       description: string
-      location: null
+      location: string
       images: [
         {
           url: string
@@ -51,7 +51,7 @@ type UserPostsResponse = {
         lastName: string
       }
       likesCount: number
-      isLiked: false
+      isLiked: boolean
       avatarWhoLikes: []
     },
   ]
