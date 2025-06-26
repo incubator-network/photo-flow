@@ -13,7 +13,7 @@ type Props = {
   isSuperAdminPanel?: boolean
   isLoggedIn: boolean
   notificationsCounter: number
-  notificationsHandler: () => void
+  notificationsHandler?: () => void
   className: string
 }
 
@@ -43,7 +43,7 @@ export const Header = memo(({ isSuperAdminPanel = false, isLoggedIn, className }
   return (
     <header
       className={twMerge(
-        'border-dark-300 mt-[100px] ml-[20px] flex h-[60px] w-[1280px] items-center justify-between border-b py-[12px]',
+        'bg-dark-700 border-dark-300 z-[1000] ml-[20px] flex h-[60px] w-[1280px] items-center justify-between border-b py-[12px]',
         isLoggedIn ? 'pr-[64px] pl-[60px]' : 'px-[60px]',
         className
       )}
