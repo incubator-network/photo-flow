@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { AUTH_TOKEN } from '@/constants'
+import { handleError } from '@/common/utils/handleError'
 
 export const baseApi = createApi({
   reducerPath: 'baseApi',
@@ -13,6 +14,7 @@ export const baseApi = createApi({
       },
     })(args, api, extraOptions)
 
+    handleError(api, result)
     return result
   },
   endpoints: () => ({}),
