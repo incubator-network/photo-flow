@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
         hostname: '**.s3.eu-central-1.amazonaws.com', // чтоб не было CORS конфликта
       },
     ],
+    domains: ['staging-it-incubator.s3.eu-central-1.amazonaws.com', 'www.shutterstock.com'],
   },
   webpack(config) {
     config.module.rules.push({
