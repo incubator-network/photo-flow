@@ -8,32 +8,34 @@ import { Typography } from '@/components/ui/typography/Typography'
 import Image from 'next/image'
 
 type PropsType = {
-  publicPosts: UserPostsResponse
+  initialPosts: UserPostsResponse
 }
-export default function PublicPosts({ publicPosts: initialPosts }: PropsType) {
-  const { data, refetch, isLoading } = useGetPublicPostsQuery(4, {
-    pollingInterval: 2_000,
-    skip: !initialPosts,
-  })
-  const posts = data ?? initialPosts
-  useEffect(() => {
-    const interval = setInterval(() => {
-      refetch()
-    }, 60_000)
+const RefreshInterval = 10_000
 
+export default function PublicPosts({ initialPosts }: PropsType) {
+  const { data, refetch, isLoading } = useGetPublicPostsQuery(4, {
+    skip: !initialPosts,
+    pollingInterval: RefreshInterval,
+  })
+  const publicPosts = data ?? initialPosts
+  useEffect(() => {
+    const interval = setInterval(() => refetch(), RefreshInterval)
     return () => clearInterval(interval)
   }, [refetch])
-
+  console.log(publicPosts)
   if (isLoading) return <div>Loading...</div>
   return (
     <ul className={'flex flex-row gap-3'}>
-      {posts?.items.map(post => {
+      <img src='https://via.placeholder.com/150' alt='test' />
+      {publicPosts?.items.map(post => {
         const date = new Date(post.createdAt)
         const resultDate = formatDistanceToNow(date, { addSuffix: true })
         return (
           <li key={post.id}>
             {post.images[0] ? (
               <Image
+                width={240}
+                height={240}
                 className='h-auto max-w-[240px]'
                 src={post.images[0]?.url}
                 alt={post.description}

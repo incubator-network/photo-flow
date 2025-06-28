@@ -2,8 +2,11 @@
 
 import React from 'react'
 import { Typography } from '@/components/ui/typography/Typography'
-
-export const UsersCounter = ({ ...totalCount }) => {
+type CounterProps = {
+  usersCount: number
+}
+export const UsersCounter = ({ usersCount }: CounterProps) => {
+  const digits = String(usersCount).split('')
   return (
     <div
       className={
@@ -17,19 +20,24 @@ export const UsersCounter = ({ ...totalCount }) => {
       >
         <div
           className={
-            'relative flex h-[48px] w-[203px] content-between items-center overflow-hidden p-3'
+            'relative flex h-[48px] w-[203px] content-between items-center overflow-hidden p-3' +
+            'rounded-[2px] border-2 border-amber-400'
           }
         >
-          {String(totalCount)
-            .split('')
-            .map((digit, index) => (
-              <React.Fragment key={index}>
-                <div className={'line font-bold'}>{digit}</div>
-                <div className={'left-0 h-[30px] w-[1px] bg-black leading-7'}>
-                  <div className={'border-b'} />
-                </div>
-              </React.Fragment>
-            ))}
+          {digits.map((digit, index) => (
+            <React.Fragment key={index}>
+              <div className='text-lg font-bold'>{digit}</div>
+              {index !== digits.length - 1 && (
+                <div className='mx-[4px] h-[24px] w-[1px] bg-neutral-400 opacity-50' />
+              )}
+            </React.Fragment>
+            // <React.Fragment key={index}>
+            //   <div className={'line font-bold'}>{digit}</div>
+            //   <div className={'left-0 h-[30px] w-[1px] bg-black leading-7'}>
+            //     <div className={'border-b'} />
+            //   </div>
+            // </React.Fragment>
+          ))}
         </div>
       </div>
     </div>
