@@ -15,9 +15,11 @@ export default async function HomePage() {
   const usersCount = await countRaw.json()
 
   return (
-    <div className={'flex flex-col items-center'}>
-      <UsersCounter usersCount={usersCount.totalCount} />
-      <PublicPosts initialPosts={publicPosts} />
-    </div>
+    <>
+      <div className={'flex flex-col items-center'}>
+        <UsersCounter usersCount={usersCount.totalCount} />
+        <PublicPosts initialPosts={publicPosts} />
+      </div>
+    </>
   )
 }

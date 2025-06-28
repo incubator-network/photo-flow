@@ -18,15 +18,16 @@ export default function PublicPosts({ initialPosts }: PropsType) {
     pollingInterval: RefreshInterval,
   })
   const publicPosts = data ?? initialPosts
+
   useEffect(() => {
     const interval = setInterval(() => refetch(), RefreshInterval)
     return () => clearInterval(interval)
   }, [refetch])
-  console.log(publicPosts)
+
   if (isLoading) return <div>Loading...</div>
+
   return (
-    <ul className={'flex flex-row gap-3'}>
-      <img src='https://via.placeholder.com/150' alt='test' />
+    <ul className={'mt-[36px] flex flex-row gap-3'}>
       {publicPosts?.items.map(post => {
         const date = new Date(post.createdAt)
         const resultDate = formatDistanceToNow(date, { addSuffix: true })
