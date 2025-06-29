@@ -4,6 +4,7 @@ import { twMerge } from 'tailwind-merge'
 import ClosePicture from '@/assets/icons/close.svg'
 
 type Props = {
+  hiddenCloseButton?: boolean
   open: boolean
   modalTitle?: string
   onClose: () => void
@@ -12,6 +13,7 @@ type Props = {
 } & ComponentPropsWithoutRef<'div'>
 
 export const ModalWindow = ({
+  hiddenCloseButton,
   onClose,
   modalTitle,
   children,
@@ -41,9 +43,7 @@ export const ModalWindow = ({
               {modalTitle}
               <Dialog.Close asChild className={''}>
                 <button
-                  className={
-                    'h-[24px] w-[24px] cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-blue-700'
-                  }
+                  className={`h-[24px] w-[24px] cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-blue-700 ${hiddenCloseButton ? 'hidden' : ''}`}
                   aria-label='Close'
                 >
                   <ClosePicture

@@ -25,6 +25,8 @@ const textareaVariants = {
 }
 
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+  maxLength?: number
+  placeholder?: string
   className: string
   value?: string
   changeValue?: (value: string) => void
@@ -35,6 +37,8 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 
 export const Textarea = memo(
   ({
+    maxLength,
+    placeholder,
     className,
     value,
     changeValue,
@@ -67,6 +71,8 @@ export const Textarea = memo(
           </Typography>
         )}
         <textarea
+          maxLength={maxLength}
+          placeholder={placeholder}
           className={calculatedClassName}
           value={register ? undefined : value}
           onChange={register ? undefined : onChangeHandler}
