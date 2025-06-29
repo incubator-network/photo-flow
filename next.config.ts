@@ -3,6 +3,12 @@ import type { NextConfig } from 'next'
 const nextConfig: NextConfig = {
   images: {
     dangerouslyAllowSVG: true,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**.s3.eu-central-1.amazonaws.com', // чтоб не было CORS конфликта
+      },
+    ],
   },
   webpack(config) {
     config.module.rules.push({
