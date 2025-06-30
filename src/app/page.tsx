@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { useGetMeQuery } from '@/lib/feature/auth/api/authApi'
 import { useEffect } from 'react'
+import RemovePost from '@/app/posts/[postId]/page'
 
 export default function Home() {
   const router = useRouter()
@@ -21,6 +22,7 @@ export default function Home() {
       <div className={'bg-danger-700 text-h1 mt-20 text-center font-sans'}>
         Hello this a test string
       </div>
+      <RemovePost />
     </div>
   )
 }
