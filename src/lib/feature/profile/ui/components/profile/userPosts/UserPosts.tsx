@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/lib/store'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { UserPostsResponse } from '@/app/profile/[id]/page'
+import { UserPostsResponse } from '@/lib/feature/profile/types/profile.types'
 
 type Props = {
   userId: string
@@ -18,6 +18,7 @@ export const UserPosts = ({ userId, userPostsData, totalCountPosts }: Props) => 
   const [pageSize] = useState(8)
   const [endCursor, setEndCursor] = useState(0)
   const skipFirstPostsLoadingRef = useRef(true)
+  const skipRefetchQueryRef = useRef(false)
   const observer = useRef<IntersectionObserver | null>(null)
   const lastElementRef = useRef<HTMLImageElement | null>(null)
 
@@ -33,6 +34,7 @@ export const UserPosts = ({ userId, userPostsData, totalCountPosts }: Props) => 
   )
 
   useEffect(() => {
+    if (skipRefetchQueryRef.current) return
     if (userPostsData.items && !data) {
       const thunk = profileApi.util.upsertQueryData(
         'getUserPosts',
@@ -44,8 +46,9 @@ export const UserPosts = ({ userId, userPostsData, totalCountPosts }: Props) => 
         userPostsData
       )
       dispatch(thunk)
+      skipFirstPostsLoadingRef.current = false
     }
-    skipFirstPostsLoadingRef.current = false
+    skipRefetchQueryRef.current = true
   }, [])
 
   const selectResult = profileApi.endpoints.getUserPosts.select({
@@ -93,24 +96,22 @@ export const UserPosts = ({ userId, userPostsData, totalCountPosts }: Props) => 
   const posts = data?.items || userPostsData.items
 
   return (
-    <>
-      <div className='mt-[48px] flex flex-wrap gap-[12px]' id='profilePostsObserver'>
-        {posts?.map((item, index) => {
-          const isLastElement = index === posts.length - 1
-          return (
-            <Image
-              priority
-              ref={isLastElement ? lastElementRef : null}
-              key={item.id}
-              src={item.images[0].url}
-              alt={item.id.toString()}
-              width={234}
-              height={228}
-              style={{ aspectRatio: 234 / 228 }}
-            />
-          )
-        })}
-      </div>
-    </>
+    <div className='flex flex-wrap gap-[12px] py-[48px]' id='profilePostsObserver'>
+      {posts?.map((item, index) => {
+        const isLastElement = index === posts.length - 1
+        return (
+          <Image
+            priority
+            ref={isLastElement ? lastElementRef : null}
+            key={item.id}
+            src={item.images[0].url}
+            alt={item.id.toString()}
+            width={234}
+            height={228}
+            style={{ aspectRatio: 234 / 228 }}
+          />
+        )
+      })}
+    </div>
   )
 }
