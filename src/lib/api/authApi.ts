@@ -1,7 +1,10 @@
 import { baseApi } from '@/lib/api/baseApi'
 import {
+  AddPostRequest,
+  AddPostResponse,
   ForgotPasswordRequest,
   ResendEmailRequest,
+  UploadImagesResponse,
 } from '@/lib/api/authApi.types'
 import { LoginFields } from '../schemas/signInSchema'
 
@@ -69,7 +72,7 @@ export const authApi = baseApi.injectEndpoints({
       query: () => ({
         url: '/auth/me',
         method: 'GET',
-       }),
+      }),
     }),
     forgotPassword: build.mutation<void, ForgotPasswordRequest>({
       query: body => ({
@@ -105,10 +108,27 @@ export const authApi = baseApi.injectEndpoints({
         body,
       }),
     }),
+
+    addPost: build.mutation<AddPostResponse, AddPostRequest>({
+      query: body => ({
+        url: '/posts',
+        method: 'POST',
+        body,
+      }),
+    }),
+    uploadImages: build.mutation<UploadImagesResponse, FormData>({
+      query: formData => ({
+        url: '/posts/image',
+        method: 'POST',
+        body: formData,
+      }),
+    }),
   }),
 })
 
 export const {
+  useAddPostMutation,
+  useUploadImagesMutation,
   useGoogleLoginMutation,
   useRegistrationMutation,
   useConfirmEmailMutation,
