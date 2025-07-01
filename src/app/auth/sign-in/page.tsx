@@ -2,16 +2,19 @@
 import Link from 'next/link'
 import { Input } from '@/components/ui/input/Input'
 import { Button } from '@/components/ui/button/Button'
-import { LoginFields, signInSchema } from '@/lib/schemas/signInSchema'
+import { LoginFields, signInSchema } from '@/lib/feature/auth/schemas/signInSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { useLoginMutation } from '@/lib/api/authApi'
+import { useLoginMutation } from '@/lib/feature/auth/api/authApi'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useLazyGetProfileQuery } from '@/lib/api/profileApi'
+import { useLazyGetProfileQuery } from '@/lib/feature/profile/api/profileApi'
 import { Card } from '@/components/ui/Card/Card'
 import { Typography } from '@/components/ui/typography/Typography'
-import { GitHubLoginButton, GoogleLoginButton } from '@/features/auth/ui'
+import { GitHubLoginButton, GoogleLoginButton } from '@/lib/feature/auth/ui'
+import { AUTH_TOKEN } from '@/constants'
+import { setIsAuth } from '@/lib/appSlice'
+import { useAppDispatch } from '@/lib/hooks'
 
 type ApiError = {
   status: number
@@ -23,10 +26,14 @@ type ApiError = {
 }
 
 export default function SignIn() {
-  const [login] = useLoginMutation()
   const [loginError, setLoginError] = useState('')
+
+  const [login] = useLoginMutation()
   const [profile] = useLazyGetProfileQuery()
+
   const router = useRouter()
+
+  const dispatch = useAppDispatch()
 
   const {
     register,
@@ -45,11 +52,11 @@ export default function SignIn() {
   const onSubmit = async (data: LoginFields) => {
     try {
       const loginResponse = await login(data).unwrap()
-      localStorage.setItem('auth-token', loginResponse.accessToken)
+      dispatch(setIsAuth({ isAuth: true }))
+      localStorage.setItem(AUTH_TOKEN, loginResponse.accessToken)
       reset()
-
+      // FIX: Срабатываем еще один me запрос при запросе профиля
       const profileResponse = await profile().unwrap()
-      console.log(profileResponse)
 
       if (profileResponse.firstName && profileResponse.lastName) {
         // Если есть имя, фамилия в профиле(создан, заполнен)
@@ -130,11 +137,7 @@ export default function SignIn() {
             Sign In
           </Button>
           <p className='mb-[6px] leading-[1.5]'>Don’t have an account?</p>
-          <Button
-            asChild
-            variant='text'
-            className='leading-[1.5] font-semibold'
-          >
+          <Button asChild variant='text' className='leading-[1.5] font-semibold'>
             <Link href={'/auth/sign-up'}>Sign Up</Link>
           </Button>
         </div>

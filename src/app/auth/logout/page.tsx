@@ -1,22 +1,28 @@
 'use client'
 import { Button } from '@/components/ui/button/Button'
-import { useLogoutMutation } from '@/lib/api/authApi'
+import { useLogoutMutation } from '@/lib/feature/auth/api/authApi'
 import { Typography } from '@/components/ui/typography/Typography'
 import { useRouter } from 'next/navigation'
 import { ModalWindow } from '@/components/ui/modalWindow/ModalWindow'
 import { useState } from 'react'
 import LogoutIcon from '@/assets/icons/logout.svg'
+import { AUTH_TOKEN } from '@/constants'
+import { useAppDispatch } from '@/lib/hooks'
+import { setIsAuth } from '@/lib/appSlice'
 
 export default function Logout() {
   const [logout] = useLogoutMutation()
   const router = useRouter()
   const [isModalOpen, setIsModalOpen] = useState(false)
 
+  const dispatch = useAppDispatch()
+
   const logoutHandler = async () => {
     setIsModalOpen(true)
     try {
       await logout().unwrap()
-      // localStorage.removeItem('auth-token')
+      dispatch(setIsAuth({ isAuth: false }))
+      localStorage.removeItem(AUTH_TOKEN)
       router.push('/auth/sign-in')
     } catch (error) {
       console.error('logout error', error)
@@ -38,21 +44,18 @@ export default function Logout() {
       <ModalWindow
         modalTitle='Log Out'
         open={isModalOpen}
+        className='h-[240px] w-[438px]'
         onClose={() => setIsModalOpen(false)}
       >
         <div className='relative mt-7.5 px-6'>
           <div className='pb-7.5'>
-            <Typography variant='regular_text_14'>
+            <Typography variant='regular_text_16'>
               Are you really want to log out of your account
             </Typography>
             <Typography variant={'bold_text_16'}>“Epam@epam.com”?</Typography>
           </div>
           <div className='flex justify-end gap-6'>
-            <Button
-              variant={'outline'}
-              onClick={logoutHandler}
-              className='w-24'
-            >
+            <Button variant={'outline'} onClick={logoutHandler} className='w-24'>
               Yes
             </Button>
             <Button onClick={() => setIsModalOpen(false)} className='w-24'>

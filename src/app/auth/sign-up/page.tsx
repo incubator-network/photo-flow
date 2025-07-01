@@ -8,11 +8,11 @@ import { Button } from '@/components/ui/button/Button'
 import Link from 'next/link'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { RegistrationFields, signUpSchema } from '@/lib/schemas/signUpSchema'
-import { useRegistrationMutation } from '@/lib/api/authApi'
+import { RegistrationFields, signUpSchema } from '@/lib/feature/auth/schemas/signUpSchema'
+import { useRegistrationMutation } from '@/lib/feature/auth/api/authApi'
 import { useState } from 'react'
 import { ModalWindow } from '@/components/ui/modalWindow/ModalWindow'
-import { GitHubLoginButton, GoogleLoginButton } from '@/features/auth/ui'
+import { GitHubLoginButton, GoogleLoginButton } from '@/lib/feature/auth/ui'
 
 export default function SingUp() {
   const [userNameError, setUserNameError] = useState<string | null>(null)
@@ -67,9 +67,7 @@ export default function SingUp() {
   }
 
   return (
-    <Card
-      className={'mx-auto my-6 flex max-w-[378px] flex-col items-center p-6'}
-    >
+    <Card className={'mx-auto my-6 flex max-w-[378px] flex-col items-center p-6'}>
       <Typography variant={'h1'} className={'mb-3'}>
         Sign Up
       </Typography>
@@ -159,10 +157,7 @@ export default function SingUp() {
           <Typography className={'mb-4.5'} variant={'regular_text_16'}>
             We have sent a link to confirm your email to {email}
           </Typography>
-          <Button
-            onClick={() => setIsOpenModalWindow(false)}
-            className={'float-right w-24'}
-          >
+          <Button onClick={() => setIsOpenModalWindow(false)} className={'float-right w-24'}>
             OK
           </Button>
         </div>

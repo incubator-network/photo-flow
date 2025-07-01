@@ -59,19 +59,14 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
     const togglePasswordVisibility = () => {
       setShowPassword(!showPassword)
     }
-    const inputPadding =
-      type === 'search' ? 'pl-[42px]' : type === 'password' ? 'pr-[32px]' : ''
+    const inputPadding = type === 'search' ? 'pl-[42px]' : type === 'password' ? 'pr-[32px]' : ''
 
-    const inputType =
-      type === 'password' ? (showPassword ? 'text' : 'password') : type
+    const inputType = type === 'password' ? (showPassword ? 'text' : 'password') : type
     return (
       <div className={twMerge('text-left', className)}>
         {'search' !== type && (
-          <Typography
-            variant={'regular_text_14'}
-            className={'text-light-900 capitalize'}
-          >
-            {label ? label : type}
+          <Typography variant={'regular_text_14'} className={'text-light-900 capitalize'}>
+            {label == '' || label ? label : type}
           </Typography>
         )}
         <div className={'relative flex w-full items-center'}>
@@ -79,11 +74,7 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
             ref={ref}
             type={inputType}
             disabled={disabled}
-            className={twMerge(
-              'w-full',
-              variantStyles[currentVariant],
-              inputPadding
-            )}
+            className={twMerge('w-full', variantStyles[currentVariant], inputPadding)}
             {...props}
           />
           {type === 'search' && (
@@ -115,10 +106,7 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(
           )}
         </div>
         {errorText && (
-          <Typography
-            variant={'regular_text_14'}
-            className={twMerge('text-danger-500 ml-0 pt-0')}
-          >
+          <Typography variant={'regular_text_14'} className={twMerge('text-danger-500 ml-0 pt-0')}>
             {errorText}
           </Typography>
         )}

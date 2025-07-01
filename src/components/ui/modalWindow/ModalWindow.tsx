@@ -25,9 +25,7 @@ export const ModalWindow = ({
   return (
     <Dialog.Root open={open} onOpenChange={onClose} {...props}>
       <Dialog.Portal>
-        <Dialog.Overlay
-          className={twMerge('fixed inset-0 bg-black/60', overlayClassName)}
-        />
+        <Dialog.Overlay className={twMerge('fixed inset-0 bg-black/60', overlayClassName)} />
         <Dialog.Content
           className={twMerge(
             'bg-dark-300 border-dark-100 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-[1px] border',
@@ -46,26 +44,19 @@ export const ModalWindow = ({
                   className={`h-[24px] w-[24px] cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-blue-700 ${hiddenCloseButton ? 'hidden' : ''}`}
                   aria-label='Close'
                 >
-                  <ClosePicture
-                    className={'m-auto h-[24px] w-[24px] fill-white'}
-                  />
+                  <ClosePicture className={'m-auto h-[24px] w-[24px] fill-white'} />
                 </button>
               </Dialog.Close>
             </Dialog.Title>
           ) : (
-            <Dialog.Close
-              asChild
-              className={'absolute top-[-42px] right-[-36px]'}
-            >
+            <Dialog.Close asChild className={'absolute top-[-42px] right-[-36px]'}>
               <button
                 className={
                   'h-[24px] w-[24px] cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-blue-700'
                 }
                 aria-label='Close'
               >
-                <ClosePicture
-                  className={'m-auto h-[24px] w-[24px] fill-white'}
-                />
+                <ClosePicture className={'m-auto h-[24px] w-[24px] fill-white'} />
               </button>
             </Dialog.Close>
           )}

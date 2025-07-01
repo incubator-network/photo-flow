@@ -63,3 +63,10 @@ export type AddPostResponse = {
   isLiked: boolean
   avatarWhoLikes: boolean
 }
+
+export type MeResponse = {
+  userId: number
+  userName: string
+  email: string
+  isBlocked: boolean
+}

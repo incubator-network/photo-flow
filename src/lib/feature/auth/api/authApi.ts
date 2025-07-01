@@ -1,19 +1,14 @@
-import { baseApi } from '@/lib/api/baseApi'
+import { baseApi } from '@/lib/baseApi'
 import {
   AddPostRequest,
   AddPostResponse,
   ForgotPasswordRequest,
   ResendEmailRequest,
+  MeResponse,
   UploadImagesResponse,
-} from '@/lib/api/authApi.types'
-import { LoginFields } from '../schemas/signInSchema'
+} from '@/lib/feature/auth/api/authApi.types'
+import { LoginFields } from '@/lib/feature/auth/schemas/signInSchema'
 
-type User = {
-  userId: number
-  userName: string
-  email: string
-  isBlocked: boolean
-}
 export const authApi = baseApi.injectEndpoints({
   endpoints: build => ({
     registration: build.mutation<
@@ -68,7 +63,7 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
       }),
     }),
-    getMe: build.query<User, void>({
+    getMe: build.query<MeResponse, void>({
       query: () => ({
         url: '/auth/me',
         method: 'GET',
@@ -81,10 +76,7 @@ export const authApi = baseApi.injectEndpoints({
         body,
       }),
     }),
-    createNewPassword: build.mutation<
-      void,
-      { newPassword: string; recoveryCode: string | null }
-    >({
+    createNewPassword: build.mutation<void, { newPassword: string; recoveryCode: string | null }>({
       query: body => ({
         url: '/auth/new-password',
         method: 'POST',
@@ -98,10 +90,7 @@ export const authApi = baseApi.injectEndpoints({
         body,
       }),
     }),
-    checkRecoveryCode: build.mutation<
-      { email: string },
-      { recoveryCode: string | null }
-    >({
+    checkRecoveryCode: build.mutation<{ email: string }, { recoveryCode: string | null }>({
       query: body => ({
         url: '/auth/check-recovery-code',
         method: 'POST',

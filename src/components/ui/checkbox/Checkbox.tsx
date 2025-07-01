@@ -26,19 +26,13 @@ export const Checkbox = ({
   const wrapperClasses = twMerge(
     'relative w-8 h-8 flex items-center justify-center',
     'before:content-[""] before:absolute before:inset-0 before:rounded-full before:opacity-0 before:transition-opacity hover:bg-dark-300 rounded-full active:bg-dark-100 focus-visible:bg-dark-300 focus-visible:outline-none',
-    disabled &&
-      'hover:bg-transparent focus:bg-transparent active:bg-transparent'
+    disabled && 'hover:bg-transparent focus:bg-transparent active:bg-transparent'
   )
 
   return (
     <div className={twMerge('flex items-center gap-2', className)}>
       <div className={wrapperClasses} tabIndex={0}>
-        <CheckboxPrimitive.Root
-          className={baseStyles}
-          id={id}
-          disabled={disabled}
-          {...rest}
-        >
+        <CheckboxPrimitive.Root className={baseStyles} id={id} disabled={disabled} {...rest}>
           <CheckboxPrimitive.Indicator>
             <CheckIcon className='text-dark-900 bg-light-100' />
           </CheckboxPrimitive.Indicator>

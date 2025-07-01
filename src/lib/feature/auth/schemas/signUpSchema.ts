@@ -6,13 +6,8 @@ export const signUpSchema = z
       .string()
       .min(6, 'Minimum number of characters 6')
       .max(30, 'Maximum number of characters 30')
-      .regex(
-        /^[a-zA-Z0-9_-]{6,30}$/,
-        'Username can contain only 0-9, a-z, A-Z, _, -'
-      ),
-    email: z
-      .string()
-      .email('The email must match the format example@example.com'),
+      .regex(/^[a-zA-Z0-9_-]{6,30}$/, 'Username can contain only 0-9, a-z, A-Z, _, -'),
+    email: z.string().email('The email must match the format example@example.com'),
     password: z
       .string()
       .min(6, 'Minimum number of characters 6')

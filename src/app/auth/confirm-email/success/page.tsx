@@ -18,12 +18,7 @@ export default function Page() {
           <Typography variant={'h3'}>Sign In</Typography>
         </Link>
       </Button>
-      <Image
-        width={432}
-        height={300}
-        src={'/success-email.webp'}
-        alt={'success email image'}
-      />
+      <Image width={432} height={300} src={'/success-email.webp'} alt={'success email image'} />
     </div>
   )
 }
