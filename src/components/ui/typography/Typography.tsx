@@ -29,7 +29,7 @@ const defaultTags = {
   bold_text_16: 'p',
   regular_text_14: 'p',
   medium_text_14: 'p',
-  bold_text_14: 'p',
+  bold_text_14: 'span',
   small_text: 'span',
   semi_bold_small_text: 'span',
   regular_link: 'p',

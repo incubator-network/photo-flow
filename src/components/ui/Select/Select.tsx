@@ -63,6 +63,8 @@ export const Select = ({
             <div className='flex items-center gap-3'>
               <RadixSelect.Icon>
                 <Image
+                  width={20}
+                  height={20}
                   src={selectedItem.path}
                   alt={selectedItem.description || 'image of selected item'}
                 />
@@ -73,6 +75,8 @@ export const Select = ({
             <div className='flex items-center gap-3'>
               <RadixSelect.Icon>
                 <Image
+                  width={20}
+                  height={20}
                   src={selectedItem.path}
                   alt={selectedItem.description || 'image of selected item'}
                 />
@@ -116,7 +120,12 @@ export const Select = ({
                         className={twMerge(`flex items-center gap-3`, !placeholder && `mx-auto`)}
                       >
                         <RadixSelect.Icon>
-                          <Image src={item.path} alt={item.description || 'select icon'} />
+                          <Image
+                            width={20}
+                            height={20}
+                            src={item.path}
+                            alt={item.description || 'select icon'}
+                          />
                         </RadixSelect.Icon>
                         {placeholder && <RadixSelect.ItemText>{item.title}</RadixSelect.ItemText>}
                       </div>
