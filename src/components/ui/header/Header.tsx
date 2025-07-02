@@ -8,13 +8,14 @@ import InctagramForSuperAdmin from '@/assets/icons/InctagramForSuperAdmin.svg'
 import Notifications from '@/assets/icons/Notifications.svg'
 import { twMerge } from 'tailwind-merge'
 import Link from 'next/link'
+import { useAppSelector } from '@/lib/hooks'
+import { selectIsAuth } from '@/lib/appSlice'
 
 type Props = {
   isSuperAdminPanel?: boolean
-  isLoggedIn: boolean
-  notificationsCounter: number
+  notificationsCounter?: number
   notificationsHandler?: () => void
-  className: string
+  className?: string
 }
 
 const langVariant = [
@@ -28,9 +29,11 @@ const langVariant = [
   },
 ]
 
-export const Header = memo(({ isSuperAdminPanel = false, isLoggedIn, className }: Props) => {
+export const Header = memo(({ isSuperAdminPanel = false, className }: Props) => {
   const notificationsCounter = 3 // получение новых уведомлений с сервера
   const lang = 'English' // язык только eng
+
+  const isAuth = useAppSelector(selectIsAuth)
 
   const changeLangHandler = () => {
     // (country: string)
@@ -43,8 +46,8 @@ export const Header = memo(({ isSuperAdminPanel = false, isLoggedIn, className }
   return (
     <header
       className={twMerge(
-        'bg-dark-700 border-dark-300 z-[1000] ml-[20px] flex h-[60px] w-[1280px] items-center justify-between border-b py-[12px]',
-        isLoggedIn ? 'pr-[64px] pl-[60px]' : 'px-[60px]',
+        'border-dark-300 flex h-[60px] w-full items-center justify-between border-b py-[12px]',
+        isAuth ? 'pr-[64px] pl-[60px]' : 'px-[60px]',
         className
       )}
     >
@@ -58,8 +61,8 @@ export const Header = memo(({ isSuperAdminPanel = false, isLoggedIn, className }
         </Link>
       )}
 
-      <div className={twMerge('flex items-center', isLoggedIn ? 'gap-[45px]' : 'gap-[36px]')}>
-        {isLoggedIn && !isSuperAdminPanel && (
+      <div className={twMerge('flex items-center', isAuth ? 'gap-[45px]' : 'gap-[36px]')}>
+        {isAuth && !isSuperAdminPanel && (
           <div className={'relative'} onClick={notificationsHandler}>
             {notificationsCounter > 0 && (
               <div
@@ -82,10 +85,10 @@ export const Header = memo(({ isSuperAdminPanel = false, isLoggedIn, className }
           onValueChange={changeLangHandler}
           value={lang}
         />
-        {!isLoggedIn && (
+        {!isAuth && (
           <div className={'flex gap-[24px]'}>
             <Button variant={'outline'} asChild>
-              <Link href={'/auth/login'}>Log in</Link>
+              <Link href={'/auth/sign-in'}>Log in</Link>
             </Button>
             <Button asChild>
               <Link href={'/auth/sign-up'}>Sign up</Link>

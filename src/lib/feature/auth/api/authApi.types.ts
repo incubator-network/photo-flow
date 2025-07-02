@@ -22,3 +22,10 @@ export type MessagesError = {
   message: string
   field: string
 }
+
+export type MeResponse = {
+  userId: number
+  userName: string
+  email: string
+  isBlocked: boolean
+}
