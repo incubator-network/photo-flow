@@ -71,6 +71,11 @@ export default function PostModal({ post, comments }: PropsType) {
           <ClosePicture
             className={'h-[24px] w-[24px] cursor-pointer fill-white'}
             onClick={() => {
+              if (post.description === textValue) {
+                setIsEditMode(false)
+                setIsExit(false)
+                return
+              }
               console.log('открываем модалку')
               setIsExit(true)
             }}
@@ -80,7 +85,14 @@ export default function PostModal({ post, comments }: PropsType) {
       {isExit && (
         <div>
           <p>Do you want?</p>
-          <button onClick={() => router.back()}>Y</button>
+          <button
+            onClick={() => {
+              setIsEditMode(false)
+              setIsExit(false)
+            }}
+          >
+            Y
+          </button>
           <button
             onClick={() => {
               setIsExit(false)
@@ -135,14 +147,20 @@ export default function PostModal({ post, comments }: PropsType) {
                 : 'flex h-[390px] w-full flex-col justify-between'
             )}
           >
-            <Textarea
-              className={'mx-6 box-content block min-h-[120px] w-[433px] p-0'}
-              textareaLabel='Add publication descriptions'
-              textareaLabelStyles='ml-6'
-              value={textValue}
-              changeValue={setTextValue}
-              maxLength={500}
-            ></Textarea>
+            <div className='flex flex-col'>
+              <Textarea
+                className={'mx-6 box-content block min-h-[120px] w-[433px] p-0'}
+                textareaLabel='Add publication descriptions'
+                textareaLabelStyles='ml-6'
+                value={textValue}
+                changeValue={setTextValue}
+                maxLength={500}
+              ></Textarea>
+              <p className='text-light-900 mr-6 ml-auto text-xs leading-[1.33333] font-normal'>
+                {textValue.length}/500
+              </p>
+            </div>
+
             <Button type='submit' className={'mr-6 mb-6 ml-auto box-content w-[135px]'}>
               Save Changes
             </Button>
