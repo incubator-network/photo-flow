@@ -21,6 +21,8 @@ import { useEffect, useState } from 'react'
 import { Textarea } from '@/components/ui/textarea/Textarea'
 import { Button } from '@/components/ui/button/Button'
 import { useUpdatePostMutation } from '../../api/postsApi'
+import ClosePicture from '@/assets/icons/close.svg'
+import { twMerge } from 'tailwind-merge'
 
 type PropsType = {
   post: getPostResponse
@@ -53,9 +55,28 @@ export default function PostModal({ post, comments }: PropsType) {
   }
 
   return (
-    <ModalWindow open onClose={onCloseHandler} className={'flex h-[565px] w-[972px]'}>
-      <Slider images={post.images} />
-      <div className={'relative'}>
+    <ModalWindow
+      open
+      onClose={onCloseHandler}
+      className={twMerge(
+        'flex h-[565px] w-[972px]',
+        isEditMode && 'grid grid-cols-[auto_1fr] grid-rows-[60px_1fr] gap-0'
+      )}
+    >
+      {isEditMode && (
+        <div className='bg-dark-300 border-dark-100 col-span-2 row-span-1 flex h-[60px] w-[970px] items-center justify-between rounded-sm border px-6 py-3'>
+          <Typography variant='h1'>Edit Post</Typography>
+          <ClosePicture
+            className={'h-[24px] w-[24px] cursor-pointer fill-white'}
+            onClick={onCloseHandler}
+          />
+        </div>
+      )}
+      <Slider
+        images={post.images}
+        classname={twMerge('h-full', isEditMode ? 'col-span-1 row-span-1' : 'w-1/2')}
+      />
+      <div className={twMerge('relative h-full', isEditMode ? 'col-span-1 row-span-1' : 'w-1/2')}>
         <header className={'flex items-center gap-3 px-6 py-3'}>
           <Image
             width={36}
@@ -90,16 +111,21 @@ export default function PostModal({ post, comments }: PropsType) {
               await updatePost({ description: textValue, postId: post.id })
               setIsEditMode(false)
             }}
-            className='flex h-full w-full flex-col justify-between'
+            className={twMerge(
+              !isEditMode
+                ? 'flex h-[396px] w-full flex-col justify-between'
+                : 'flex h-[390px] w-full flex-col justify-between'
+            )}
           >
             <Textarea
-              className={'mx-6 block w-full'}
+              className={'mx-6 box-content block min-h-[120px] w-[433px] p-0'}
               textareaLabel='Add publication descriptions'
+              textareaLabelStyles='ml-6'
               value={textValue}
               changeValue={setTextValue}
               maxLength={500}
             ></Textarea>
-            <Button type='submit' className={'ml-auto box-content w-[135px]'}>
+            <Button type='submit' className={'mr-6 mb-6 ml-auto box-content w-[135px]'}>
               Save Changes
             </Button>
           </form>
