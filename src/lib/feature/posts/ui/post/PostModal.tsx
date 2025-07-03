@@ -31,6 +31,7 @@ type PropsType = {
 
 export default function PostModal({ post, comments }: PropsType) {
   const [isEditMode, setIsEditMode] = useState<boolean>(false)
+  const [isExit, setIsExit] = useState(false)
 
   const [textValue, setTextValue] = useState<string>('')
 
@@ -51,6 +52,7 @@ export default function PostModal({ post, comments }: PropsType) {
 
     if (isEditMode) {
       console.log('открываем модалку')
+      setIsExit(true)
     }
   }
 
@@ -68,8 +70,24 @@ export default function PostModal({ post, comments }: PropsType) {
           <Typography variant='h1'>Edit Post</Typography>
           <ClosePicture
             className={'h-[24px] w-[24px] cursor-pointer fill-white'}
-            onClick={onCloseHandler}
+            onClick={() => {
+              console.log('открываем модалку')
+              setIsExit(true)
+            }}
           />
+        </div>
+      )}
+      {isExit && (
+        <div>
+          <p>Do you want?</p>
+          <button onClick={() => router.back()}>Y</button>
+          <button
+            onClick={() => {
+              setIsExit(false)
+            }}
+          >
+            N
+          </button>
         </div>
       )}
       <Slider
