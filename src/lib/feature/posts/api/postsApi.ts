@@ -10,7 +10,13 @@ export const authApi = baseApi.injectEndpoints({
     getCommentAnswer: build.query<getPostInformation<Answer[]>, getCommentAnswerBody>({
       query: ({ commentId, postId }) => `/posts/${postId}/comments/${commentId}/answers`,
     }),
+    removePost: build.mutation<void, number>({
+      query: postId => ({
+        url: `/posts/${postId}`,
+        method: 'DELETE',
+      }),
+    }),
   }),
 })
 
-export const { useLazyGetCommentAnswerQuery } = authApi
+export const { useLazyGetCommentAnswerQuery, useRemovePostMutation } = authApi
