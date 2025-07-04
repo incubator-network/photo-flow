@@ -15,6 +15,7 @@ import {
   getPostInformation,
   getPostResponse,
 } from '@/lib/feature/posts/api/postsApi.types'
+import { PAGE_SIZE } from '@/constants'
 
 type Props = {
   userId: string
@@ -24,7 +25,6 @@ type Props = {
 
 export const UserPosts = ({ userId, userPostsData, totalCountPosts }: Props) => {
   const dispatch = useAppDispatch()
-  const [pageSize] = useState(8)
   const [endCursor, setEndCursor] = useState(0)
   const [postData, setPostData] = useState<{
     post: getPostResponse
@@ -42,7 +42,7 @@ export const UserPosts = ({ userId, userPostsData, totalCountPosts }: Props) => 
     {
       userId,
       endCursor,
-      pageSize,
+      pageSize: PAGE_SIZE,
     },
     {
       skip: skipFirstPostsLoadingRef.current,
@@ -57,7 +57,7 @@ export const UserPosts = ({ userId, userPostsData, totalCountPosts }: Props) => 
         {
           userId,
           endCursor: 0,
-          pageSize,
+          pageSize: PAGE_SIZE,
         },
         userPostsData
       )
@@ -65,12 +65,12 @@ export const UserPosts = ({ userId, userPostsData, totalCountPosts }: Props) => 
       skipFirstPostsLoadingRef.current = false
     }
     skipRefetchQueryRef.current = true
-  }, [data, dispatch, pageSize, userId, userPostsData]) // husky руается, было []
+  }, [data, dispatch, PAGE_SIZE, userId, userPostsData]) // husky руается, было []
 
   const selectResult = profileApi.endpoints.getUserPosts.select({
     userId,
     endCursor,
-    pageSize,
+    pageSize: PAGE_SIZE,
   })
   const cache = useSelector<RootState, ReturnType<typeof selectResult>>(state =>
     selectResult(state)

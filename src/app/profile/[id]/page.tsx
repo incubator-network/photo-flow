@@ -9,6 +9,7 @@ import {
   UserProfileDataResponse,
 } from '@/lib/feature/profile/types/profile.types'
 import { UserProfileMetadata } from '@/lib/feature/profile/ui/components/profile/userProfileMetadata/UserProfileMetadata'
+import { PAGE_SIZE } from '@/constants'
 
 // вернуть 404 если нет пользователя или не валидность
 
@@ -28,14 +29,13 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
     const userProfile: UserProfileDataResponse = await userProfileData.json()
 
     const userPostsData = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}posts/user/${userId}/0?pageSize=8`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}posts/user/${userId}/0?pageSize=${PAGE_SIZE}`,
       {
         cache: 'no-store',
       }
     )
     const userPosts: UserPostsResponse = await userPostsData.json()
     const totalCountPosts = userPosts.totalCount
-
     return (
       <div className={twMerge('m-auto w-[1060px] pt-[36px] pl-[24px]')}>
         <div className='flex gap-[38px] pr-[64px]'>
