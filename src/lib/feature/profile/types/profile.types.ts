@@ -41,37 +41,38 @@ export type UserProfileDataResponse = {
   hasPaymentSubscription?: boolean
 }
 
-export type UserPostsResponse = {
-  totalCount: number
-  pageSize: number
-  items: [
+export type PostResponse = {
+  id: number
+  userName: string
+  description: string
+  location: null
+  images: [
     {
-      id: number
-      userName: string
-      description: string
-      location: null
-      images: [
-        {
-          url: string
-          width: number
-          height: number
-          fileSize: number
-          createdAt: string
-          uploadId: string
-        },
-      ]
+      url: string
+      width: number
+      height: number
+      fileSize: number
       createdAt: string
-      updatedAt: string
-      avatarOwner: string
-      ownerId: number
-      owner: {
-        firstName: string
-        lastName: string
-      }
-      likesCount: number
-      isLiked: false
-      avatarWhoLikes: []
+      uploadId: string
     },
   ]
+  createdAt: string
+  updatedAt: string
+  avatarOwner: string
+  ownerId: number
+  owner: {
+    firstName: string
+    lastName: string
+  }
+  likesCount: number
+  isLiked: false
+  avatarWhoLikes: []
+}
+
+export type UserPostsResponse = {
+  // postResponse
+  totalCount: number
+  pageSize: number
+  items: PostResponse[]
   totalUsers: number
 }

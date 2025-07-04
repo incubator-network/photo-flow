@@ -1,6 +1,5 @@
 import { twMerge } from 'tailwind-merge'
 import { Typography } from '@/components/ui/typography/Typography'
-import { UserMetadata } from '@/lib/feature/profile/ui/components/profile/userMetadata/UserMetadata'
 import { UserPosts } from '@/lib/feature/profile/ui/components/profile/userPosts/UserPosts'
 import { ProfileControls } from '@/lib/feature/profile/ui/components/profile/profileControls/ProfileControls'
 import Image from 'next/image'
@@ -9,6 +8,7 @@ import {
   UserPostsResponse,
   UserProfileDataResponse,
 } from '@/lib/feature/profile/types/profile.types'
+import { UserProfileMetadata } from '@/lib/feature/profile/ui/components/profile/userProfileMetadata/UserProfileMetadata'
 
 // вернуть 404 если нет пользователя или не валидность
 
@@ -47,6 +47,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
             height={204}
             className='h-[204px] w-[204px] rounded-[50%]'
           />
+
           <div className='w-full'>
             <div className='flex w-full justify-between'>
               <Typography variant={'h1'} className={'capitalize'}>
@@ -54,17 +55,11 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
               </Typography>
               <ProfileControls id={userId} />
             </div>
-            <div className='mt-[19px] flex gap-[88px]'>
-              <UserMetadata
-                title={'Following'}
-                metaDataCount={userProfile.userMetadata.following}
-              />
-              <UserMetadata
-                title={'Followers'}
-                metaDataCount={userProfile.userMetadata.followers}
-              />
-              <UserMetadata title={'Publications'} metaDataCount={userPosts.totalCount} />
-            </div>
+            <UserProfileMetadata
+              following={userProfile.userMetadata.following}
+              followers={userProfile.userMetadata.followers}
+              postsCount={userPosts.totalCount}
+            />
             <Typography variant='regular_text_16' className='mt-[23px]'>
               {userProfile.aboutMe}
             </Typography>
@@ -80,6 +75,6 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
     )
   } catch (e) {
     console.log(e)
-    return <h1>Not Found 404 заглушка</h1>
+    return <h1>Not Found 404 заглушка</h1> // переделать! компонент 404
   }
 }

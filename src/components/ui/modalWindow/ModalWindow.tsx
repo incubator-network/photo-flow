@@ -27,6 +27,7 @@ export const ModalWindow = ({
       <Dialog.Portal>
         <Dialog.Overlay className={twMerge('fixed inset-0 bg-black/60', overlayClassName)} />
         <Dialog.Content
+          onOpenAutoFocus={e => e.preventDefault()}
           className={twMerge(
             'bg-dark-300 border-dark-100 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-[1px] border',
             className

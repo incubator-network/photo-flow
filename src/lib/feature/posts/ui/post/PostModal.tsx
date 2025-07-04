@@ -6,7 +6,7 @@ import {
   getPostInformation,
   getPostResponse,
 } from '@/lib/feature/posts/api/postsApi.types'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import { Typography } from '@/components/ui/typography/Typography'
 import Slider from '@/components/ui/slider/Slider'
@@ -24,11 +24,17 @@ type PropsType = {
 
 export default function PostModal({ post, comments }: PropsType) {
   const router = useRouter()
-
+  const { id } = useParams()
+  const searchParams = useSearchParams()
+  const postId = searchParams.get('postId')
   const isAuth = useAppSelector(selectIsAuth)
 
   return (
-    <ModalWindow open onClose={() => router.back()} className={'flex h-[565px] w-[972px]'}>
+    <ModalWindow
+      open={!!postId}
+      onClose={() => router.replace(`/profile/${id}`)}
+      className={'flex h-[565px] w-[972px]'}
+    >
       <Slider images={post.images} />
       <div className={'relative'}>
         <header className={'flex items-center gap-3 px-6 py-3'}>

@@ -2,10 +2,19 @@
 
 import { profileApi, useGetUserPostsQuery } from '@/lib/feature/profile/api/profileApi'
 import Image from 'next/image'
-import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, RootState } from '@/lib/store'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/lib/store'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { UserPostsResponse } from '@/lib/feature/profile/types/profile.types'
+import PostModal from '@/lib/feature/posts/ui/post/PostModal'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { getComments, getPost } from '@/lib/feature/posts/ssr/getPostSSR'
+import { useAppDispatch } from '@/lib/hooks'
+import {
+  Comment,
+  getPostInformation,
+  getPostResponse,
+} from '@/lib/feature/posts/api/postsApi.types'
 
 type Props = {
   userId: string
@@ -14,9 +23,16 @@ type Props = {
 }
 
 export const UserPosts = ({ userId, userPostsData, totalCountPosts }: Props) => {
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useAppDispatch()
   const [pageSize] = useState(8)
   const [endCursor, setEndCursor] = useState(0)
+  const [postData, setPostData] = useState<{
+    post: getPostResponse
+    comments: getPostInformation<Comment[]>
+  }>({})
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
   const skipFirstPostsLoadingRef = useRef(true)
   const skipRefetchQueryRef = useRef(false)
   const observer = useRef<IntersectionObserver | null>(null)
@@ -49,7 +65,7 @@ export const UserPosts = ({ userId, userPostsData, totalCountPosts }: Props) => 
       skipFirstPostsLoadingRef.current = false
     }
     skipRefetchQueryRef.current = true
-  }, [])
+  }, [data, dispatch, pageSize, userId, userPostsData]) // husky руается, было []
 
   const selectResult = profileApi.endpoints.getUserPosts.select({
     userId,
@@ -95,12 +111,22 @@ export const UserPosts = ({ userId, userPostsData, totalCountPosts }: Props) => 
 
   const posts = data?.items || userPostsData.items
 
+  const handlePost = async (id: string) => {
+    const post = await getPost(id)
+    const comments = await getComments(id)
+    setPostData({ post, comments })
+    const params = new URLSearchParams(searchParams.toString())
+    params.set('postId', id)
+    router.push(`${pathname}?${params.toString()}`)
+  }
+
   return (
     <div className='flex flex-wrap gap-[12px] py-[48px]' id='profilePostsObserver'>
       {posts?.map((item, index) => {
         const isLastElement = index === posts.length - 1
         return (
           <Image
+            onClick={() => handlePost(item.id.toString())}
             priority
             ref={isLastElement ? lastElementRef : null}
             key={item.id}
@@ -108,10 +134,13 @@ export const UserPosts = ({ userId, userPostsData, totalCountPosts }: Props) => 
             alt={item.id.toString()}
             width={234}
             height={228}
-            style={{ aspectRatio: 234 / 228 }}
+            style={{ aspectRatio: 234 / 228, cursor: 'pointer' }}
           />
         )
       })}
+      {postData?.post && postData?.comments && (
+        <PostModal post={postData.post} comments={postData.comments} />
+      )}
     </div>
   )
 }
