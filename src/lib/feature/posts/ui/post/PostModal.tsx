@@ -14,13 +14,11 @@ import PostDescription from '@/lib/feature/posts/ui/post/postDescription/PostDes
 import PostComment from '@/lib/feature/posts/ui/post/postComment/PostComment'
 import PostFooter from '@/lib/feature/posts/ui/post/postFooter/PostFooter'
 import Dots from '@/assets/icons/more-horizontal.svg'
-import Pencil from '@/assets/icons/pencil.svg'
-import Basket from '@/assets/icons/basket.svg'
 import { useAppSelector } from '@/lib/hooks'
 import { selectIsAuth } from '@/lib/appSlice'
-import { Button } from '@/components/ui/button/Button'
 import { useState } from 'react'
-import { useRemovePostMutation } from '@/lib/feature/post/api/postApi'
+import PostDeleteModal from '@/lib/feature/posts/ui/post/postDeleteModal/PostDeleteModal'
+import PostMenu from '@/lib/feature/posts/ui/post/postMenu/PostMenu'
 
 type PropsType = {
   post: getPostResponse
@@ -32,22 +30,10 @@ export default function PostModal({ post, comments }: PropsType) {
 
   const isAuth = useAppSelector(selectIsAuth)
 
-  const [deletePost] = useRemovePostMutation()
-  const [isModalOpen, setIsModalOpen] = useState(false)
-
   const [isVisible, setIsVisible] = useState(false)
 
-  const postRemoveHandler = async () => {
-    setIsModalOpen(true)
-    try {
-      await deletePost(post.id).unwrap()
-      router.back()
-    } catch (error) {
-      console.error('The post has not been found', error)
-    } finally {
-      setIsModalOpen(false)
-    }
-  }
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
   const showBlock = (value: boolean) => {
     setIsVisible(value)
   }
@@ -70,51 +56,15 @@ export default function PostModal({ post, comments }: PropsType) {
               className={'fill-accent-500 absolute right-6 h-6 w-6 cursor-pointer'}
             />
           )}
-          {isVisible && (
-            <div
-              className={
-                'border-dark-100 bg-dark-500 absolute top-18 right-6 flex h-[85px] w-[137px] items-center justify-center'
-              }
-            >
-              <div className={''}>
-                <Button className={'mb-3 p-0'} variant={'text'}>
-                  <Pencil className={'fill-light-100 mr-3 h-6 w-6'} />
-                  <Typography className={'text-light-100'} variant={'regular_text_14'}>
-                    Edit Post
-                  </Typography>
-                </Button>
-
-                <Button className={'p-0'} onClick={() => setIsModalOpen(true)} variant={'text'}>
-                  <Basket className={'fill-light-100 mr-3 h-6 w-5'} />
-                  <Typography className={'text-light-100'} variant={'regular_text_14'}>
-                    Delete Post
-                  </Typography>
-                </Button>
-              </div>
-            </div>
-          )}
-          <ModalWindow
-            modalTitle='Delete Post'
+          {/*postMenu*/}
+          {isVisible && <PostMenu onClose={() => setIsModalOpen(true)} />}
+          {/*PostDeleteModal*/}
+          <PostDeleteModal
             open={isModalOpen}
-            className='h-[240px] w-[438px]'
+            setIsModalOpen={setIsModalOpen}
             onClose={() => setIsModalOpen(false)}
-          >
-            <div className='relative mt-7.5 px-6'>
-              <div className='pb-7.5'>
-                <Typography variant='regular_text_16'>
-                  Are you sure you want to delete this post?
-                </Typography>
-              </div>
-              <div className='flex justify-end gap-6'>
-                <Button variant={'outline'} onClick={postRemoveHandler} className='w-24'>
-                  Yes
-                </Button>
-                <Button onClick={() => setIsModalOpen(false)} className='w-24'>
-                  No
-                </Button>
-              </div>
-            </div>
-          </ModalWindow>
+            postId={post.id}
+          />
         </header>
 
         <section
