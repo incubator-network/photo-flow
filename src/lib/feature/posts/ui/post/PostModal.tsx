@@ -23,8 +23,8 @@ import { Button } from '@/components/ui/button/Button'
 import { useUpdatePostMutation } from '../../api/postsApi'
 import ClosePicture from '@/assets/icons/close.svg'
 import { twMerge } from 'tailwind-merge'
-import PostDeleteModal from '@/lib/feature/posts/ui/post/postDeleteModal/PostDeleteModal'
 import PostMenu from '@/lib/feature/posts/ui/post/postMenu/PostMenu'
+import ConfirmModal from './ConfirmModal/ConfirmModal'
 
 type PropsType = {
   post: getPostResponse
@@ -34,6 +34,8 @@ type PropsType = {
 export default function PostModal({ post, comments }: PropsType) {
   const [isEditMode, setIsEditMode] = useState<boolean>(false)
   const [isExit, setIsExit] = useState(false)
+  const [isDelete, setIsDelete] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const [textValue, setTextValue] = useState<string>('')
 
@@ -58,12 +60,8 @@ export default function PostModal({ post, comments }: PropsType) {
     }
   }
 
-  const [isVisible, setIsVisible] = useState(false)
-
-  const [isModalOpen, setIsModalOpen] = useState(false)
-
   const showBlock = (value: boolean) => {
-    setIsVisible(value)
+    setIsDelete(value)
   }
   return (
     <ModalWindow
@@ -85,30 +83,9 @@ export default function PostModal({ post, comments }: PropsType) {
                 setIsExit(false)
                 return
               }
-              console.log('открываем модалку')
               setIsExit(true)
             }}
           />
-        </div>
-      )}
-      {isExit && (
-        <div>
-          <p>Do you want?</p>
-          <button
-            onClick={() => {
-              setIsEditMode(false)
-              setIsExit(false)
-            }}
-          >
-            Y
-          </button>
-          <button
-            onClick={() => {
-              setIsExit(false)
-            }}
-          >
-            N
-          </button>
         </div>
       )}
       <Slider
@@ -129,21 +106,40 @@ export default function PostModal({ post, comments }: PropsType) {
             <Dots
               className={'fill-accent-500 absolute right-6 h-6 w-6 cursor-pointer'}
               onClick={() => {
-                setIsEditMode(true)
-                showBlock(!isVisible)
+                showBlock(!isDelete)
               }}
             />
           )}
 
-          {/*postMenu*/}
-          {isVisible && <PostMenu onClose={() => setIsModalOpen(true)} />}
-          {/*PostDeleteModal*/}
+          {isDelete && !isEditMode && (
+            <PostMenu
+              onClose={() => setIsModalOpen(true)}
+              onCloseMenu={() => setIsDelete(false)}
+              onEditHandler={() => setIsEditMode(true)}
+            />
+          )}
 
-          <PostDeleteModal
+          <ConfirmModal
+            open={isExit}
+            setIsModalOpen={setIsExit}
+            onClose={() => setIsExit(false)}
+            removeEditMode={() => {
+              setIsEditMode(false)
+              setTextValue(post.description)
+            }}
+            postId={post.id}
+            className='h-[240px] w-[486px]'
+            type='exit'
+            confirmText='Do you really want to close the edition of the publication? If you close changes won’t be saved'
+          />
+
+          <ConfirmModal
             open={isModalOpen}
             setIsModalOpen={setIsModalOpen}
             onClose={() => setIsModalOpen(false)}
             postId={post.id}
+            type='delete'
+            confirmText='Are you sure you want to delete this post?'
           />
         </header>
         {!isEditMode ? (

@@ -6,9 +6,11 @@ import Basket from '@/assets/icons/basket.svg'
 
 type PostMenuProps = {
   onClose: () => void
+  onEditHandler: () => void
+  onCloseMenu: () => void
 }
 
-function PostMenu({ onClose }: PostMenuProps) {
+function PostMenu({ onClose, onEditHandler, onCloseMenu }: PostMenuProps) {
   return (
     <div
       className={
@@ -16,14 +18,28 @@ function PostMenu({ onClose }: PostMenuProps) {
       }
     >
       <div>
-        <Button className={'mb-3 p-0'} variant={'text'}>
+        <Button
+          className={'mb-3 p-0'}
+          variant={'text'}
+          onClick={() => {
+            onCloseMenu()
+            onEditHandler()
+          }}
+        >
           <Pencil className={'fill-light-100 mr-3 h-6 w-6'} />
           <Typography className={'text-light-100'} variant={'regular_text_14'}>
             Edit Post
           </Typography>
         </Button>
 
-        <Button className={'p-0'} onClick={onClose} variant={'text'}>
+        <Button
+          className={'p-0'}
+          onClick={() => {
+            onCloseMenu()
+            onClose()
+          }}
+          variant={'text'}
+        >
           <Basket className={'fill-light-100 mr-3 h-6 w-5'} />
           <Typography className={'text-light-100'} variant={'regular_text_14'}>
             Delete Post
