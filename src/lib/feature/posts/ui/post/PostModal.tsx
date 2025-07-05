@@ -23,6 +23,8 @@ import { Button } from '@/components/ui/button/Button'
 import { useUpdatePostMutation } from '../../api/postsApi'
 import ClosePicture from '@/assets/icons/close.svg'
 import { twMerge } from 'tailwind-merge'
+import PostDeleteModal from '@/lib/feature/posts/ui/post/postDeleteModal/PostDeleteModal'
+import PostMenu from '@/lib/feature/posts/ui/post/postMenu/PostMenu'
 
 type PropsType = {
   post: getPostResponse
@@ -56,6 +58,13 @@ export default function PostModal({ post, comments }: PropsType) {
     }
   }
 
+  const [isVisible, setIsVisible] = useState(false)
+
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const showBlock = (value: boolean) => {
+    setIsVisible(value)
+  }
   return (
     <ModalWindow
       open
@@ -107,7 +116,7 @@ export default function PostModal({ post, comments }: PropsType) {
         classname={twMerge('h-full', isEditMode ? 'col-span-1 row-span-1' : 'w-1/2')}
       />
       <div className={twMerge('relative h-full', isEditMode ? 'col-span-1 row-span-1' : 'w-1/2')}>
-        <header className={'flex items-center gap-3 px-6 py-3'}>
+        <header className={'relative flex items-center gap-3 px-6 py-3'}>
           <Image
             width={36}
             height={36}
@@ -121,9 +130,21 @@ export default function PostModal({ post, comments }: PropsType) {
               className={'fill-accent-500 absolute right-6 h-6 w-6 cursor-pointer'}
               onClick={() => {
                 setIsEditMode(true)
+                showBlock(!isVisible)
               }}
             />
           )}
+
+          {/*postMenu*/}
+          {isVisible && <PostMenu onClose={() => setIsModalOpen(true)} />}
+          {/*PostDeleteModal*/}
+
+          <PostDeleteModal
+            open={isModalOpen}
+            setIsModalOpen={setIsModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            postId={post.id}
+          />
         </header>
         {!isEditMode ? (
           <section

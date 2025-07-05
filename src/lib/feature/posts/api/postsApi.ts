@@ -21,7 +21,18 @@ export const authApi = baseApi.injectEndpoints({
         body: { description },
       }),
     }),
+    removePost: build.mutation<void, number>({
+      query: postId => ({
+        url: `/posts/${postId}`,
+        method: 'DELETE',
+      }),
+    }),
   }),
 })
 
-export const { useLazyGetCommentAnswerQuery, useUpdatePostMutation, useGetPostByIdQuery } = authApi
+export const {
+  useLazyGetCommentAnswerQuery,
+  useUpdatePostMutation,
+  useGetPostByIdQuery,
+  useRemovePostMutation,
+} = authApi
