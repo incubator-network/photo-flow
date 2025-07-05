@@ -33,6 +33,7 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   textareaLabel?: string
   error?: string | null
   register?: UseFormRegisterReturn
+  textareaLabelStyles?: string
 }
 
 export const Textarea = memo(
@@ -47,6 +48,7 @@ export const Textarea = memo(
     onBlur,
     onFocus,
     register,
+    textareaLabelStyles,
     ...props
   }: TextareaProps) => {
     const calculatedClassName = twMerge(
@@ -66,7 +68,10 @@ export const Textarea = memo(
     return (
       <div className={'inline-flex flex-col items-start'}>
         {textareaLabel && (
-          <Typography variant={'regular_text_14'} className={'text-light-900'}>
+          <Typography
+            variant={'regular_text_14'}
+            className={twMerge('text-light-900', textareaLabelStyles)}
+          >
             {textareaLabel}
           </Typography>
         )}

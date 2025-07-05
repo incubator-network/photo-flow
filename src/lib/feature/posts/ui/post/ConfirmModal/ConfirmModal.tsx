@@ -4,15 +4,29 @@ import { Typography } from '@/components/ui/typography/Typography'
 import { Button } from '@/components/ui/button/Button'
 import { useRouter } from 'next/navigation'
 import { useRemovePostMutation } from '@/lib/feature/posts/api/postsApi'
+import { twMerge } from 'tailwind-merge'
 
 type PostActionsModalProps = {
   open: boolean
   onClose: () => void
+  removeEditMode?: () => void
   setIsModalOpen: (isModalOpen: boolean) => void
   postId: number
+  type: 'delete' | 'exit'
+  className?: string
+  confirmText: string
 }
 
-function PostDeleteModal({ open, onClose, postId, setIsModalOpen }: PostActionsModalProps) {
+function ConfirmModal({
+  open,
+  onClose,
+  postId,
+  setIsModalOpen,
+  type,
+  className,
+  confirmText,
+  removeEditMode,
+}: PostActionsModalProps) {
   const router = useRouter()
 
   const [deletePost] = useRemovePostMutation()
@@ -30,19 +44,30 @@ function PostDeleteModal({ open, onClose, postId, setIsModalOpen }: PostActionsM
   }
   return (
     <ModalWindow
-      modalTitle='Delete Post'
+      modalTitle={type === 'delete' ? 'Delete Post' : 'Close Post'}
       open={open}
-      className='h-[240px] w-[438px]'
+      className={twMerge('h-[216px] w-[378px]', className)}
       onClose={onClose}
     >
       <div className='relative mt-7.5 px-6'>
         <div className='pb-7.5'>
-          <Typography variant='regular_text_16'>
-            Are you sure you want to delete this post?
-          </Typography>
+          <Typography variant='regular_text_16'>{confirmText}</Typography>
         </div>
         <div className='flex justify-end gap-6'>
-          <Button variant={'outline'} onClick={postRemoveHandler} className='w-24'>
+          <Button
+            variant={'outline'}
+            onClick={() => {
+              if (type === 'exit') {
+                onClose()
+                removeEditMode!()
+              }
+
+              if (type === 'delete') {
+                postRemoveHandler()
+              }
+            }}
+            className='w-24'
+          >
             Yes
           </Button>
           <Button onClick={onClose} className='w-24'>
@@ -51,8 +76,7 @@ function PostDeleteModal({ open, onClose, postId, setIsModalOpen }: PostActionsM
         </div>
       </div>
     </ModalWindow>
-    //   w378
   )
 }
 
-export default PostDeleteModal
+export default ConfirmModal
