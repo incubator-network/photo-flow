@@ -1,11 +1,19 @@
-'use client'
+import PublicPosts from '@/lib/feature/publicPage/ui/components/PublicPosts/PublicPosts'
+import { UsersCounter } from '@/lib/feature/publicPage/ui'
 
-export default function Home() {
+export default async function HomePage() {
+  const POSTS_ON_PAGE = 4
+  const postsRaw = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/public-posts/all?pageSize=${POSTS_ON_PAGE}`
+  )
+  const countRaw = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/public-user`)
+  const publicPosts = await postsRaw.json()
+  const usersCount = await countRaw.json()
+
   return (
-    <div style={{ height: '2000px', width: '120%' }}>
-      <div className={'bg-danger-700 text-h1 mt-20 text-center font-sans'}>
-        Hello this a test string
-      </div>
+    <div className={'flex flex-col items-center'}>
+      <UsersCounter usersCount={usersCount.totalCount} />
+      <PublicPosts initialPosts={publicPosts} POSTS_ON_PAGE={POSTS_ON_PAGE} />
     </div>
   )
 }

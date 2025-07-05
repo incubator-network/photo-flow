@@ -141,7 +141,12 @@
     cursor: pointer;
   }
 }
-
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 :root {
   --primary: rgba(241, 241, 241, 0);
   --secondary: #333333;
