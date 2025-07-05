@@ -7,6 +7,7 @@ import { Typography } from '@/components/ui/typography/Typography'
 import Image from 'next/image'
 import Link from 'next/link'
 import { formatTimeAgo } from '@/utils/formatTimeAgo'
+import ExpandableText from '@/components/ui/expandableText/ExpandableText'
 
 type PropsType = {
   initialPosts: UserPostsResponse
@@ -26,7 +27,6 @@ export default function PublicPosts({ initialPosts }: PropsType) {
   }, [refetch])
 
   if (isLoading) return <div>Loading...</div>
-
   return (
     <div className={'mt-[36px] flex flex-row gap-3'}>
       {publicPosts?.items.map(post => {
@@ -58,14 +58,11 @@ export default function PublicPosts({ initialPosts }: PropsType) {
               )}
               <h1 className={'px-[12px]'}>{post.userName}</h1>
             </div>
-            <Typography variant={'regular_text_14'} className={'py-1'}>
+            <Typography variant={'small_text'} className={'py-1'}>
               {resultDate}
             </Typography>
-
             <div className='w-[240px]'>
-              <p className={'line-clamp-3 text-sm leading-4 break-words text-gray-300'}>
-                {post.description}
-              </p>
+              <ExpandableText className={'leading-4 text-gray-300'} text={post.description} />
             </div>
           </div>
         )
