@@ -10,13 +10,13 @@ import Image from 'next/image'
 export default async function ProfilePage({ params }: ProfilePageProps) {
   const { id: userId } = await params // новый синтаксис некста по доке)
   const userProfileData = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}public-user/profile/${userId}`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/public-user/profile/${userId}`,
     { cache: 'no-store' }
   )
   const userProfile: UserProfileDataResponse = await userProfileData.json()
 
   const userPostsData = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}posts/user/${userId}/0?pageSize=8`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/posts/user/${userId}/0?pageSize=8`,
     {
       cache: 'no-store',
     }

@@ -2,10 +2,11 @@
 import { useEffect } from 'react'
 import { useGetPublicPostsQuery } from '@/lib/feature/post/api/postApi'
 import { UserPostsResponse } from '@/app/profile/[id]/page'
-import { formatDistanceToNow } from 'date-fns'
 import ImageNotFound from '@/assets/icons/no-image.svg'
 import { Typography } from '@/components/ui/typography/Typography'
 import Image from 'next/image'
+import Link from 'next/link'
+import { formatTimeAgo } from '@/utils/formatTimeAgo'
 
 type PropsType = {
   initialPosts: UserPostsResponse
@@ -27,24 +28,25 @@ export default function PublicPosts({ initialPosts }: PropsType) {
   if (isLoading) return <div>Loading...</div>
 
   return (
-    <ul className={'mt-[36px] flex flex-row gap-3'}>
+    <div className={'mt-[36px] flex flex-row gap-3'}>
       {publicPosts?.items.map(post => {
-        const date = new Date(post.createdAt)
-        const resultDate = formatDistanceToNow(date, { addSuffix: true })
+        const resultDate = formatTimeAgo(post.createdAt)
         return (
-          <li key={post.id}>
+          <div key={post.id}>
             {post.images[0] ? (
-              <Image
-                width={240}
-                height={240}
-                className='h-auto max-w-[240px]'
-                src={post.images[0]?.url}
-                alt={post.description}
-              />
+              <Link href={`/posts/${post.id}`}>
+                <Image
+                  width={240}
+                  height={240}
+                  className='h-auto max-w-[240px]'
+                  src={post.images[0]?.url}
+                  alt={post.description}
+                />
+              </Link>
             ) : (
               <ImageNotFound className='h-auto w-[240px]' fill={'#5f5f5f'} />
             )}
-            <ul className={'flex-start flex items-center pt-[12px]'}>
+            <div className={'flex-start flex items-center pt-[12px]'}>
               {post.avatarOwner ? (
                 <Image
                   className={'w-[36px] rounded-2xl'}
@@ -55,7 +57,7 @@ export default function PublicPosts({ initialPosts }: PropsType) {
                 <ImageNotFound className={'h-[36px] w-[36px] rounded-2xl'} fill={'#5f5f5f'} />
               )}
               <h1 className={'px-[12px]'}>{post.userName}</h1>
-            </ul>
+            </div>
             <Typography variant={'regular_text_14'} className={'py-1'}>
               {resultDate}
             </Typography>
@@ -65,9 +67,9 @@ export default function PublicPosts({ initialPosts }: PropsType) {
                 {post.description}
               </p>
             </div>
-          </li>
+          </div>
         )
       })}
-    </ul>
+    </div>
   )
 }
