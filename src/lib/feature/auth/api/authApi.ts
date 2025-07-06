@@ -1,8 +1,8 @@
 import { baseApi } from '@/lib/baseApi'
 import {
   ForgotPasswordRequest,
-  ResendEmailRequest,
   MeResponse,
+  ResendEmailRequest,
 } from '@/lib/feature/auth/api/authApi.types'
 import { LoginFields } from '@/lib/feature/auth/schemas/signInSchema'
 
