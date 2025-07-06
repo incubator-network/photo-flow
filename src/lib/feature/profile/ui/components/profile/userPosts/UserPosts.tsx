@@ -23,13 +23,15 @@ type Props = {
   totalCountPosts: number
 }
 
+type PostData = {
+  post: getPostResponse
+  comments: getPostInformation<Comment[]>
+}
+
 export const UserPosts = ({ userId, userPostsData, totalCountPosts }: Props) => {
   const dispatch = useAppDispatch()
   const [endCursor, setEndCursor] = useState(0)
-  const [postData, setPostData] = useState<{
-    post: getPostResponse
-    comments: getPostInformation<Comment[]>
-  }>({})
+  const [postData, setPostData] = useState<PostData>({} as PostData)
   const router = useRouter()
   const searchParams = useSearchParams()
   const pathname = usePathname()
@@ -65,7 +67,7 @@ export const UserPosts = ({ userId, userPostsData, totalCountPosts }: Props) => 
       skipFirstPostsLoadingRef.current = false
     }
     skipRefetchQueryRef.current = true
-  }, [data, dispatch, PAGE_SIZE, userId, userPostsData]) // husky руается, было []
+  }, [data, dispatch, PAGE_SIZE, userId, userPostsData])
 
   const selectResult = profileApi.endpoints.getUserPosts.select({
     userId,
