@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { twMerge } from 'tailwind-merge'
+import { Typography } from '@/components/ui/typography/Typography'
 
 type PropsType = {
   text: string
@@ -13,18 +14,22 @@ export default function ExpandableText({ text, maxLength = 50, className }: Prop
 
   return (
     <div>
-      <p className={twMerge(className, 'inline whitespace-pre-wrap')}>
+      <Typography
+        variant={'regular_text_14'}
+        className={twMerge(className, 'inline whitespace-pre-wrap')}
+      >
         {displayText}
         {isLong && !expanded && '... '}
         {isLong && (
-          <button
+          <Typography
+            variant={'regular_text_14'}
             className={'text-accent-500 inline underline'}
             onClick={() => setExpanded(!expanded)}
           >
             {expanded ? 'Show less' : 'Show more'}
-          </button>
+          </Typography>
         )}
-      </p>
+      </Typography>
     </div>
   )
 }
