@@ -27,7 +27,12 @@ export type PostResponse = {
   isLiked: boolean
   avatarWhoLikes: string[]
 }
-
+export type UserPostsResponse = {
+  totalCount: number
+  pageSize: number
+  items: PostResponse[]
+  totalUsers: number
+}
 export type Avatars = Omit<Images, 'uploadId'>
 
 export type Author = {
