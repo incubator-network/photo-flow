@@ -3,6 +3,9 @@ import {
   Answer,
   getCommentAnswerBody,
   getPostInformation,
+  PostResponse,
+  Images,
+  AddPostRequest,
 } from '@/lib/feature/posts/api/postsApi.types'
 
 export const authApi = baseApi.injectEndpoints({
@@ -16,7 +19,27 @@ export const authApi = baseApi.injectEndpoints({
         method: 'DELETE',
       }),
     }),
+    addPost: build.mutation<PostResponse, AddPostRequest>({
+      query: body => ({
+        url: '/posts',
+        method: 'POST',
+        body,
+      }),
+    }),
+    uploadImages: build.mutation<{ images: Images[] }, FormData>({
+      query: formData => ({
+        url: '/posts/image',
+        method: 'POST',
+        body: formData,
+      }),
+    }),
   }),
 })
 
-export const { useLazyGetCommentAnswerQuery, useRemovePostMutation } = authApi
+export const {
+  useLazyGetCommentAnswerQuery,
+  useRemovePostMutation,
+
+  useUploadImagesMutation,
+  useAddPostMutation,
+} = authApi

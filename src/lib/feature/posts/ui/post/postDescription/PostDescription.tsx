@@ -1,9 +1,9 @@
 import Image from 'next/image'
 import { Typography } from '@/components/ui/typography/Typography'
 import { formatTimeAgo } from '@/utils/formatTimeAgo'
-import { getPostResponse } from '@/lib/feature/posts/api/postsApi.types'
+import { PostResponse } from '@/lib/feature/posts/api/postsApi.types'
 
-function PostDescription({ post }: { post: getPostResponse }) {
+function PostDescription({ post }: { post: PostResponse }) {
   return (
     <div className={'border-dark-100 mb-4 flex gap-3 border-b'}>
       <div className={'h-9 max-w-9'}>
