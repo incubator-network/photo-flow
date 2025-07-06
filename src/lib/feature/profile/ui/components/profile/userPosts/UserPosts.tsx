@@ -5,7 +5,6 @@ import Image from 'next/image'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/lib/store'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { UserPostsResponse } from '@/lib/feature/profile/types/profile.types'
 import PostModal from '@/lib/feature/posts/ui/post/PostModal'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { getComments, getPost } from '@/lib/feature/posts/ssr/getPostSSR'
@@ -13,7 +12,8 @@ import { useAppDispatch } from '@/lib/hooks'
 import {
   Comment,
   getPostInformation,
-  getPostResponse,
+  PostResponse,
+  UserPostsResponse,
 } from '@/lib/feature/posts/api/postsApi.types'
 import { PAGE_SIZE } from '@/constants'
 
@@ -24,7 +24,7 @@ type Props = {
 }
 
 type PostData = {
-  post: getPostResponse
+  post: PostResponse
   comments: getPostInformation<Comment[]>
 }
 

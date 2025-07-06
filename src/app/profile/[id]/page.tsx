@@ -4,12 +4,10 @@ import { UserPosts } from '@/lib/feature/profile/ui/components/profile/userPosts
 import { ProfileControls } from '@/lib/feature/profile/ui/components/profile/profileControls/ProfileControls'
 import Image from 'next/image'
 import DefaultAvatar from '@/../public/defaultAvatar.jpg'
-import {
-  UserPostsResponse,
-  UserProfileDataResponse,
-} from '@/lib/feature/profile/types/profile.types'
+import { UserProfileDataResponse } from '@/lib/feature/profile/types/profile.types'
 import { UserProfileMetadata } from '@/lib/feature/profile/ui/components/profile/userProfileMetadata/UserProfileMetadata'
 import { PAGE_SIZE } from '@/constants'
+import { UserPostsResponse } from '@/lib/feature/posts/api/postsApi.types'
 
 // вернуть 404 если нет пользователя или не валидность
 
@@ -23,13 +21,13 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
   const { id: userId } = await params
   try {
     const userProfileData = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}public-user/profile/${userId}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/public-user/profile/${userId}`,
       { cache: 'no-store' }
     )
     const userProfile: UserProfileDataResponse = await userProfileData.json()
 
     const userPostsData = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}posts/user/${userId}/0?pageSize=${PAGE_SIZE}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/posts/user/${userId}/0?pageSize=${PAGE_SIZE}`,
       {
         cache: 'no-store',
       }

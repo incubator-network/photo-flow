@@ -1,10 +1,4 @@
-type AvatarType = {
-  url: string
-  width: number
-  height: number
-  fileSize: number
-  createdAt: string
-}
+import { Avatars } from '@/lib/feature/posts/api/postsApi.types'
 
 export type ProfileType = {
   id: number
@@ -17,62 +11,20 @@ export type ProfileType = {
   dateOfBirth: string
   aboutMe: string
   createdAt: string
-  avatars: AvatarType[]
+  avatars: Avatars[]
 }
 
 export type UserProfileDataResponse = {
   id: number
   userName: string
   aboutMe: string
-  avatars: [
-    {
-      url: string
-      width: number
-      height: number
-      fileSize: number
-      createdAt: string
-    },
-  ]
-  userMetadata: {
-    following: number
-    followers: number
-    publications: number
-  }
+  avatars: Avatars[]
+  userMetadata: UserMetadata
   hasPaymentSubscription?: boolean
 }
 
-export type PostResponse = {
-  id: number
-  userName: string
-  description: string
-  location: null
-  images: [
-    {
-      url: string
-      width: number
-      height: number
-      fileSize: number
-      createdAt: string
-      uploadId: string
-    },
-  ]
-  createdAt: string
-  updatedAt: string
-  avatarOwner: string
-  ownerId: number
-  owner: {
-    firstName: string
-    lastName: string
-  }
-  likesCount: number
-  isLiked: false
-  avatarWhoLikes: []
-}
-
-export type UserPostsResponse = {
-  // postResponse
-  totalCount: number
-  pageSize: number
-  items: PostResponse[]
-  totalUsers: number
+export type UserMetadata = {
+  following: number
+  followers: number
+  publications: number
 }

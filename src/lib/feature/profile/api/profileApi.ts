@@ -1,30 +1,6 @@
 import { baseApi } from '@/lib/baseApi'
-import {
-  UserPostsResponse,
-  UserProfileDataResponse,
-} from '@/lib/feature/profile/types/profile.types'
-
-type AvatarType = {
-  url: string
-  width: number
-  height: number
-  fileSize: number
-  createdAt: string
-}
-
-type ProfileType = {
-  id: number
-  userName: string
-  firstName: string
-  lastName: string
-  city: string
-  country: string
-  region: string
-  dateOfBirth: string
-  aboutMe: string
-  createdAt: string
-  avatars: AvatarType[]
-}
+import { ProfileType, UserProfileDataResponse } from '@/lib/feature/profile/types/profile.types'
+import { UserPostsResponse } from '@/lib/feature/posts/api/postsApi.types'
 
 export const profileApi = baseApi.injectEndpoints({
   endpoints: build => ({
@@ -52,4 +28,4 @@ export const profileApi = baseApi.injectEndpoints({
   }),
 })
 
-export const { useLazyGetProfileQuery } = profileApi
+export const { useLazyGetProfileQuery, useGetUserPostsQuery } = profileApi
