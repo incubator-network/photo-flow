@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { Typography } from '@/components/ui/typography/Typography'
+import { Card } from '@/components/ui/Card/Card'
 
 type CounterProps = {
   usersCount: number
@@ -10,21 +11,19 @@ export const UsersCounter = ({ usersCount }: CounterProps) => {
   const digits = String(usersCount)
   const paddedDigits = digits.length < 6 ? String(digits).padStart(6, '0') : digits
   return (
-    <div
+    <Card
       className={
         'mt-[24px] flex items-center justify-between overflow-hidden' +
-        ' h-[72px] w-[996px] rounded-[2px] px-[24px] py-[12px]' +
-        ' bg-dark-500' +
-        ' 1px border-dark-300 border'
+        ' h-[72px] w-[996px] px-[24px] py-[12px]'
       }
     >
       <Typography variant={'bold_text_16'}>Registered users:</Typography>
 
-      <div
+      <Card
         className={
           'h-[48px] w-[203px] ' +
           ' flex items-center justify-between overflow-hidden p-3' +
-          ' bg-dark-700 border-dark-300 rounded-[2px] border-[2px]'
+          ' bg-dark-700'
         }
       >
         {paddedDigits.split('').map((digit, index) => (
@@ -35,7 +34,7 @@ export const UsersCounter = ({ usersCount }: CounterProps) => {
             )}
           </React.Fragment>
         ))}
-      </div>
-    </div>
+      </Card>
+    </Card>
   )
 }

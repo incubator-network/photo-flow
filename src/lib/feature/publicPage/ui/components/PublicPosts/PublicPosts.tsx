@@ -1,22 +1,22 @@
 'use client'
 import { useEffect } from 'react'
-import { useGetPublicPostsQuery } from '@/lib/feature/post/api/postApi'
-import { UserPostsResponse } from '@/app/profile/[id]/page'
 import ImageNotFound from '@/assets/icons/no-image.svg'
 import { Typography } from '@/components/ui/typography/Typography'
 import Image from 'next/image'
 import Link from 'next/link'
 import { formatTimeAgo } from '@/utils/formatTimeAgo'
 import ExpandableText from '@/components/ui/expandableText/ExpandableText'
+import { POSTS_ON_MAIN_PAGE } from '@/constants'
+import { useGetPublicPostsQuery } from '@/lib/feature/posts/api/postsApi'
+import { UserPostsResponse } from '@/lib/feature/posts/api/postsApi.types'
 
 type PropsType = {
   initialPosts: UserPostsResponse
-  POSTS_ON_PAGE: number
 }
 const RefreshInterval = 10_000
 
-export default function PublicPosts({ initialPosts, ...props }: PropsType) {
-  const { data, refetch, isLoading } = useGetPublicPostsQuery(props.POSTS_ON_PAGE, {
+export default function PublicPosts({ initialPosts }: PropsType) {
+  const { data, refetch, isLoading } = useGetPublicPostsQuery(POSTS_ON_MAIN_PAGE, {
     skip: !initialPosts,
     pollingInterval: RefreshInterval,
   })

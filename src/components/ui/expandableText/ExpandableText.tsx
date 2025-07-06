@@ -7,7 +7,7 @@ type PropsType = {
   maxLength?: number
   className: string
 }
-export default function ExpandableText({ text, maxLength = 50, className }: PropsType) {
+export default function ExpandableText({ text, maxLength = 72, className }: PropsType) {
   const [expanded, setExpanded] = useState(false)
   const isLong = text.length > maxLength
   const displayText = expanded || !isLong ? text : text.slice(0, maxLength)
@@ -21,13 +21,16 @@ export default function ExpandableText({ text, maxLength = 50, className }: Prop
         {displayText}
         {isLong && !expanded && '... '}
         {isLong && (
-          <Typography
-            variant={'regular_text_14'}
-            className={'text-accent-500 inline underline'}
-            onClick={() => setExpanded(!expanded)}
-          >
-            {expanded ? 'Show less' : 'Show more'}
-          </Typography>
+          <>
+            <span> </span>
+            <Typography
+              variant={'regular_text_14'}
+              className={'text-accent-500 inline underline'}
+              onClick={() => setExpanded(!expanded)}
+            >
+              {expanded ? 'Show less' : 'Show more'}
+            </Typography>
+          </>
         )}
       </Typography>
     </div>
