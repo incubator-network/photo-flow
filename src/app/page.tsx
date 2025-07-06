@@ -1,4 +1,4 @@
-import PublicPosts from '@/lib/feature/publicPage/ui/components/PublicPosts/PublicPosts'
+import PublicPosts from '@/lib/feature/publicPage/ui/PublicPosts/PublicPosts'
 import { UsersCounter } from '@/lib/feature/publicPage/ui'
 import { POSTS_ON_MAIN_PAGE } from '@/constants'
 

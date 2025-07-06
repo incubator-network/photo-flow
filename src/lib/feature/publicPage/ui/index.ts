@@ -1,2 +1,2 @@
-export * from './components/PublicPosts/PublicPosts'
-export * from './components/UsersCounter/UsersCounter'
+export * from '@/lib/feature/publicPage/ui/PublicPosts/PublicPosts'
+export * from '@/lib/feature/publicPage/ui/UsersCounter/UsersCounter'
