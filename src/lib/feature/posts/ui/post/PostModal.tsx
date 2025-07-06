@@ -2,7 +2,7 @@
 
 import { ModalWindow } from '@/components/ui/modalWindow/ModalWindow'
 import { Comment, getPostInformation, PostResponse } from '@/lib/feature/posts/api/postsApi.types'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import { Typography } from '@/components/ui/typography/Typography'
 import Slider from '@/components/ui/slider/Slider'
@@ -20,11 +20,17 @@ type PropsType = {
 
 export default function PostModal({ post, comments }: PropsType) {
   const router = useRouter()
-
+  const { id } = useParams()
+  const searchParams = useSearchParams()
+  const postId = searchParams.get('postId')
   const isAuth = useAppSelector(selectIsAuth)
 
   return (
-    <ModalWindow open onClose={() => router.back()} className={'flex h-[565px] w-[972px]'}>
+    <ModalWindow
+      open={!!postId}
+      onClose={() => router.replace(`/profile/${id}`)}
+      className={'flex h-[565px] w-[972px]'}
+    >
       <Slider data={'serverData'} images={post.images} />
       <div className={'relative'}>
         <header className={'flex items-center gap-3 px-6 py-3'}>
@@ -38,6 +44,7 @@ export default function PostModal({ post, comments }: PropsType) {
           <Typography variant={'h3'}>{post.userName}</Typography>
           {isAuth && <Dots className={'fill-accent-500 absolute right-6 h-6 w-6 cursor-pointer'} />}
         </header>
+
         <section
           // нужен ли перенос слов????
           className={`border-dark-100 mb-3 ${isAuth ? 'max-h-[336px]' : 'max-h-[420px]'} w-[480px] overflow-y-auto border-t pt-5 pr-4 pl-6`}

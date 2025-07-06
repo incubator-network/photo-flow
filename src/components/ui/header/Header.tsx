@@ -46,7 +46,7 @@ export const Header = memo(({ isSuperAdminPanel = false, className }: Props) => 
   return (
     <header
       className={twMerge(
-        'border-dark-300 flex h-[60px] w-full items-center justify-between border-b py-[12px]',
+        'bg-dark-700 border-dark-300 fixed z-[1000] mb-[60px] flex h-[60px] w-full items-center justify-between border-b py-[12px]',
         isAuth ? 'pr-[64px] pl-[60px]' : 'px-[60px]',
         className
       )}

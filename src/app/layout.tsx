@@ -21,7 +21,7 @@ export default function RootLayout({
         <StoreProvider>
           <AuthProvider>
             <Header />
-            {children}
+            <main className={'pt-[60px]'}>{children}</main>
           </AuthProvider>
         </StoreProvider>
       </body>
