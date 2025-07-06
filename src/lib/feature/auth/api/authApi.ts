@@ -1,11 +1,8 @@
 import { baseApi } from '@/lib/baseApi'
 import {
-  AddPostRequest,
-  AddPostResponse,
   ForgotPasswordRequest,
-  ResendEmailRequest,
   MeResponse,
-  UploadImagesResponse,
+  ResendEmailRequest,
 } from '@/lib/feature/auth/api/authApi.types'
 import { LoginFields } from '@/lib/feature/auth/schemas/signInSchema'
 
@@ -97,27 +94,10 @@ export const authApi = baseApi.injectEndpoints({
         body,
       }),
     }),
-
-    addPost: build.mutation<AddPostResponse, AddPostRequest>({
-      query: body => ({
-        url: '/posts',
-        method: 'POST',
-        body,
-      }),
-    }),
-    uploadImages: build.mutation<UploadImagesResponse, FormData>({
-      query: formData => ({
-        url: '/posts/image',
-        method: 'POST',
-        body: formData,
-      }),
-    }),
   }),
 })
 
 export const {
-  useAddPostMutation,
-  useUploadImagesMutation,
   useGoogleLoginMutation,
   useRegistrationMutation,
   useConfirmEmailMutation,

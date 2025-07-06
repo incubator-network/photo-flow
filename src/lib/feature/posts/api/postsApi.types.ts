@@ -12,7 +12,7 @@ export type Owner = {
   lastName: string
 }
 
-export type getPostResponse = {
+export type PostResponse = {
   id: number
   userName: string
   description: string
@@ -67,4 +67,12 @@ export type Answer = {
 export type getCommentAnswerBody = {
   postId: number
   commentId: number
+}
+export type ChildMetadata = {
+  uploadId: string
+}
+
+export type AddPostRequest = {
+  description: string
+  childrenMetadata: ChildMetadata[]
 }
