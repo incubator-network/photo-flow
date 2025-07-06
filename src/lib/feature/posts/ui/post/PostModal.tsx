@@ -4,10 +4,10 @@ import { ModalWindow } from '@/components/ui/modalWindow/ModalWindow'
 import {
   Comment,
   getPostInformation,
-  getPostResponse,
+  PostResponse,
   UpdatePostMutation,
 } from '@/lib/feature/posts/api/postsApi.types'
-import { useRouter } from 'next/navigation'
+import { useRouter, useParams, useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import { Typography } from '@/components/ui/typography/Typography'
 import Slider from '@/components/ui/slider/Slider'
@@ -27,7 +27,7 @@ import PostMenu from '@/lib/feature/posts/ui/post/postMenu/PostMenu'
 import ConfirmModal from './ConfirmModal/ConfirmModal'
 
 type PropsType = {
-  post: getPostResponse
+  post: PostResponse
   comments: getPostInformation<Comment[]>
 }
 
@@ -45,7 +45,10 @@ export default function PostModal({ post, comments }: PropsType) {
     }
   }, [post])
   const router = useRouter()
-
+  const { id } = useParams()
+  console.log(id) // заглушка для коммита
+  const searchParams = useSearchParams()
+  const postId = searchParams.get('postId')
   const isAuth = useAppSelector(selectIsAuth)
   const [updatePost] = useUpdatePostMutation() as UpdatePostMutation
 
@@ -65,8 +68,9 @@ export default function PostModal({ post, comments }: PropsType) {
   }
   return (
     <ModalWindow
-      open
+      open={!!postId}
       onClose={onCloseHandler}
+      // onClose={() => router.replace(`/profile/${id}`)} Вынести в функцию onCloseHandler
       className={twMerge(
         'flex h-[565px] w-[972px]',
         isEditMode && 'grid grid-cols-[auto_1fr] grid-rows-[60px_1fr] gap-0'
@@ -90,6 +94,7 @@ export default function PostModal({ post, comments }: PropsType) {
       )}
       <Slider
         images={post.images}
+        data={'serverData'}
         classname={twMerge('h-full', isEditMode ? 'col-span-1 row-span-1' : 'w-1/2')}
       />
       <div className={twMerge('relative h-full', isEditMode ? 'col-span-1 row-span-1' : 'w-1/2')}>

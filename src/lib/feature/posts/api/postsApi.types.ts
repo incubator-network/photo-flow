@@ -14,7 +14,7 @@ export type Owner = {
   lastName: string
 }
 
-export type getPostResponse = {
+export type PostResponse = {
   id: number
   userName: string
   description: string
@@ -29,7 +29,12 @@ export type getPostResponse = {
   isLiked: boolean
   avatarWhoLikes: string[]
 }
-
+export type UserPostsResponse = {
+  totalCount: number
+  pageSize: number
+  items: PostResponse[]
+  totalUsers: number
+}
 export type Avatars = Omit<Images, 'uploadId'>
 
 export type Author = {
@@ -72,3 +77,11 @@ export type getCommentAnswerBody = {
 }
 
 export type UpdatePostMutation = ReturnType<typeof useUpdatePostMutation>
+export type ChildMetadata = {
+  uploadId: string
+}
+
+export type AddPostRequest = {
+  description: string
+  childrenMetadata: ChildMetadata[]
+}

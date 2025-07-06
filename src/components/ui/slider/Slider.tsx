@@ -1,18 +1,19 @@
 'use client'
 
 import { Images } from '@/lib/feature/posts/api/postsApi.types'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import Image from 'next/image'
 import ArrowBack from '@/assets/icons/arrow-back.svg'
 import ArrowForward from '@/assets/icons/arrow-forward.svg'
 import { twMerge } from 'tailwind-merge'
 
 type PropsType = {
-  images: Images[]
+  images: Images[] | string[]
+  data: 'uiData' | 'serverData'
   classname?: string
 }
 
-export default function Slider({ images, classname }: PropsType) {
+export default function Slider({ images, data, classname }: PropsType) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
   const handleClickBack = () => {
@@ -25,17 +26,34 @@ export default function Slider({ images, classname }: PropsType) {
 
   return (
     <div className={twMerge('relative h-full w-[490px]', classname)}>
-      {images.map((image, index) => (
-        <Image
-          className={`absolute top-0 left-0 object-cover transition-opacity duration-500 ease-in-out ${
-            index === currentImageIndex ? 'z-10 opacity-100' : 'z-0 opacity-0'
-          }`}
-          fill
-          key={image.uploadId}
-          src={image.url}
-          alt={`post photo ${index + 1}`}
-        />
-      ))}
+      {data === 'serverData' &&
+        (images as Images[]).map((image, index) => (
+          <Image
+            className={`absolute top-0 left-0 object-cover transition-opacity duration-500 ease-in-out ${
+              index === currentImageIndex ? 'z-10 opacity-100' : 'z-0 opacity-0'
+            }`}
+            fill
+            key={image.uploadId}
+            src={image.url}
+            alt={`post photo ${index + 1}`}
+          />
+        ))}
+
+      {data === 'uiData' &&
+        (images as string[]).map((src, index) =>
+          src ? (
+            <Image
+              className={`absolute top-0 left-0 object-cover transition-opacity duration-500 ease-in-out ${
+                index === currentImageIndex ? 'z-10 opacity-100' : 'z-0 opacity-0'
+              }`}
+              fill
+              key={src}
+              src={src}
+              alt={`post photo ${index + 1}`}
+            />
+          ) : null
+        )}
+
       {images.length > 1 && (
         <>
           <div className='bg-dark-300/60 absolute top-1/2 left-3 z-11 flex -translate-y-1/2 cursor-pointer rounded'>
@@ -46,15 +64,24 @@ export default function Slider({ images, classname }: PropsType) {
           </div>
           <div
             className={
-              'bg-dark-300 absolute bottom-3 left-1/2 z-11 flex max-w-[104px] -translate-x-1/2 gap-3 rounded-xs p-2'
+              'bg-dark-300 absolute bottom-3 left-1/2 z-11 flex -translate-x-1/2 gap-3 rounded-xs p-2'
             }
           >
-            {images.map((image, index) => (
-              <div
-                key={image.uploadId}
-                className={`h-2 w-2 rounded-full ${index === currentImageIndex ? 'bg-accent-500' : 'bg-light-100'}`}
-              />
-            ))}
+            {data === 'serverData' &&
+              (images as Images[]).map((image, index) => (
+                <div
+                  key={image.uploadId}
+                  className={`h-2 w-2 rounded-full ${index === currentImageIndex ? 'bg-accent-500' : 'bg-light-100'}`}
+                />
+              ))}
+
+            {data === 'uiData' &&
+              (images as string[]).map((src, index) => (
+                <div
+                  key={src}
+                  className={`h-2 w-2 rounded-full ${index === currentImageIndex ? 'bg-accent-500' : 'bg-light-100'}`}
+                />
+              ))}
           </div>
         </>
       )}
