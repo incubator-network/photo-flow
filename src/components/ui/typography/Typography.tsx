@@ -32,7 +32,7 @@ const defaultTags = {
   bold_text_14: 'span',
   small_text: 'span',
   semi_bold_small_text: 'span',
-  regular_link: 'p',
+  regular_link: 'span',
   small_link: 'span',
 }
 

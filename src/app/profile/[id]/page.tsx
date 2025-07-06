@@ -1,6 +1,9 @@
 import { twMerge } from 'tailwind-merge'
 import { Typography } from '@/components/ui/typography/Typography'
-import { UserPosts } from '@/lib/feature/profile/ui/components/profile/userPosts/UserPosts'
+import {
+  PostData,
+  UserPosts,
+} from '@/lib/feature/profile/ui/components/profile/userPosts/UserPosts'
 import { ProfileControls } from '@/lib/feature/profile/ui/components/profile/profileControls/ProfileControls'
 import Image from 'next/image'
 import DefaultAvatar from '@/../public/defaultAvatar.jpg'
@@ -8,6 +11,7 @@ import { UserProfileDataResponse } from '@/lib/feature/profile/types/profile.typ
 import { UserProfileMetadata } from '@/lib/feature/profile/ui/components/profile/userProfileMetadata/UserProfileMetadata'
 import { PAGE_SIZE } from '@/constants'
 import { UserPostsResponse } from '@/lib/feature/posts/api/postsApi.types'
+import { getComments, getPost } from '@/lib/feature/posts/ssr/getPostSSR'
 
 // вернуть 404 если нет пользователя или не валидность
 
@@ -15,11 +19,21 @@ type ProfilePageProps = {
   params: {
     id: string
   }
+  searchParams: {
+    postId: string
+  }
 }
 
-export default async function ProfilePage({ params }: ProfilePageProps) {
+export default async function ProfilePage({ params, searchParams }: ProfilePageProps) {
+  const { postId } = await searchParams
+  const postDataQuery = {} as PostData
+
   const { id: userId } = await params
   try {
+    if (postId) {
+      postDataQuery.post = await getPost(postId)
+      postDataQuery.comments = await getComments(postId)
+    }
     const userProfileData = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/public-user/profile/${userId}`,
       { cache: 'no-store' }
@@ -64,6 +78,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
           </div>
         </div>
         <UserPosts
+          postDataQuery={postDataQuery}
           key={userId}
           userId={userId}
           userPostsData={userPosts}
