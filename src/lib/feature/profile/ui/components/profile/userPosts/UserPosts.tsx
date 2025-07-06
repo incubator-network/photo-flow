@@ -67,7 +67,7 @@ export const UserPosts = ({ userId, userPostsData, totalCountPosts }: Props) => 
       skipFirstPostsLoadingRef.current = false
     }
     skipRefetchQueryRef.current = true
-  }, [data, dispatch, PAGE_SIZE, userId, userPostsData])
+  }, [data, dispatch, userId, userPostsData])
 
   const selectResult = profileApi.endpoints.getUserPosts.select({
     userId,
@@ -132,7 +132,7 @@ export const UserPosts = ({ userId, userPostsData, totalCountPosts }: Props) => 
             priority
             ref={isLastElement ? lastElementRef : null}
             key={item.id}
-            src={item.images[0].url}
+            src={item.images.length ? item.images[0].url : '/no-image.svg'}
             alt={item.id.toString()}
             width={234}
             height={228}
