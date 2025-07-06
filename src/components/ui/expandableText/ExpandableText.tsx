@@ -24,11 +24,11 @@ export default function ExpandableText({ text, maxLength = 72, className }: Prop
           <>
             <span> </span>
             <Typography
-              variant={'regular_text_14'}
-              className={'text-accent-500 inline underline'}
+              variant={'regular_link'}
+              className={'inline'}
               onClick={() => setExpanded(!expanded)}
             >
-              {expanded ? 'Show less' : 'Show more'}
+              {expanded ? 'Hide' : 'Show more'}
             </Typography>
           </>
         )}

@@ -1,5 +1,4 @@
 'use client'
-import { useEffect } from 'react'
 import ImageNotFound from '@/assets/icons/no-image.svg'
 import { Typography } from '@/components/ui/typography/Typography'
 import Image from 'next/image'
@@ -13,19 +12,13 @@ import { UserPostsResponse } from '@/lib/feature/posts/api/postsApi.types'
 type PropsType = {
   initialPosts: UserPostsResponse
 }
-const RefreshInterval = 10_000
 
 export default function PublicPosts({ initialPosts }: PropsType) {
-  const { data, refetch, isLoading } = useGetPublicPostsQuery(POSTS_ON_MAIN_PAGE, {
+  const { data, isLoading } = useGetPublicPostsQuery(POSTS_ON_MAIN_PAGE, {
     skip: !initialPosts,
-    pollingInterval: RefreshInterval,
+    pollingInterval: 60000,
   })
   const publicPosts = data ?? initialPosts
-
-  useEffect(() => {
-    const interval = setInterval(() => refetch(), RefreshInterval)
-    return () => clearInterval(interval)
-  }, [refetch])
 
   if (isLoading) return <div>Loading...</div>
   return (
@@ -35,6 +28,7 @@ export default function PublicPosts({ initialPosts }: PropsType) {
         return (
           <div key={post.id}>
             {post.images[0] ? (
+              //FIX: Подумать потом куда должен быть редирект
               <Link href={`/posts/${post.id}`}>
                 <Image
                   width={240}
@@ -57,7 +51,9 @@ export default function PublicPosts({ initialPosts }: PropsType) {
               ) : (
                 <ImageNotFound className={'h-[36px] w-[36px] rounded-2xl'} fill={'#5f5f5f'} />
               )}
-              <h1 className={'px-[12px]'}>{post.userName}</h1>
+              <Typography className={'px-[12px]'} variant={'h3'}>
+                {post.userName}
+              </Typography>
             </div>
             <Typography variant={'small_text'} className={'py-1'}>
               {resultDate}
