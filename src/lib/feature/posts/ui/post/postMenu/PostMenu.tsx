@@ -1,8 +1,8 @@
 import React from 'react'
 import { Typography } from '@/components/ui/typography/Typography'
 import { Button } from '@/components/ui/button/Button'
-import Pencil from '@/assets/icons/pencil.svg'
-import Basket from '@/assets/icons/basket.svg'
+import EditIcon from '@/assets/icons/edit-pencil.svg'
+import TrashIcon from '@/assets/icons/trash.svg'
 
 type PostMenuProps = {
   onClose: () => void
@@ -26,7 +26,7 @@ function PostMenu({ onClose, onEditHandler, onCloseMenu }: PostMenuProps) {
             onEditHandler()
           }}
         >
-          <Pencil className={'fill-light-100 mr-3 h-6 w-6'} />
+          <EditIcon className={'fill-light-100 mr-3 h-6 w-6'} />
           <Typography className={'text-light-100'} variant={'regular_text_14'}>
             Edit Post
           </Typography>
@@ -40,7 +40,7 @@ function PostMenu({ onClose, onEditHandler, onCloseMenu }: PostMenuProps) {
           }}
           variant={'text'}
         >
-          <Basket className={'fill-light-100 mr-3 h-6 w-5'} />
+          <TrashIcon className={'fill-light-100 mr-3 h-6 w-5'} />
           <Typography className={'text-light-100'} variant={'regular_text_14'}>
             Delete Post
           </Typography>

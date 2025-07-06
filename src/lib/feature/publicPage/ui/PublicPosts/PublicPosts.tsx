@@ -29,7 +29,7 @@ export default function PublicPosts({ initialPosts }: PropsType) {
           <div key={post.id}>
             {post.images[0] ? (
               //FIX: Подумать потом куда должен быть редирект
-              <Link href={`/posts/${post.id}`}>
+              <Link href={`/profile/${post.ownerId}?postId=${post.id}`}>
                 <Image
                   width={240}
                   height={240}

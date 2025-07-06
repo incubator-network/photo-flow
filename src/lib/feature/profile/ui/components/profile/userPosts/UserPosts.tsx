@@ -21,17 +21,18 @@ type Props = {
   userId: string
   userPostsData: UserPostsResponse
   totalCountPosts: number
+  postDataQuery: PostData
 }
 
-type PostData = {
+export type PostData = {
   post: PostResponse
   comments: getPostInformation<Comment[]>
 }
 
-export const UserPosts = ({ userId, userPostsData, totalCountPosts }: Props) => {
+export const UserPosts = ({ userId, userPostsData, totalCountPosts, postDataQuery }: Props) => {
   const dispatch = useAppDispatch()
   const [endCursor, setEndCursor] = useState(0)
-  const [postData, setPostData] = useState<PostData>({} as PostData)
+  const [postData, setPostData] = useState<PostData>(postDataQuery as PostData)
   const router = useRouter()
   const searchParams = useSearchParams()
   const pathname = usePathname()
