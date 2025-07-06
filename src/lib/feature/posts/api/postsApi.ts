@@ -6,6 +6,7 @@ import {
   PostResponse,
   Images,
   AddPostRequest,
+  UserPostsResponse,
 } from '@/lib/feature/posts/api/postsApi.types'
 
 export const postsApi = baseApi.injectEndpoints({
@@ -33,12 +34,19 @@ export const postsApi = baseApi.injectEndpoints({
         body: formData,
       }),
     }),
+    getPublicPosts: build.query<UserPostsResponse, number>({
+      query: pageSize => ({
+        url: `/public-posts/all?pageSize=${pageSize}`,
+        method: 'GET',
+      }),
+    }),
   }),
 })
 
 export const {
   useLazyGetCommentAnswerQuery,
   useRemovePostMutation,
+  useGetPublicPostsQuery,
 
   useUploadImagesMutation,
   useAddPostMutation,
