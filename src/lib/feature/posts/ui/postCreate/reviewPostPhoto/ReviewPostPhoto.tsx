@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { ModalWindow } from '@/components/ui/modalWindow/ModalWindow'
-import ArrowLeftIcon from '@/assets/icons/arrow-left.svg'
+import ArrowLeftIcon from '@/assets/icons/arrow-back.svg'
 import { Button } from '@/components/ui/button/Button'
 import IconImg from '@/assets/icons/img.svg'
 import { GalleryPreview } from '@/lib/feature/posts/ui/postCreate/reviewPostPhoto/galleryPreview/GalleryPreview'
@@ -35,7 +35,7 @@ export const ReviewPostPhoto = (props: PropsType) => {
       <ArrowLeftIcon
         width={'24px'}
         height={'24px'}
-        className={'absolute top-[17px] left-[0px] cursor-pointer'}
+        className={'fill-light-100 absolute top-[17px] left-[0px] cursor-pointer'}
         onClick={resetPreview}
       />
       <Button

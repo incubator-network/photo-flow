@@ -1,5 +1,5 @@
 import React from 'react'
-import ClosePicture from '@/assets/icons/closeS.svg'
+import ClosePicture from '@/assets/icons/close.svg'
 import PlusIcon from '@/assets/icons/plus-circle.svg'
 import Image from 'next/image'
 import { MAX_FILE_SIZE, MAX_FILES } from '@/constants'

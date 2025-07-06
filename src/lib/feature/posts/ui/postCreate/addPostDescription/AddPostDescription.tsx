@@ -1,6 +1,6 @@
 import React, { RefObject, useState } from 'react'
 import { ModalWindow } from '@/components/ui/modalWindow/ModalWindow'
-import ArrowLeftIcon from '@/assets/icons/arrow-left.svg'
+import ArrowLeftIcon from '@/assets/icons/arrow-back.svg'
 import { Button } from '@/components/ui/button/Button'
 
 import { Typography } from '@/components/ui/typography/Typography'
@@ -44,7 +44,7 @@ export const AddPostDescription = (props: PropsType) => {
       <ArrowLeftIcon
         width={'24px'}
         height={'24px'}
-        className={'absolute top-[17px] left-[0px] cursor-pointer'}
+        className={'fill-light-100 absolute top-[17px] left-[0px] cursor-pointer'}
         onClick={() => {}}
       />
       <Button
