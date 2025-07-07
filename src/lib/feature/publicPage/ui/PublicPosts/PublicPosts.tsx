@@ -44,6 +44,8 @@ export default function PublicPosts({ initialPosts }: PropsType) {
             <div className={'flex-start flex items-center pt-[12px]'}>
               {post.avatarOwner ? (
                 <Image
+                  width={36}
+                  height={36}
                   className={'w-[36px] rounded-2xl'}
                   src={post.avatarOwner}
                   alt={post.userName}

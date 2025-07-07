@@ -25,6 +25,7 @@ import ClosePicture from '@/assets/icons/close.svg'
 import { twMerge } from 'tailwind-merge'
 import PostMenu from '@/lib/feature/posts/ui/post/postMenu/PostMenu'
 import ConfirmModal from './ConfirmModal/ConfirmModal'
+import { useGetMeQuery } from '@/lib/feature/auth/api/authApi'
 
 type PropsType = {
   post: PostResponse
@@ -44,9 +45,11 @@ export default function PostModal({ post, comments }: PropsType) {
       setTextValue(post.description)
     }
   }, [post])
+
   const router = useRouter()
   const { id } = useParams()
-  console.log(id) // заглушка для коммита
+  const { data } = useGetMeQuery()
+  const userId = data?.userId
   const searchParams = useSearchParams()
   const postId = searchParams.get('postId')
   const isAuth = useAppSelector(selectIsAuth)
@@ -54,11 +57,10 @@ export default function PostModal({ post, comments }: PropsType) {
 
   const onCloseHandler = () => {
     if (!isEditMode) {
-      return router.back()
+      return router.replace(`/profile/${id}`)
     }
 
     if (isEditMode) {
-      console.log('открываем модалку')
       setIsExit(true)
     }
   }
@@ -66,9 +68,13 @@ export default function PostModal({ post, comments }: PropsType) {
   const showBlock = (value: boolean) => {
     setIsDelete(value)
   }
+
+  console.log(isEditMode)
   return (
     <ModalWindow
       open={!!postId}
+      hiddenCloseButton={true}
+      // hiddenCloseButton={isEditMode}
       onClose={onCloseHandler}
       // onClose={() => router.replace(`/profile/${id}`)} Вынести в функцию onCloseHandler
       className={twMerge(
@@ -107,7 +113,7 @@ export default function PostModal({ post, comments }: PropsType) {
             alt={'photo of creator'}
           />
           <Typography variant={'h3'}>{post.userName}</Typography>
-          {isAuth && !isEditMode && (
+          {isAuth && !isEditMode && userId === Number(id) && (
             <Dots
               className={'fill-accent-500 absolute right-6 h-6 w-6 cursor-pointer'}
               onClick={() => {

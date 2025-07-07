@@ -23,6 +23,7 @@ export const ModalWindow = ({
   overlayClassName,
   ...props
 }: Props) => {
+  console.log(hiddenCloseButton)
   return (
     <Dialog.Root open={open} onOpenChange={onClose} {...props}>
       <Dialog.Portal>
