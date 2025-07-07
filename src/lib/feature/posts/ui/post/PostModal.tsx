@@ -1,12 +1,7 @@
 'use client'
 
 import { ModalWindow } from '@/components/ui/modalWindow/ModalWindow'
-import {
-  Comment,
-  getPostInformation,
-  PostResponse,
-  UpdatePostMutation,
-} from '@/lib/feature/posts/api/postsApi.types'
+import { Comment, getPostInformation, PostResponse } from '@/lib/feature/posts/api/postsApi.types'
 import { useRouter, useParams, useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import { Typography } from '@/components/ui/typography/Typography'
@@ -18,14 +13,13 @@ import Dots from '@/assets/icons/more-horizontal.svg'
 import { useAppSelector } from '@/lib/hooks'
 import { selectIsAuth } from '@/lib/appSlice'
 import { useEffect, useState } from 'react'
-import { Textarea } from '@/components/ui/textarea/Textarea'
-import { Button } from '@/components/ui/button/Button'
-import { useUpdatePostMutation } from '../../api/postsApi'
+
 import ClosePicture from '@/assets/icons/close.svg'
 import { twMerge } from 'tailwind-merge'
 import PostMenu from '@/lib/feature/posts/ui/post/postMenu/PostMenu'
 import ConfirmModal from './ConfirmModal/ConfirmModal'
 import { useGetMeQuery } from '@/lib/feature/auth/api/authApi'
+import { EditPostForm } from './EditPostForm/EditPostForm'
 
 type PropsType = {
   post: PostResponse
@@ -53,7 +47,6 @@ export default function PostModal({ post, comments }: PropsType) {
   const searchParams = useSearchParams()
   const postId = searchParams.get('postId')
   const isAuth = useAppSelector(selectIsAuth)
-  const [updatePost] = useUpdatePostMutation() as UpdatePostMutation
 
   const onCloseHandler = () => {
     if (!isEditMode) {
@@ -73,10 +66,9 @@ export default function PostModal({ post, comments }: PropsType) {
   return (
     <ModalWindow
       open={!!postId}
-      hiddenCloseButton={true}
+      // hiddenCloseButton={true}
       // hiddenCloseButton={isEditMode}
       onClose={onCloseHandler}
-      // onClose={() => router.replace(`/profile/${id}`)} Вынести в функцию onCloseHandler
       className={twMerge(
         'flex h-[565px] w-[972px]',
         isEditMode && 'grid grid-cols-[auto_1fr] grid-rows-[60px_1fr] gap-0'
@@ -154,48 +146,27 @@ export default function PostModal({ post, comments }: PropsType) {
           />
         </header>
         {!isEditMode ? (
-          <section
-            // нужен ли перенос слов????
-            className={`border-dark-100 mb-3 ${isAuth ? 'max-h-[336px]' : 'max-h-[420px]'} w-[480px] overflow-y-auto border-t pt-5 pr-4 pl-6`}
-          >
-            {post.description && <PostDescription post={{ ...post, description: textValue }} />}
-            {comments &&
-              comments.items.map(c => <PostComment key={c.id} postId={post.id} comment={c} />)}
-          </section>
+          <>
+            <section
+              // нужен ли перенос слов????
+              className={`border-dark-100 mb-3 ${isAuth ? 'max-h-[336px]' : 'max-h-[420px]'} w-[480px] overflow-y-auto border-t pt-5 pr-4 pl-6`}
+            >
+              {post.description && <PostDescription post={{ ...post, description: textValue }} />}
+              {comments &&
+                comments.items.map(c => <PostComment key={c.id} postId={post.id} comment={c} />)}
+            </section>
+
+            <PostFooter post={post} />
+          </>
         ) : (
-          <form
-            onSubmit={async e => {
-              e.preventDefault()
-              await updatePost({ description: textValue, postId: post.id })
-              setIsEditMode(false)
-            }}
-            className={twMerge(
-              !isEditMode
-                ? 'flex h-[396px] w-full flex-col justify-between'
-                : 'flex h-[390px] w-full flex-col justify-between'
-            )}
-          >
-            <div className='flex flex-col'>
-              <Textarea
-                className={'mx-6 box-content block min-h-[120px] w-[433px] p-0'}
-                textareaLabel='Add publication descriptions'
-                textareaLabelStyles='ml-6'
-                value={textValue}
-                changeValue={setTextValue}
-                maxLength={500}
-              ></Textarea>
-              <p className='text-light-900 mr-6 ml-auto text-xs leading-[1.33333] font-normal'>
-                {textValue.length}/500
-              </p>
-            </div>
-
-            <Button type='submit' className={'mr-6 mb-6 ml-auto box-content w-[135px]'}>
-              Save Changes
-            </Button>
-          </form>
+          <EditPostForm
+            isEditMode={isEditMode}
+            textValue={textValue}
+            postId={post.id}
+            setTextValue={setTextValue}
+            setIsEditMode={setIsEditMode}
+          />
         )}
-
-        {!isEditMode && <PostFooter post={post} />}
       </div>
     </ModalWindow>
   )
