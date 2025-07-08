@@ -8,9 +8,10 @@ type PostMenuProps = {
   onClose: () => void
   onEditHandler: () => void
   onCloseMenu: () => void
+  isUserPost: boolean
 }
 
-function PostMenu({ onClose, onEditHandler, onCloseMenu }: PostMenuProps) {
+function PostMenu({ onClose, onEditHandler, onCloseMenu, isUserPost }: PostMenuProps) {
   return (
     <div
       className={
@@ -22,8 +23,14 @@ function PostMenu({ onClose, onEditHandler, onCloseMenu }: PostMenuProps) {
           className={'mb-3 p-0'}
           variant={'text'}
           onClick={() => {
-            onCloseMenu()
-            onEditHandler()
+            // Заглушка, чтобы не изменить чужой пост. Временно
+            if (isUserPost) {
+              onCloseMenu()
+              onEditHandler()
+              return
+            }
+
+            alert(`Is isn't your post!`)
           }}
         >
           <EditIcon className={'fill-light-100 mr-3 h-6 w-6'} />
@@ -35,8 +42,15 @@ function PostMenu({ onClose, onEditHandler, onCloseMenu }: PostMenuProps) {
         <Button
           className={'p-0'}
           onClick={() => {
-            onCloseMenu()
-            onClose()
+            if (isUserPost) {
+              // Заглушка, чтобы не удалить чужой пост. Временно
+              onCloseMenu()
+              onClose()
+
+              return
+            }
+
+            alert(`Is isn't your post!`)
           }}
           variant={'text'}
         >

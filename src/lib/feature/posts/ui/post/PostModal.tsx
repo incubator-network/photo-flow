@@ -14,7 +14,6 @@ import { useAppSelector } from '@/lib/hooks'
 import { selectIsAuth } from '@/lib/appSlice'
 import { useEffect, useState } from 'react'
 
-import ClosePicture from '@/assets/icons/close.svg'
 import { twMerge } from 'tailwind-merge'
 import PostMenu from '@/lib/feature/posts/ui/post/postMenu/PostMenu'
 import ConfirmModal from './ConfirmModal/ConfirmModal'
@@ -62,34 +61,29 @@ export default function PostModal({ post, comments }: PropsType) {
     setIsDelete(value)
   }
 
-  console.log(isEditMode)
   return (
     <ModalWindow
       open={!!postId}
-      // hiddenCloseButton={true}
-      // hiddenCloseButton={isEditMode}
-      onClose={onCloseHandler}
+      modalTitle={isEditMode ? 'Edit Post' : ''}
+      onClose={() => {
+        console.log(post.description)
+        console.log(textValue)
+        if (!isEditMode) {
+          onCloseHandler()
+        } else {
+          if (post.description === textValue) {
+            setIsEditMode(false)
+            setIsExit(false)
+            return
+          }
+          setIsExit(true)
+        }
+      }}
       className={twMerge(
         'flex h-[565px] w-[972px]',
         isEditMode && 'grid grid-cols-[auto_1fr] grid-rows-[60px_1fr] gap-0'
       )}
     >
-      {isEditMode && (
-        <div className='bg-dark-300 border-dark-100 col-span-2 row-span-1 flex h-[60px] w-[970px] items-center justify-between rounded-sm border px-6 py-3'>
-          <Typography variant='h1'>Edit Post</Typography>
-          <ClosePicture
-            className={'h-[24px] w-[24px] cursor-pointer fill-white'}
-            onClick={() => {
-              if (post.description === textValue) {
-                setIsEditMode(false)
-                setIsExit(false)
-                return
-              }
-              setIsExit(true)
-            }}
-          />
-        </div>
-      )}
       <Slider
         images={post.images}
         data={'serverData'}
@@ -105,7 +99,7 @@ export default function PostModal({ post, comments }: PropsType) {
             alt={'photo of creator'}
           />
           <Typography variant={'h3'}>{post.userName}</Typography>
-          {isAuth && !isEditMode && userId === Number(id) && (
+          {isAuth && !isEditMode && (
             <Dots
               className={'fill-accent-500 absolute right-6 h-6 w-6 cursor-pointer'}
               onClick={() => {
@@ -116,6 +110,7 @@ export default function PostModal({ post, comments }: PropsType) {
 
           {isDelete && !isEditMode && (
             <PostMenu
+              isUserPost={userId === Number(id)}
               onClose={() => setIsModalOpen(true)}
               onCloseMenu={() => setIsDelete(false)}
               onEditHandler={() => setIsEditMode(true)}
