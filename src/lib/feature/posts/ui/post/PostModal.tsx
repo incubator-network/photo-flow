@@ -30,7 +30,6 @@ export default function PostModal({ post, comments }: PropsType) {
   const [isExit, setIsExit] = useState(false)
   const [isDelete, setIsDelete] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
-
   const [textValue, setTextValue] = useState<string>('')
 
   useEffect(() => {
@@ -52,9 +51,12 @@ export default function PostModal({ post, comments }: PropsType) {
       return router.replace(`/profile/${id}`)
     }
 
-    if (isEditMode) {
-      setIsExit(true)
+    if (post.description === textValue) {
+      setIsEditMode(false)
+      setIsExit(false)
+      return
     }
+    setIsExit(true)
   }
 
   const showBlock = (value: boolean) => {
@@ -65,20 +67,7 @@ export default function PostModal({ post, comments }: PropsType) {
     <ModalWindow
       open={!!postId}
       modalTitle={isEditMode ? 'Edit Post' : ''}
-      onClose={() => {
-        console.log(post.description)
-        console.log(textValue)
-        if (!isEditMode) {
-          onCloseHandler()
-        } else {
-          if (post.description === textValue) {
-            setIsEditMode(false)
-            setIsExit(false)
-            return
-          }
-          setIsExit(true)
-        }
-      }}
+      onClose={onCloseHandler}
       className={twMerge(
         'flex h-[565px] w-[972px]',
         isEditMode && 'grid grid-cols-[auto_1fr] grid-rows-[60px_1fr] gap-0'
