@@ -132,7 +132,6 @@ export default function PostModal({ post, comments }: PropsType) {
         {!isEditMode ? (
           <>
             <section
-              // нужен ли перенос слов????
               className={`border-dark-100 mb-3 ${isAuth ? 'max-h-[336px]' : 'max-h-[420px]'} w-[480px] overflow-y-auto border-t pt-5 pr-4 pl-6`}
             >
               {post.description && <PostDescription post={{ ...post, description: textValue }} />}

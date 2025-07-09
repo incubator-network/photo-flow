@@ -34,11 +34,10 @@ export const EditPostForm = ({
           : 'flex h-[390px] w-full flex-col justify-between'
       )}
     >
-      <div className='flex flex-col'>
+      <div className='flex flex-col pl-6'>
         <Textarea
-          className={'mx-6 box-content block min-h-[120px] w-[433px] p-0'}
+          className={'min-h-[120px] w-[433px]'}
           textareaLabel='Add publication descriptions'
-          textareaLabelStyles='ml-6'
           value={textValue}
           changeValue={setTextValue}
           maxLength={500}
