@@ -37,8 +37,6 @@ export const UserPosts = ({ userId, userPostsData, totalCountPosts }: Props) => 
   const observer = useRef<IntersectionObserver | null>(null)
   const lastElementRef = useRef<HTMLImageElement | null>(null)
 
-  console.log('userPosts')
-
   const { data } = useGetUserPostsQuery(
     {
       userId,
