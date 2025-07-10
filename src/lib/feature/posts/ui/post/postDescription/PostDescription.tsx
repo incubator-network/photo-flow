@@ -16,8 +16,11 @@ function PostDescription({ post }: { post: PostResponse }) {
         />
       </div>
       <div>
-        <Typography variant={'regular_text_14'} className={'mb-1'}>
-          <Typography variant={'bold_text_14'}>{post.userName}&nbsp;</Typography>
+        <Typography variant={'regular_text_14'} className={'mb-1 max-w-[395px] break-words'}>
+          <Typography variant={'bold_text_14'} className={'max-w-[395px]'}>
+            {post.userName}&nbsp;
+          </Typography>
+
           {post.description}
         </Typography>
         <div className={'mb-1'}>

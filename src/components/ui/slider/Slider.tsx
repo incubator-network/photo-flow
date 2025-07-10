@@ -5,13 +5,15 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import ArrowBack from '@/assets/icons/arrow-back.svg'
 import ArrowForward from '@/assets/icons/arrow-forward.svg'
+import { twMerge } from 'tailwind-merge'
 
 type PropsType = {
   images: Images[] | string[]
   data: 'uiData' | 'serverData'
+  classname?: string
 }
 
-export default function Slider({ images, data }: PropsType) {
+export default function Slider({ images, data, classname }: PropsType) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
   const handleClickBack = () => {
@@ -23,7 +25,7 @@ export default function Slider({ images, data }: PropsType) {
   }
 
   return (
-    <div className={'relative h-full w-[490px]'}>
+    <div className={twMerge('relative h-full w-[490px]', classname)}>
       {data === 'serverData' &&
         (images as Images[]).map((image, index) => (
           <Image

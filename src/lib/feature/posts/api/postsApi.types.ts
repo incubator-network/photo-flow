@@ -1,3 +1,5 @@
+import { useUpdatePostMutation } from './postsApi'
+
 export type Images = {
   url: string
   width: number
@@ -73,6 +75,8 @@ export type getCommentAnswerBody = {
   postId: number
   commentId: number
 }
+
+export type UpdatePostMutation = ReturnType<typeof useUpdatePostMutation>
 export type ChildMetadata = {
   uploadId: string
 }

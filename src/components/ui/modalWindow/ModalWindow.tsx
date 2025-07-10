@@ -37,7 +37,7 @@ export const ModalWindow = ({
           {modalTitle ? (
             <Dialog.Title
               className={
-                'border-b-dark-100 flex h-[59px] items-center justify-between border-b px-[24px] text-xl font-bold'
+                'border-b-dark-100 col-span-2 row-span-1 flex h-[60px] items-center justify-between border-b px-[24px] text-xl font-bold'
               }
             >
               {modalTitle}

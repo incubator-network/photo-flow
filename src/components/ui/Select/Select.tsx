@@ -99,7 +99,7 @@ export const Select = ({
         <RadixSelect.Portal>
           <RadixSelect.Content
             className={twMerge(
-              `data-[state=open]:hover:bg-accent-500 w-[var(--radix-select-trigger-width)] overflow-hidden rounded-xs border shadow data-[state=open]:rounded-none`
+              `data-[state=open]:hover:bg-accent-500 z-[101] w-[var(--radix-select-trigger-width)] overflow-hidden rounded-xs border shadow data-[state=open]:rounded-none`
             )}
             position='popper'
             align='start'

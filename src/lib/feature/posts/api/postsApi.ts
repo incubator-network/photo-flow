@@ -14,6 +14,16 @@ export const postsApi = baseApi.injectEndpoints({
     getCommentAnswer: build.query<getPostInformation<Answer[]>, getCommentAnswerBody>({
       query: ({ commentId, postId }) => `/posts/${postId}/comments/${commentId}/answers`,
     }),
+    getPostById: build.query<PostResponse, number>({
+      query: postId => `/posts/id/${postId}`,
+    }),
+    updatePost: build.mutation<void, { description: string; postId: number }>({
+      query: ({ postId, description }) => ({
+        url: `/posts/${postId}`,
+        method: 'PUT',
+        body: { description },
+      }),
+    }),
     removePost: build.mutation<void, number>({
       query: postId => ({
         url: `/posts/${postId}`,
@@ -46,8 +56,9 @@ export const postsApi = baseApi.injectEndpoints({
 export const {
   useLazyGetCommentAnswerQuery,
   useRemovePostMutation,
+  useGetPostByIdQuery,
   useGetPublicPostsQuery,
-
+  useUpdatePostMutation,
   useUploadImagesMutation,
   useAddPostMutation,
 } = postsApi
