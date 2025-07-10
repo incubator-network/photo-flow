@@ -54,6 +54,14 @@ const nextConfig: NextConfig = {
   },
 
   // ...other config
+
+  // собрать проект не смотря на предупреждения/ошибки в проекте
+  // eslint: {
+  // ignoreDuringBuilds: true,
+  // },
+  // typescript: {
+  // ignoreBuildErrors: true,
+  // },
 }
 
 export default nextConfig

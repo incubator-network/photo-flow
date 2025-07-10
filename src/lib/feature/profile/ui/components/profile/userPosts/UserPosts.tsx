@@ -5,9 +5,7 @@ import Image from 'next/image'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/lib/store'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import PostModal from '@/lib/feature/posts/ui/post/PostModal'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { getComments, getPost } from '@/lib/feature/posts/ssr/getPostSSR'
 import { useAppDispatch } from '@/lib/hooks'
 import {
   Comment,
@@ -21,7 +19,6 @@ type Props = {
   userId: string
   userPostsData: UserPostsResponse
   totalCountPosts: number
-  postDataQuery: PostData
 }
 
 export type PostData = {
@@ -29,10 +26,9 @@ export type PostData = {
   comments: getPostInformation<Comment[]>
 }
 
-export const UserPosts = ({ userId, userPostsData, totalCountPosts, postDataQuery }: Props) => {
+export const UserPosts = ({ userId, userPostsData, totalCountPosts }: Props) => {
   const dispatch = useAppDispatch()
   const [endCursor, setEndCursor] = useState(0)
-  const [postData, setPostData] = useState<PostData>(postDataQuery as PostData)
   const router = useRouter()
   const searchParams = useSearchParams()
   const pathname = usePathname()
@@ -70,32 +66,28 @@ export const UserPosts = ({ userId, userPostsData, totalCountPosts, postDataQuer
     skipRefetchQueryRef.current = true
   }, [data, dispatch, userId, userPostsData])
 
-  const selectResult = profileApi.endpoints.getUserPosts.select({
-    userId,
-    endCursor,
-    pageSize: PAGE_SIZE,
-  })
+  const selectResult = useCallback(
+    profileApi.endpoints.getUserPosts.select({
+      userId,
+      endCursor,
+      pageSize: PAGE_SIZE,
+    }),
+    [userId, endCursor]
+  )
   const cache = useSelector<RootState, ReturnType<typeof selectResult>>(state =>
     selectResult(state)
   )
 
-  const loadMore = useCallback(() => {
+  const handleObserver = (entries: IntersectionObserverEntry[]) => {
     if (!cache.data || totalCountPosts === 0) return
-    const lastPostIdFromCache = cache.data.items[cache.data.items.length - 1].id
-    if (lastPostIdFromCache !== endCursor && cache.data.items.length < totalCountPosts) {
-      setEndCursor(lastPostIdFromCache)
-    }
-  }, [cache.data, endCursor, totalCountPosts])
-
-  const handleObserver = useCallback(
-    (entries: IntersectionObserverEntry[]) => {
-      const target = entries[0]
-      if (target.isIntersecting) {
-        loadMore()
+    const target = entries[0]
+    if (target.isIntersecting) {
+      const lastPostIdFromCache = cache.data.items[cache.data.items.length - 1].id
+      if (lastPostIdFromCache !== endCursor && cache.data.items.length < totalCountPosts) {
+        setEndCursor(lastPostIdFromCache)
       }
-    },
-    [loadMore]
-  )
+    }
+  }
 
   useEffect(() => {
     const element = lastElementRef.current
@@ -115,12 +107,9 @@ export const UserPosts = ({ userId, userPostsData, totalCountPosts, postDataQuer
   const posts = data?.items || userPostsData.items
 
   const handlePost = async (id: string) => {
-    const post = await getPost(id)
-    const comments = await getComments(id)
-    setPostData({ post, comments })
     const params = new URLSearchParams(searchParams.toString())
     params.set('postId', id)
-    router.push(`${pathname}?${params.toString()}`)
+    router.replace(`${pathname}?${params.toString()}`)
   }
 
   return (
@@ -141,9 +130,6 @@ export const UserPosts = ({ userId, userPostsData, totalCountPosts, postDataQuer
           />
         )
       })}
-      {postData?.post && postData?.comments && (
-        <PostModal post={postData.post} comments={postData.comments} />
-      )}
     </div>
   )
 }

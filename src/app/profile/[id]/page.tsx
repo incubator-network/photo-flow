@@ -12,6 +12,9 @@ import { UserProfileMetadata } from '@/lib/feature/profile/ui/components/profile
 import { PAGE_SIZE } from '@/constants'
 import { UserPostsResponse } from '@/lib/feature/posts/api/postsApi.types'
 import { getComments, getPost } from '@/lib/feature/posts/ssr/getPostSSR'
+import { Button } from '@/components/ui/button/Button'
+import Link from 'next/link'
+import PostModal from '@/lib/feature/posts/ui/post/PostModal'
 
 // вернуть 404 если нет пользователя или не валидность
 
@@ -27,7 +30,7 @@ type ProfilePageProps = {
 export default async function ProfilePage({ params, searchParams }: ProfilePageProps) {
   const { postId } = await searchParams
   const postDataQuery = {} as PostData
-
+  console.log('server')
   const { id: userId } = await params
   try {
     if (postId) {
@@ -35,16 +38,12 @@ export default async function ProfilePage({ params, searchParams }: ProfilePageP
       postDataQuery.comments = await getComments(postId)
     }
     const userProfileData = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/public-user/profile/${userId}`,
-      { cache: 'no-store' }
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/public-user/profile/${userId}`
     )
     const userProfile: UserProfileDataResponse = await userProfileData.json()
 
     const userPostsData = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/posts/user/${userId}/0?pageSize=${PAGE_SIZE}`,
-      {
-        cache: 'no-store',
-      }
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/posts/user/${userId}/0?pageSize=${PAGE_SIZE}`
     )
     const userPosts: UserPostsResponse = await userPostsData.json()
     const totalCountPosts = userPosts.totalCount
@@ -78,16 +77,25 @@ export default async function ProfilePage({ params, searchParams }: ProfilePageP
           </div>
         </div>
         <UserPosts
-          postDataQuery={postDataQuery}
           key={userId}
           userId={userId}
           userPostsData={userPosts}
           totalCountPosts={totalCountPosts}
         />
+        {postDataQuery.post && postId && (
+          <PostModal post={postDataQuery.post} comments={postDataQuery.comments} />
+        )}
       </div>
     )
   } catch (e) {
     console.log(e)
-    return <h1>Not Found 404 заглушка</h1> // переделать! компонент 404
+    return (
+      <div className={'flex h-[80vh] flex-col items-center justify-center gap-[45px]'}>
+        <Typography variant={'h1'}>Oops, this page does not exist.</Typography>
+        <Button asChild variant={'secondary'}>
+          <Link href={'/'}>Go to Home page</Link>
+        </Button>
+      </div>
+    ) // переделать! компонент 404
   }
 }
