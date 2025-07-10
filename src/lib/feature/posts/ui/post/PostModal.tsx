@@ -40,8 +40,11 @@ export default function PostModal({ post, comments }: PropsType) {
 
   const router = useRouter()
   const { id } = useParams()
+
+  // FIX: Не забыть убрать потом
   const { data } = useGetMeQuery()
   const userId = data?.userId
+
   const searchParams = useSearchParams()
   const postId = searchParams.get('postId')
   const isAuth = useAppSelector(selectIsAuth)

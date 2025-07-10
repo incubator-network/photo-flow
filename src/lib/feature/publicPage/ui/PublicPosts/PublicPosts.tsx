@@ -46,7 +46,7 @@ export default function PublicPosts({ initialPosts }: PropsType) {
                 <Image
                   width={36}
                   height={36}
-                  className={'w-[36px] rounded-2xl'}
+                  className={'w-[36px] rounded-full'}
                   src={post.avatarOwner}
                   alt={post.userName}
                 />
