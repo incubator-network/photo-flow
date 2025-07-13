@@ -4,6 +4,7 @@ import { formatTimeAgo } from '@/utils/formatTimeAgo'
 import { Comment } from '@/lib/feature/posts/api/postsApi.types'
 import { useLazyGetCommentAnswerQuery } from '@/lib/feature/posts/api/postsApi'
 import PostAnswer from '@/lib/feature/posts/ui/post/postComment/postAnswer/PostAnswer'
+import DefaultAvatar from '@/../public/defaultAvatar.jpg'
 
 type PropsType = {
   postId: number
@@ -23,7 +24,7 @@ function PostComment({ postId, comment }: PropsType) {
           <Image
             width={36}
             height={36}
-            src={comment.from.avatars[1].url}
+            src={comment.from.avatars[1].url || DefaultAvatar}
             className={'max-w-9 rounded-full'}
             alt={'user comment avatar'}
           />

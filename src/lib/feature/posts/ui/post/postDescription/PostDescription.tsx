@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { Typography } from '@/components/ui/typography/Typography'
 import { formatTimeAgo } from '@/utils/formatTimeAgo'
 import { PostResponse } from '@/lib/feature/posts/api/postsApi.types'
+import DefaultAvatar from '@/../public/defaultAvatar.jpg'
 
 function PostDescription({ post }: { post: PostResponse }) {
   return (
@@ -10,7 +11,7 @@ function PostDescription({ post }: { post: PostResponse }) {
         <Image
           width={36}
           height={36}
-          src={post.avatarOwner}
+          src={post.avatarOwner || DefaultAvatar}
           className={'max-w-9 rounded-full'}
           alt={'photo of creator'}
         />

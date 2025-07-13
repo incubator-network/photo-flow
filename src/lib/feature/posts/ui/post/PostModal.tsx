@@ -19,6 +19,7 @@ import PostMenu from '@/lib/feature/posts/ui/post/postMenu/PostMenu'
 import ConfirmModal from './ConfirmModal/ConfirmModal'
 import { useGetMeQuery } from '@/lib/feature/auth/api/authApi'
 import { EditPostForm } from './EditPostForm/EditPostForm'
+import DefaultAvatar from '@/../public/defaultAvatar.jpg'
 
 type PropsType = {
   post: PostResponse
@@ -86,7 +87,7 @@ export default function PostModal({ post, comments }: PropsType) {
           <Image
             width={36}
             height={36}
-            src={post.avatarOwner}
+            src={post?.avatarOwner || DefaultAvatar}
             className={'rounded-full'}
             alt={'photo of creator'}
           />

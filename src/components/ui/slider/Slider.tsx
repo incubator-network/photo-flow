@@ -24,6 +24,11 @@ export default function Slider({ images, data, classname }: PropsType) {
     setCurrentImageIndex(prev => (prev === images.length - 1 ? 0 : prev + 1))
   }
 
+  // Для постов без фотографий
+  if (images.length === 0) {
+    images = [{ url: '/no-image.svg', uploadId: 'uniqueID' }] as Images[]
+  }
+
   return (
     <div className={twMerge('relative h-full w-[490px]', classname)}>
       {data === 'serverData' &&
@@ -38,7 +43,6 @@ export default function Slider({ images, data, classname }: PropsType) {
             alt={`post photo ${index + 1}`}
           />
         ))}
-
       {data === 'uiData' &&
         (images as string[]).map((src, index) =>
           src ? (

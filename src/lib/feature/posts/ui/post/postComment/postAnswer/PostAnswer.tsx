@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { Typography } from '@/components/ui/typography/Typography'
 import { formatTimeAgo } from '@/utils/formatTimeAgo'
 import { Answer } from '@/lib/feature/posts/api/postsApi.types'
+import DefaultAvatar from '@/../public/defaultAvatar.jpg'
 
 function PostAnswer({ answer }: { answer: Answer }) {
   return (
@@ -10,7 +11,7 @@ function PostAnswer({ answer }: { answer: Answer }) {
         <Image
           width={36}
           height={36}
-          src={answer.from.avatars[1].url}
+          src={answer.from.avatars[1].url || DefaultAvatar}
           className={'max-w-9 rounded-full'}
           alt={'user comment avatar'}
         />

@@ -1,5 +1,4 @@
 'use client'
-import ImageNotFound from '@/assets/icons/no-image.svg'
 import { Typography } from '@/components/ui/typography/Typography'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -27,32 +26,23 @@ export default function PublicPosts({ initialPosts }: PropsType) {
         const resultDate = formatTimeAgo(post.createdAt)
         return (
           <div key={post.id}>
-            {post.images[0] ? (
-              //FIX: Подумать потом куда должен быть редирект
-              <Link href={`/profile/${post.ownerId}?postId=${post.id}`}>
-                <Image
-                  width={240}
-                  height={240}
-                  className='h-auto max-w-[240px]'
-                  src={post.images[0]?.url}
-                  alt={post.description}
-                />
-              </Link>
-            ) : (
-              <ImageNotFound className='h-auto w-[240px]' fill={'#5f5f5f'} />
-            )}
+            <Link href={`/profile/${post.ownerId}?postId=${post.id}`}>
+              <Image
+                width={240}
+                height={240}
+                className='h-auto max-w-[240px]'
+                src={post.images[0]?.url || '/no-image.svg'}
+                alt={post.description}
+              />
+            </Link>
             <div className={'flex-start flex items-center pt-[12px]'}>
-              {post.avatarOwner ? (
-                <Image
-                  width={36}
-                  height={36}
-                  className={'w-[36px] rounded-full'}
-                  src={post.avatarOwner}
-                  alt={post.userName}
-                />
-              ) : (
-                <ImageNotFound className={'h-[36px] w-[36px] rounded-2xl'} fill={'#5f5f5f'} />
-              )}
+              <Image
+                width={36}
+                height={36}
+                className={'rounded-full'}
+                src={post.avatarOwner || '/defaultAvatar.jpg'}
+                alt={post.userName}
+              />
               <Typography className={'px-[12px]'} variant={'h3'}>
                 {post.userName}
               </Typography>
