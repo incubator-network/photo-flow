@@ -1,15 +1,19 @@
 'use client'
-import { ReactNode, useEffect, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import { useAppDispatch } from '@/lib/hooks'
 import { setIsAuth } from '@/lib/appSlice'
 import { useGetMeQuery } from '@/lib/feature/auth/api/authApi'
 import { useRouter } from 'next/navigation'
 import { AUTH_TOKEN } from '@/constants'
+import { Header } from '@/components/ui/header/Header'
+import Loader from '@/components/ui/loader/Loader'
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const dispatch = useAppDispatch()
   const router = useRouter()
+
   const [shouldFetch, setShouldFetch] = useState(false)
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true)
 
   useEffect(() => {
     const token = localStorage.getItem(AUTH_TOKEN)
@@ -17,16 +21,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setShouldFetch(true)
     } else {
       dispatch(setIsAuth({ isAuth: false }))
+      setIsCheckingAuth(false)
     }
   }, [dispatch])
 
-  const { data, error, isLoading } = useGetMeQuery(undefined, {
+  const { data, error } = useGetMeQuery(undefined, {
     skip: !shouldFetch,
   })
 
   useEffect(() => {
     if (data) {
       dispatch(setIsAuth({ isAuth: true }))
+      setIsCheckingAuth(false)
     }
 
     if (error && 'status' in error && error.status === 401) {
@@ -35,10 +41,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [data, error, dispatch, router])
 
-  // FIX: Добавить нормальный Loader
-  if (shouldFetch && isLoading) {
-    return <div>Загрузка...</div>
+  if (isCheckingAuth) {
+    return <Loader />
   }
 
-  return children
+  return (
+    <>
+      <Header />
+      {children}
+    </>
+  )
 }
