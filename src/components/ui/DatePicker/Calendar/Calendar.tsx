@@ -1,4 +1,4 @@
-import ArrowLeft from '../../../../assets/Arrow left.svg'
+import ArrowLeft from '@/assets/icons/arrow-back-outline.svg'
 import { addMonths, format } from 'date-fns'
 import { twMerge } from 'tailwind-merge'
 import { useMemo } from 'react'
@@ -53,11 +53,13 @@ export const Calendar = ({
         <p className={`font-bold`}>{format(addMonths(today, offsetMonths), 'MMMM yyyy')}</p>
         <div className={`flex gap-0.5`}>
           <button
+            type='button'
             className={`bg-dark-100 flex h-9 w-9 items-center justify-center rounded-3xl p-2`}
           >
             <ArrowLeft className={`text-light-100 h-5 w-5`} onClick={goToPrevMonth} />
           </button>
           <button
+            type='button'
             className={`bg-dark-100 flex h-9 w-9 items-center justify-center rounded-3xl p-2`}
           >
             <ArrowLeft

@@ -2,6 +2,7 @@
 
 import NoImage from '@/assets/icons/img.svg'
 import { Button } from '@/components/ui/button/Button'
+import { DatePicker } from '@/components/ui/DatePicker/DatePicker'
 import { Input } from '@/components/ui/input/Input'
 import { Select } from '@/components/ui/Select/Select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs/Tabs'
@@ -86,7 +87,7 @@ const GeneralInformation = () => {
                 {/*Сделать звездочку красной, как обязательное поле для ввода(не может быть пустым при первом заполнении)*/}
                 <Input label='First Name*' />
                 <Input label='Last Name*' />
-                <p>CALENDAR</p>
+                <DatePicker title='Date of birth' />
                 <div className='flex items-center gap-6'>
                   {/*Див для селектов*/}
 
