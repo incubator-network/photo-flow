@@ -7,16 +7,21 @@ import { ModalWindow } from '@/components/ui/modalWindow/ModalWindow'
 import { useState } from 'react'
 import LogoutIcon from '@/assets/icons/logout.svg'
 import { AUTH_TOKEN } from '@/constants'
+import { useAppDispatch } from '@/lib/hooks'
+import { setIsAuth } from '@/lib/appSlice'
 
 export default function Logout() {
   const [logout] = useLogoutMutation()
   const router = useRouter()
   const [isModalOpen, setIsModalOpen] = useState(false)
 
+  const dispatch = useAppDispatch()
+
   const logoutHandler = async () => {
     setIsModalOpen(true)
     try {
       await logout().unwrap()
+      dispatch(setIsAuth({ isAuth: false }))
       localStorage.removeItem(AUTH_TOKEN)
       router.push('/auth/sign-in')
     } catch (error) {
