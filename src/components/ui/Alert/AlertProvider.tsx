@@ -13,7 +13,9 @@ import { AlertData } from './AlertTypes'
  * Алерт отображается через React Portal в элемент с id="alert-root".
  *
  * Пример использования:
- * const { showAlert } = useAlert();
+ * const { showAlert } = useAlert()!
+ * useAlert из AlertContext
+ * '!' используется для указанию TS, что showAlert точно не null
  * showAlert({ message: 'Что-то пошло не так', type: 'error' });
  *
  * @param {Object} props
@@ -37,9 +39,6 @@ export function AlertProvider({ children }: { children: ReactNode }) {
    */
   const showAlert = (data: AlertData) => {
     setAlert(data)
-    setTimeout(() => {
-      setAlert(null)
-    }, 3000)
   }
 
   return (
@@ -48,7 +47,13 @@ export function AlertProvider({ children }: { children: ReactNode }) {
       {mounted &&
         alert &&
         createPortal(
-          <Alert message={alert.message} type={alert.type ?? 'info'} />,
+          <Alert
+            message={alert.message}
+            type={alert.type ?? 'info'}
+            onClose={() => {
+              setAlert(null)
+            }}
+          />,
           document.getElementById('alert-root')!
         )}
     </AlertContext.Provider>
