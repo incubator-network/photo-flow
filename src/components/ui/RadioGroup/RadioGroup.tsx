@@ -9,14 +9,11 @@ type Item = {
 
 type RadioProps = {
   items: Item[]
+  value: string
+  onValueChange: (value: string) => void
 } & RadioGroup.RadioGroupProps
 
-export const Radio = ({
-  className,
-  disabled,
-  items,
-  ...restProps
-}: RadioProps) => (
+export const Radio = ({ className, disabled, items, ...restProps }: RadioProps) => (
   <form>
     <RadioGroup.Root
       defaultValue={items[0].title}
@@ -33,8 +30,7 @@ export const Radio = ({
             <div
               className={twMerge(
                 `hover:bg-dark-300 focus:bg-dark-500 active:bg-dark-100 rounded-full`,
-                disabled &&
-                  `hover:bg-transparent focus:bg-transparent active:bg-transparent`
+                disabled && `hover:bg-transparent focus:bg-transparent active:bg-transparent`
               )}
             >
               <RadioGroup.Item
