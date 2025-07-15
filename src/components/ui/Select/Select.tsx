@@ -36,7 +36,7 @@ export const Select = ({
 
   return (
     <div className={twMerge(`relative`, className)}>
-      {title && <span className='text-regular-14 text-light-900'>{title}</span>}
+      {title && <p className='text-regular-14 text-light-900'>{title}</p>}
 
       <RadixSelect.Root
         open={open}
