@@ -28,4 +28,4 @@ export const profileApi = baseApi.injectEndpoints({
   }),
 })
 
-export const { useLazyGetProfileQuery, useGetUserPostsQuery } = profileApi
+export const { useLazyGetProfileQuery, useGetUserPostsQuery, useGetProfileQuery } = profileApi

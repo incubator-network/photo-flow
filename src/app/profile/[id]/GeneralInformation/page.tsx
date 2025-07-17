@@ -1,6 +1,5 @@
 'use client'
 
-import NoImage from '@/assets/icons/img.svg'
 import { Button } from '@/components/ui/button/Button'
 import { DatePicker } from '@/components/ui/DatePicker/DatePicker'
 import { Input } from '@/components/ui/input/Input'
@@ -8,13 +7,19 @@ import { Select } from '@/components/ui/Select/Select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs/Tabs'
 import { Textarea } from '@/components/ui/textarea/Textarea'
 import { cityList, countriesData } from '@/constants/countries&cities'
+import { useGetProfileQuery } from '@/lib/feature/profile/api/profileApi'
 import { useEffect, useState } from 'react'
+import { AddProfilePhoto } from './AddProfilePhoto'
 
 type Country = keyof typeof cityList // 'Belarus' | 'Poland' | 'Russia' | 'UK'
 
 const GeneralInformation = () => {
-  const [countryValue, setCountryValue] = useState<Country>('Belarus') // добавить default значение
-  const [cityValue, setCityValue] = useState<string>('Minsk') // добавить default значение
+  const { data: profile } = useGetProfileQuery()
+  const [countryValue, setCountryValue] = useState<Country>('Belarus') // добавить default значение, если заполнено
+  const [cityValue, setCityValue] = useState<string>('Minsk') // добавить default значение, если заполнено
+  const [aboutMeValue, setAboutMeValue] = useState<string | undefined>(profile?.aboutMe)
+
+  console.log(profile)
 
   const handleCountryChange = (value: Country) => {
     setCountryValue(value)
@@ -47,24 +52,18 @@ const GeneralInformation = () => {
         </TabsList>
 
         <TabsContent value='General information'>
-          <div className={`w-[972px]`}>
+          <div className={`flex w-[972px] gap-9`}>
             {/*Ширину, возможно, поменять в будущем, без хардкода*/}
             {/*Основной контент*/}
-            {/*Проверить по апи, нужно ли высылать картинку, или же это отдельный запрос. Если отдельный, то вынести див с картинкой из формы(возможно добавить форму под картинку)*/}
-            <form action='#' className='flex w-full gap-9'>
+            <AddProfilePhoto />
+            <form action='#' className='w-full'>
               {/*Форма. Добавить аттрибуты*/}
-              <div className='flex w-[196px] flex-col items-center'>
-                {/*Див для фотки с кнопкой для изменения*/}
-                <NoImage className={`bg-dark-500 my-6 h-[192px] w-[192px] rounded-full p-[72px]`} />
-                {/*Добавить выражение: если есть фотка, то отобразить ее*/}
-                <Button variant='outline'>Add a Profile Photo</Button> {/*Для изменения фотки*/}
-              </div>
               <div className='flex w-[740px] flex-col gap-6'>
                 {/*Див для остальных полей ввода*/}
-                <Input label='Username*' />
+                <Input label='Username*' placeholder={profile?.userName || ''} />
                 {/*Сделать звездочку красной, как обязательное поле для ввода(не может быть пустым при первом заполнении)*/}
-                <Input label='First Name*' />
-                <Input label='Last Name*' />
+                <Input label='First Name*' placeholder={profile?.firstName || ''} />
+                <Input label='Last Name*' placeholder={profile?.lastName || ''} />
                 <DatePicker title='Date of birth' isOnlySingleMode={true} />
                 <div className='flex items-center gap-6'>
                   {/*Див для селектов*/}
@@ -88,9 +87,14 @@ const GeneralInformation = () => {
                   />
                 </div>
                 <Textarea
+                  value={aboutMeValue}
+                  changeValue={() => {
+                    setAboutMeValue(aboutMeValue)
+                  }}
                   className={'min-h-[85px] w-full'}
                   placeholder='About Me'
                   textareaLabel='About Me'
+                  maxLength={200}
                 ></Textarea>
                 <hr className='border-dark-300 -ml-[232px] flex w-[972px] justify-end self-center border-t' />
                 {/*Хардкод с позиционированием. Изменить позже*/}
