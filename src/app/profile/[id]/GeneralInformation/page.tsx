@@ -87,7 +87,7 @@ const GeneralInformation = () => {
                 {/*Сделать звездочку красной, как обязательное поле для ввода(не может быть пустым при первом заполнении)*/}
                 <Input label='First Name*' />
                 <Input label='Last Name*' />
-                <DatePicker title='Date of birth' />
+                <DatePicker title='Date of birth' isOnlySingleMode={true} />
                 <div className='flex items-center gap-6'>
                   {/*Див для селектов*/}
 

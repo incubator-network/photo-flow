@@ -12,6 +12,7 @@ type DatePickerProps = {
   error?: { isError: boolean; errorText?: string }
   onDatesChange?: (dates: Date[]) => void
   title?: string
+  isOnlySingleMode?: true
 }
 
 export const DatePicker = ({
@@ -20,6 +21,7 @@ export const DatePicker = ({
   error,
   onDatesChange,
   title,
+  isOnlySingleMode,
 }: DatePickerProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const [days, setDays] = useState<CalendarDay[]>([])
@@ -28,9 +30,13 @@ export const DatePicker = ({
   const calendarRef = useRef<HTMLDivElement>(null)
   const openButtonRef = useRef<HTMLButtonElement>(null)
 
-  const { onDayClick, selectionDates, rangeStart, rangeEnd, mode, today } = useCalendarSelection()
+  const { onDayClick, selectionDates, rangeStart, rangeEnd, mode, today } =
+    useCalendarSelection(isOnlySingleMode)
   const buttonPosition = openButtonRef.current?.getBoundingClientRect()
   const calendarPosition = getCalendarPositionStyles(buttonPosition)
+
+  console.log(selectionDates)
+  console.log(mode)
 
   useEffect(() => {
     setDays(getDaysForCalendar(offsetMonths))
