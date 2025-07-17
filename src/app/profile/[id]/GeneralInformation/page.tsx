@@ -7,48 +7,26 @@ import { Input } from '@/components/ui/input/Input'
 import { Select } from '@/components/ui/Select/Select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs/Tabs'
 import { Textarea } from '@/components/ui/textarea/Textarea'
-import { useState } from 'react'
+import { cityList, countriesData } from '@/constants/countries&cities'
+import { useEffect, useState } from 'react'
 
-const countriesData = [
-  {
-    title: 'Belarus',
-  },
-  {
-    title: 'Poland',
-  },
-  {
-    title: 'Russia',
-  },
-  {
-    title: 'UK',
-  },
-  {
-    title: 'Somali',
-  },
-]
-
-const cityList = [
-  // Возможно подгружать список в зависимости от страны
-  {
-    title: 'Minsk',
-  },
-  {
-    title: 'Wrocław',
-  },
-  {
-    title: 'Moscow',
-  },
-  {
-    title: 'Liverpool',
-  },
-  {
-    title: 'Mogadishu',
-  },
-]
+type Country = keyof typeof cityList // 'Belarus' | 'Poland' | 'Russia' | 'UK'
 
 const GeneralInformation = () => {
-  const [countryValue, setCountryValue] = useState('Somali') // добавить default значение
-  const [cityValue, setCityValue] = useState('Mogadishu') // добавить default значение
+  const [countryValue, setCountryValue] = useState<Country>('Belarus') // добавить default значение
+  const [cityValue, setCityValue] = useState<string>('Minsk') // добавить default значение
+
+  const handleCountryChange = (value: Country) => {
+    setCountryValue(value)
+    setCityValue('')
+  }
+
+  useEffect(() => {
+    if (cityList[countryValue].length > 0) {
+      setCityValue(cityList[countryValue][0].title)
+    }
+  }, [countryValue])
+
   return (
     <div className='mb-[26px] pt-9'>
       {/*Поменять на семантические теги*/}
@@ -96,12 +74,12 @@ const GeneralInformation = () => {
                     title='Select your country'
                     placeholder='Country'
                     value={countryValue}
-                    onValueChange={setCountryValue}
+                    onValueChange={handleCountryChange}
                     className='w-[358px]'
                   />
                   {/*Сделать списки взаимосвязанными*/}
                   <Select
-                    items={cityList}
+                    items={cityList[countryValue]}
                     title='Select your city'
                     placeholder='City'
                     value={cityValue}

@@ -65,12 +65,17 @@ export default function SignIn() {
       // FIX: Срабатываем еще один me запрос при запросе профиля
       const profileResponse = await profile().unwrap()
 
-      if (profileResponse.firstName && profileResponse.lastName) {
+      if (
+        profileResponse.firstName &&
+        profileResponse.lastName &&
+        profileResponse.userName &&
+        profileResponse.dateOfBirth
+      ) {
         // Если есть имя, фамилия в профиле(создан, заполнен)
-        router.push('/profile') // Изменить на название роута в будущем
+        router.push(`/profile/${profileResponse.id}`) // Изменить на название роута в будущем
       } else {
         // Если профиль не создан
-        router.push('/profileCreate') // Изменить на название роута в будущем
+        router.push(`/profile/${profileResponse.id}/GeneralInformation`) // Изменить на название роута в будущем
       }
     } catch (error: unknown) {
       const apiError = error as ApiError

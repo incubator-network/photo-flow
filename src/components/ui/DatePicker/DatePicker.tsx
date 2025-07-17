@@ -35,9 +35,6 @@ export const DatePicker = ({
   const buttonPosition = openButtonRef.current?.getBoundingClientRect()
   const calendarPosition = getCalendarPositionStyles(buttonPosition)
 
-  console.log(selectionDates)
-  console.log(mode)
-
   useEffect(() => {
     setDays(getDaysForCalendar(offsetMonths))
     onDatesChange?.(selectionDates)
