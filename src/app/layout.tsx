@@ -3,7 +3,6 @@ import './globals.css'
 import React from 'react'
 import { StoreProvider } from '@/app/StoreProvider'
 import { AuthProvider } from '@/lib/feature/auth/ui/AuthProvider'
-import { Header } from '@/components/ui/header/Header'
 import { AlertProvider } from '@/components/ui/Alert/AlertProvider'
 
 export const metadata: Metadata = {
@@ -23,7 +22,6 @@ export default function RootLayout({
         <StoreProvider>
           <AuthProvider>
             <AlertProvider>
-              <Header />
               <main className={'pt-[60px]'}>{children}</main>
             </AlertProvider>
           </AuthProvider>
