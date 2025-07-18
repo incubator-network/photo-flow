@@ -19,7 +19,7 @@ import { useState } from 'react'
 import { AUTH_TOKEN } from '@/constants'
 
 type PropsMenu = {
-  isAuthSidebar?: boolean
+  content?: PropsMenuItems
 }
 
 export type PropsMenuItems = {
@@ -28,7 +28,7 @@ export type PropsMenuItems = {
   icon: React.FC<React.SVGProps<SVGSVGElement>>
 }
 
-export function Sidebar({}: PropsMenu) {
+export function Sidebar({ content }: PropsMenu) {
   const [logout] = useLogoutMutation()
   const router = useRouter()
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -74,6 +74,7 @@ export function Sidebar({}: PropsMenu) {
       url: '#',
       icon: SearchIcon,
     },
+    ...(content ? [content] : []),
   ]
 
   const secondaryMenuItems = [
