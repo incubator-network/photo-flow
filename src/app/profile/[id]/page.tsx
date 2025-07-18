@@ -7,7 +7,7 @@ import {
 import { ProfileControls } from '@/lib/feature/profile/ui/components/profile/profileControls/ProfileControls'
 import Image from 'next/image'
 import DefaultAvatar from '@/../public/defaultAvatar.jpg'
-import { UserProfileDataResponse } from '@/lib/feature/profile/types/profile.types'
+import { UserProfileDataResponse } from '@/lib/feature/profile/api/profile.types'
 import { UserProfileMetadata } from '@/lib/feature/profile/ui/components/profile/userProfileMetadata/UserProfileMetadata'
 import { PAGE_SIZE } from '@/constants'
 import { UserPostsResponse } from '@/lib/feature/posts/api/postsApi.types'

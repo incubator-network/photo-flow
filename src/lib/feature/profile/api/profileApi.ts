@@ -1,5 +1,5 @@
 import { baseApi } from '@/lib/baseApi'
-import { ProfileType, UserProfileDataResponse } from '@/lib/feature/profile/types/profile.types'
+import { ProfileType, UserProfileDataResponse } from '@/lib/feature/profile/api/profile.types'
 import { UserPostsResponse } from '@/lib/feature/posts/api/postsApi.types'
 
 export const profileApi = baseApi.injectEndpoints({
