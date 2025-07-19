@@ -8,8 +8,8 @@ import StatisticsIcon from '@/assets/icons/statistics.svg'
 import FavoriteIcon from '@/assets/icons/bookmark-outline.svg'
 import LogoutIcon from '@/assets/icons/logout.svg'
 import { Typography } from '@/components/ui/typography/Typography'
-import { useAppDispatch } from '@/lib/hooks'
-import { setIsAuth } from '@/lib/appSlice'
+import { useAppDispatch, useAppSelector } from '@/lib/hooks'
+import { selectIsAuth, setIsAuth } from '@/lib/appSlice'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button/Button'
 import { ModalWindow } from '@/components/ui/modalWindow/ModalWindow'
@@ -32,7 +32,7 @@ export function Sidebar({ content }: PropsMenu) {
   const [logout] = useLogoutMutation()
   const router = useRouter()
   const [isModalOpen, setIsModalOpen] = useState(false)
-
+  const isAuth = useAppSelector(selectIsAuth)
   const dispatch = useAppDispatch()
 
   const logoutHandler = async () => {
@@ -91,71 +91,73 @@ export function Sidebar({ content }: PropsMenu) {
   ]
 
   return (
-    <div className={'h-full w-[220px] flex-col'}>
-      <nav className={'flex flex-col justify-center pt-36 pb-9 pl-[60px]'}>
-        <ul className={'flex-col gap-6 pb-15'}>
-          {mainMenuItems.map(item => (
-            <li className={'pb-[24px]'} key={item.title}>
-              <Link
-                className={'hover:text-accent-500 flex items-center gap-[15px]'}
-                href={item.url}
-              >
-                <item.icon />
-                <Typography variant={'bold_text_14'}>{item.title}</Typography>
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <ul className={'flex-col gap-6 pb-[180px]'}>
-          {secondaryMenuItems.map(item => (
-            <li key={item.title} className={'pb-[24px]'}>
-              <Link
-                className={'hover:text-accent-500 flex items-center gap-[15px]'}
-                href={item.url}
-              >
-                <item.icon />
-                <Typography variant={'bold_text_14'}>{item.title}</Typography>
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <Button
-          variant={'text'}
-          className={
-            'hover:text-accent-500 text-light-100 flex items-center justify-start gap-[15px] p-0'
-          }
-          onClick={() => setIsModalOpen(true)}
-        >
-          <LogoutIcon />
-          <Typography variant='bold_text_14'>Log Out</Typography>
-        </Button>
-
-        <div>
-          <ModalWindow
-            modalTitle='Log Out'
-            open={isModalOpen}
-            className='h-[240px] w-[438px]'
-            onClose={() => setIsModalOpen(false)}
+    <div className={'fixed h-full w-[220px] flex-col'}>
+      {isAuth ? (
+        <nav className={'flex flex-col justify-center pt-36 pb-9 pl-[60px]'}>
+          <ul className={'flex-col gap-6 pb-15'}>
+            {mainMenuItems.map(item => (
+              <li className={'pb-[24px]'} key={item.title}>
+                <Link
+                  className={'hover:text-accent-500 flex items-center gap-[15px]'}
+                  href={item.url}
+                >
+                  <item.icon />
+                  <Typography variant={'bold_text_14'}>{item.title}</Typography>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <ul className={'flex-col gap-6 pb-[180px]'}>
+            {secondaryMenuItems.map(item => (
+              <li key={item.title} className={'pb-[24px]'}>
+                <Link
+                  className={'hover:text-accent-500 flex items-center gap-[15px]'}
+                  href={item.url}
+                >
+                  <item.icon />
+                  <Typography variant={'bold_text_14'}>{item.title}</Typography>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <Button
+            variant={'text'}
+            className={
+              'hover:text-accent-500 text-light-100 flex items-center justify-start gap-[15px] p-0'
+            }
+            onClick={() => setIsModalOpen(true)}
           >
-            <div className='relative mt-7.5 px-6'>
-              <div className='pb-7.5'>
-                <Typography variant='regular_text_16'>
-                  Are you really want to log out of your account
-                </Typography>
-                <Typography variant={'bold_text_16'}>“Epam@epam.com”?</Typography>
+            <LogoutIcon />
+            <Typography variant='bold_text_14'>Log Out</Typography>
+          </Button>
+
+          <div>
+            <ModalWindow
+              modalTitle='Log Out'
+              open={isModalOpen}
+              className='h-[240px] w-[438px]'
+              onClose={() => setIsModalOpen(false)}
+            >
+              <div className='relative mt-7.5 px-6'>
+                <div className='pb-7.5'>
+                  <Typography variant='regular_text_16'>
+                    Are you really want to log out of your account
+                  </Typography>
+                  <Typography variant={'bold_text_16'}>“Epam@epam.com”?</Typography>
+                </div>
+                <div className='flex justify-end gap-6'>
+                  <Button variant={'outline'} onClick={logoutHandler} className='w-24'>
+                    Yes
+                  </Button>
+                  <Button onClick={() => setIsModalOpen(false)} className='w-24'>
+                    No
+                  </Button>
+                </div>
               </div>
-              <div className='flex justify-end gap-6'>
-                <Button variant={'outline'} onClick={logoutHandler} className='w-24'>
-                  Yes
-                </Button>
-                <Button onClick={() => setIsModalOpen(false)} className='w-24'>
-                  No
-                </Button>
-              </div>
-            </div>
-          </ModalWindow>
-        </div>
-      </nav>
+            </ModalWindow>
+          </div>
+        </nav>
+      ) : null}
     </div>
   )
 }

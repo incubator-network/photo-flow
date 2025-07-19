@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import { AUTH_TOKEN } from '@/constants'
 import { Header } from '@/components/ui/header/Header'
 import Loader from '@/components/ui/loader/Loader'
+import { Sidebar } from '@/components/ui/sidebar/Sidebar'
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const dispatch = useAppDispatch()
@@ -48,6 +49,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   return (
     <>
       <Header />
+      <Sidebar />
       {children}
     </>
   )
