@@ -6,31 +6,69 @@ import { Input } from '@/components/ui/input/Input'
 import { Select } from '@/components/ui/Select/Select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs/Tabs'
 import { Textarea } from '@/components/ui/textarea/Textarea'
-import { cityList, countriesData } from '@/constants/countries&cities'
+import { cityList, countriesList, Country } from '@/constants/countries&cities'
 import { useGetProfileQuery } from '@/lib/feature/profile/api/profileApi'
 import { useEffect, useState } from 'react'
 import { AddProfilePhoto } from './AddProfilePhoto'
-
-type Country = keyof typeof cityList // 'Belarus' | 'Poland' | 'Russia' | 'UK'
+import { Controller } from 'react-hook-form'
+import {
+  UpdateProfileFields,
+  updateProfileSchema,
+} from '@/lib/feature/profile/schemas/updateProfileSchema'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
 
 const GeneralInformation = () => {
   const { data: profile } = useGetProfileQuery()
-  const [countryValue, setCountryValue] = useState<Country>('Belarus') // добавить default значение, если заполнено
-  const [cityValue, setCityValue] = useState<string>('Minsk') // добавить default значение, если заполнено
   const [aboutMeValue, setAboutMeValue] = useState<string | undefined>(profile?.aboutMe)
 
-  console.log(profile)
+  const { register, handleSubmit, reset, watch, control, setValue } = useForm<UpdateProfileFields>({
+    mode: 'onTouched',
+    resolver: zodResolver(updateProfileSchema),
+    defaultValues: profile
+      ? {
+          userName: profile?.userName,
+          firstName: profile?.firstName || '',
+          lastName: profile?.lastName || '',
+          city: profile?.city || '',
+          country: profile?.country || '',
+          region: profile?.region || '',
+          dateOfBirth: profile?.dateOfBirth ? new Date(profile.dateOfBirth) : null,
+          aboutMe: profile?.aboutMe || '',
+        }
+      : undefined,
+  })
 
-  const handleCountryChange = (value: Country) => {
-    setCountryValue(value)
-    setCityValue('')
-  }
+  const countryFromForm = watch('country') as Country
 
   useEffect(() => {
-    if (cityList[countryValue].length > 0) {
-      setCityValue(cityList[countryValue][0].title)
+    if (profile) {
+      reset({
+        ...profile,
+        dateOfBirth: profile.dateOfBirth ? new Date(profile.dateOfBirth) : null,
+      })
     }
-  }, [countryValue])
+  }, [profile, reset])
+
+  useEffect(() => {
+    const cities = cityList[countryFromForm]
+    if (cities && cities.length > 0) {
+      const firstCity = cities[0].title
+      setValue('city', firstCity)
+    }
+  }, [countryFromForm, setValue])
+
+  const normalizeDateToMidnightUTC = (date: Date): string => {
+    return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())).toISOString()
+  }
+
+  const onSubmit = (data: UpdateProfileFields) => {
+    const payload = {
+      ...data,
+      dateOfBirth: data.dateOfBirth ? normalizeDateToMidnightUTC(data.dateOfBirth) : null,
+    }
+    console.log(payload)
+  }
 
   return (
     <div className='mb-[26px] pt-9'>
@@ -56,38 +94,80 @@ const GeneralInformation = () => {
             {/*Ширину, возможно, поменять в будущем, без хардкода*/}
             {/*Основной контент*/}
             <AddProfilePhoto />
-            <form action='#' className='w-full'>
+            <form onSubmit={handleSubmit(onSubmit)} action='#' className='w-full'>
               {/*Форма. Добавить аттрибуты*/}
               <div className='flex w-[740px] flex-col gap-6'>
                 {/*Див для остальных полей ввода*/}
-                <Input label='Username*' placeholder={profile?.userName || ''} />
+                <Input
+                  label='Username*'
+                  {...register('userName')}
+                  placeholder={profile?.userName || ''}
+                />
                 {/*Сделать звездочку красной, как обязательное поле для ввода(не может быть пустым при первом заполнении)*/}
-                <Input label='First Name*' placeholder={profile?.firstName || ''} />
-                <Input label='Last Name*' placeholder={profile?.lastName || ''} />
-                <DatePicker title='Date of birth' isOnlySingleMode={true} />
-                <div className='flex items-center gap-6'>
-                  {/*Див для селектов*/}
+                <Input
+                  label='First Name*'
+                  {...register('firstName')}
+                  placeholder={profile?.firstName || ''}
+                />
+                <Input
+                  label='Last Name*'
+                  {...register('lastName')}
+                  placeholder={profile?.lastName || ''}
+                />
 
-                  <Select
-                    items={countriesData}
-                    title='Select your country'
-                    placeholder='Country'
-                    value={countryValue}
-                    onValueChange={handleCountryChange}
-                    className='w-[358px]'
+                <Controller
+                  control={control}
+                  name='dateOfBirth'
+                  render={({ field }) => (
+                    <DatePicker
+                      isOnlySingleMode
+                      value={field.value}
+                      onValueChange={field.onChange}
+                      title='Date of birth'
+                    />
+                  )}
+                />
+                {/* <DatePicker
+                  title='Date of birth'
+                  isOnlySingleMode={true}
+                  {...register('dateOfBirth')}
+                /> */}
+                <div className='flex items-center gap-6'>
+                  <Controller
+                    control={control}
+                    name='country'
+                    render={({ field }) => (
+                      <Select
+                        value={field.value ?? ''}
+                        onValueChange={value => {
+                          field.onChange(value)
+                          setValue('city', '')
+                        }}
+                        items={countriesList}
+                        title='Select your country'
+                        placeholder='Country'
+                        className='w-[358px]'
+                      />
+                    )}
                   />
-                  {/*Сделать списки взаимосвязанными*/}
-                  <Select
-                    items={cityList[countryValue]}
-                    title='Select your city'
-                    placeholder='City'
-                    value={cityValue}
-                    onValueChange={setCityValue}
-                    className='w-[358px]'
+                  <Controller
+                    control={control}
+                    name='city'
+                    render={({ field }) => (
+                      <Select
+                        value={field.value}
+                        onValueChange={field.onChange}
+                        items={cityList[watch('country') as Country] || []}
+                        title='Select your city'
+                        placeholder='City'
+                        className='w-[358px]'
+                      />
+                    )}
                   />
                 </div>
                 <Textarea
                   value={aboutMeValue}
+                  {...register('aboutMe')}
                   changeValue={() => {
                     setAboutMeValue(aboutMeValue)
                   }}
@@ -100,8 +180,7 @@ const GeneralInformation = () => {
                 {/*Хардкод с позиционированием. Изменить позже*/}
                 <div className='flex justify-end'>
                   {/*Временное решение. Для позиционирования нижней кнопки. Должна остаться в форме, так как для отсылки. Нужно избавиться от дива*/}
-                  <Button variant='primary' type='submit' disabled={true}>
-                    {/*Заглушка с disabled*/}
+                  <Button variant='primary' type='submit'>
                     Save Changes
                   </Button>
                 </div>

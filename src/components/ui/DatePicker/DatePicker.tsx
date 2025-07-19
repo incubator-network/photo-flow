@@ -13,6 +13,8 @@ type DatePickerProps = {
   onDatesChange?: (dates: Date[]) => void
   title?: string
   isOnlySingleMode?: true
+  value?: Date | Date[] | null
+  onValueChange?: (date: Date | Date[] | null) => void
 }
 
 export const DatePicker = ({
@@ -22,6 +24,7 @@ export const DatePicker = ({
   onDatesChange,
   title,
   isOnlySingleMode,
+  onValueChange,
 }: DatePickerProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const [days, setDays] = useState<CalendarDay[]>([])
@@ -38,7 +41,11 @@ export const DatePicker = ({
   useEffect(() => {
     setDays(getDaysForCalendar(offsetMonths))
     onDatesChange?.(selectionDates)
-  }, [offsetMonths, selectionDates, onDatesChange])
+
+    if (isOnlySingleMode) {
+      onValueChange?.(selectionDates[0] || null)
+    }
+  }, [offsetMonths, selectionDates, onDatesChange, onValueChange, isOnlySingleMode])
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {

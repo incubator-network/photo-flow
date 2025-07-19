@@ -1,4 +1,4 @@
-export const countriesData = [
+export const countriesList = [
   {
     title: 'Belarus',
   },
@@ -85,3 +85,5 @@ export const cityList = {
     },
   ],
 }
+
+export type Country = keyof typeof cityList
