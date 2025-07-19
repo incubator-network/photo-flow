@@ -1,9 +1,12 @@
 import ArrowLeft from '@/assets/icons/arrow-back-outline.svg'
 import { addMonths, format } from 'date-fns'
-import { twMerge } from 'tailwind-merge'
-import { useMemo } from 'react'
+import { ChangeEvent, useMemo, useState } from 'react'
+import { WeekDays } from './WeekDays'
+import { DaysOfMonth } from './DaysOfMonth'
+import { Input } from '../../input/Input'
+import { SelectMonths } from './SelectMonths'
 
-type DayType = {
+export type DayType = {
   date: Date
   isToday: boolean
   dayOfTheWeek: number
@@ -21,6 +24,10 @@ type CalendarProps = {
   goToNextMonth: () => void
   goToPrevMonth: () => void
   offsetMonths: number
+  selectedMonth: string
+  selectedYear: string
+  setSelectedYear: (year: string) => void
+  setSelectedMonth: (month: string) => void
 }
 
 export const Calendar = ({
@@ -33,8 +40,15 @@ export const Calendar = ({
   goToNextMonth,
   goToPrevMonth,
   offsetMonths,
+  selectedMonth,
+  selectedYear,
+  setSelectedYear,
+  setSelectedMonth,
 }: CalendarProps) => {
   const weekDays = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
+  const [isOpenCalendar, setIsOpenCalendar] = useState(true)
+  const [isOpenSelectYears, setIsOpenSelectYears] = useState(false)
+  const [isOpenSelectMonths, setIsOpenSelectMonths] = useState(false)
 
   const selectedMap = useMemo(() => {
     return new Set(selectionDates.map(d => d.toDateString()))
@@ -45,12 +59,51 @@ export const Calendar = ({
   const isShowCurrentMonth =
     format(addMonths(today, offsetMonths), 'MMMM yyyy') === format(today, 'MMMM yyyy')
 
+  const onClickYearsHandler = () => {
+    setIsOpenCalendar(false)
+    setIsOpenSelectMonths(false)
+    setIsOpenSelectYears(true)
+  }
+
+  const onClickMonthsHandler = () => {
+    setIsOpenCalendar(false)
+    setIsOpenSelectYears(false)
+    setIsOpenSelectMonths(true)
+  }
+
+  const onChangeMonthHandler = (month: string) => {
+    setSelectedMonth(month)
+    setIsOpenSelectMonths(false)
+    setIsOpenCalendar(true)
+  }
+
+  const onChangeYearHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value
+    if (/^\d{0,4}$/.test(newValue)) {
+      setSelectedYear(newValue)
+    }
+
+    if (newValue.length === 4) {
+      setIsOpenSelectMonths(true)
+      setIsOpenSelectYears(false)
+    }
+  }
+
   return (
     <div
       className={`border-dark-300 bg-dark-500 text-light-100 mt-0.5 flex w-[300px] flex-col gap-3 rounded-sm border px-6 py-4 text-center text-base leading-6 font-normal`}
     >
       <div className={`flex items-center justify-between`}>
-        <p className={`font-bold`}>{format(addMonths(today, offsetMonths), 'MMMM yyyy')}</p>
+        <div className='flex gap-1'>
+          <p className={`font-bold`} onClick={onClickMonthsHandler}>
+            {selectedMonth ? selectedMonth : format(addMonths(today, offsetMonths), 'MMMM')}
+          </p>
+          <p className={`font-bold`} onClick={onClickYearsHandler}>
+            {selectedYear.length === 4
+              ? selectedYear
+              : format(addMonths(today, offsetMonths), 'yyyy')}
+          </p>
+        </div>
         <div className={`flex gap-0.5`}>
           <button
             type='button'
@@ -70,51 +123,33 @@ export const Calendar = ({
         </div>
       </div>
 
-      <ul className={`text-dark-100 flex items-center justify-center`}>
-        {weekDays.map((wd, i) => {
-          return (
-            <li key={i} className={`flex h-[40px] w-[36px] items-center justify-center`}>
-              {wd}
-            </li>
-          )
-        })}
-      </ul>
+      {isOpenSelectYears && (
+        <Input
+          label='Input year'
+          value={selectedYear}
+          onChange={e => {
+            onChangeYearHandler(e)
+          }}
+        />
+      )}
 
-      <ul className={twMerge(`grid grid-cols-7`, `grid-rows-[${Math.ceil(days.length / 7)}]`)}>
-        {days.map(day => {
-          const dateStr = day.date.toDateString()
-          const isSelected = selectedMap.has(dateStr)
-          const isRangeStart = dateStr === rangeStartStr
-          const isRangeEnd = dateStr === rangeEndStr
+      {isOpenSelectMonths && (
+        <SelectMonths selectedMonth={selectedMonth} onChangeMonthHandler={onChangeMonthHandler} />
+      )}
 
-          return (
-            <li
-              key={String(day.date)}
-              onClick={() => {
-                onDayClick(day.date)
-              }}
-              className={twMerge(
-                `focus hover:bg-accent-700 flex h-9 w-9 items-center justify-center hover:rounded-none`,
-                (day.dayOfTheWeek === 5 || day.dayOfTheWeek === 6) && `text-danger-300`,
-                day.isToday && isShowCurrentMonth && `text-accent-500 font-bold`,
-                !day.isCurrentMonth && `text-light-900`,
-                isSelected &&
-                  selectedMap.size === 1 &&
-                  `bg-accent-900 rounded-full hover:rounded-full`,
-                isSelected && selectedMap.size > 1 && `bg-accent-900 hover:bg-accent-700`,
-                isRangeStart &&
-                  selectedMap.size > 1 &&
-                  `hover:bg-accent-700 rounded-l-full hover:rounded-l-full`,
-                isRangeEnd &&
-                  selectedMap.size > 1 &&
-                  `hover:bg-accent-700 rounded-r-full hover:rounded-r-full`
-              )}
-            >
-              {format(day.date, 'd')}
-            </li>
-          )
-        })}
-      </ul>
+      {isOpenCalendar && (
+        <div className='flex flex-col gap-3'>
+          <WeekDays weekDays={weekDays} />
+          <DaysOfMonth
+            onDayClick={onDayClick}
+            days={days}
+            selectedMap={selectedMap}
+            rangeStartStr={rangeStartStr}
+            rangeEndStr={rangeEndStr}
+            isShowCurrentMonth={isShowCurrentMonth}
+          />
+        </div>
+      )}
     </div>
   )
 }

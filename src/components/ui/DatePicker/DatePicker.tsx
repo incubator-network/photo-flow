@@ -5,6 +5,7 @@ import { CalendarDay, getDaysForCalendar } from './utils/getDaysForCalendar'
 import { useCalendarSelection } from './utils/useCalendarSelection'
 import { getCalendarPositionStyles } from './utils/getCalendarPosition'
 import { ButtonTrigger } from './ButtonTrigger'
+import { format } from 'date-fns'
 
 type DatePickerProps = {
   className?: string
@@ -16,6 +17,21 @@ type DatePickerProps = {
   value?: Date | Date[] | null
   onValueChange?: (date: Date | Date[] | null) => void
 }
+
+export const months = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+]
 
 export const DatePicker = ({
   className,
@@ -37,15 +53,35 @@ export const DatePicker = ({
     useCalendarSelection(isOnlySingleMode)
   const buttonPosition = openButtonRef.current?.getBoundingClientRect()
   const calendarPosition = getCalendarPositionStyles(buttonPosition)
+  const [selectedYear, setSelectedYear] = useState(format(today, 'yyyy'))
+  const [selectedMonth, setSelectedMonth] = useState(format(today, 'MMMM'))
+
+  const getSelectedMonth = (month: string) => {
+    return months.findIndex(elem => elem === month)
+  }
 
   useEffect(() => {
-    setDays(getDaysForCalendar(offsetMonths))
+    setDays(
+      getDaysForCalendar({
+        offsetMonths,
+        selectedYear,
+        indexOfSelectedMonth: getSelectedMonth(selectedMonth),
+      })
+    )
     onDatesChange?.(selectionDates)
 
     if (isOnlySingleMode) {
       onValueChange?.(selectionDates[0] || null)
     }
-  }, [offsetMonths, selectionDates, onDatesChange, onValueChange, isOnlySingleMode])
+  }, [
+    offsetMonths,
+    selectionDates,
+    onDatesChange,
+    onValueChange,
+    isOnlySingleMode,
+    selectedYear,
+    selectedMonth,
+  ])
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -63,8 +99,16 @@ export const DatePicker = ({
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [isOpen])
 
-  const goToNextMonth = () => setOffsetMonths(prev => prev + 1)
-  const goToPrevMonth = () => setOffsetMonths(prev => prev - 1)
+  const goToNextMonth = () => {
+    setSelectedYear('')
+    setSelectedMonth('')
+    setOffsetMonths(prev => prev + 1)
+  }
+  const goToPrevMonth = () => {
+    setSelectedYear('')
+    setSelectedMonth('')
+    setOffsetMonths(prev => prev - 1)
+  }
 
   return (
     <div className={twMerge(`leading-1.5 font-normal`, className)}>
@@ -111,6 +155,10 @@ export const DatePicker = ({
               goToNextMonth={goToNextMonth}
               goToPrevMonth={goToPrevMonth}
               offsetMonths={offsetMonths}
+              selectedYear={selectedYear}
+              setSelectedYear={setSelectedYear}
+              selectedMonth={selectedMonth}
+              setSelectedMonth={setSelectedMonth}
             />
           </div>
         )
