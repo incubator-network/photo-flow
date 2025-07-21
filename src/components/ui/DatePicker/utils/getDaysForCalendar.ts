@@ -87,6 +87,5 @@ export const getDaysForCalendar = ({
       daysArray.push(currentDay)
     }
   }
-
   return daysArray
 }

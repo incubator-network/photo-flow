@@ -6,6 +6,7 @@ import { useCalendarSelection } from './utils/useCalendarSelection'
 import { getCalendarPositionStyles } from './utils/getCalendarPosition'
 import { ButtonTrigger } from './ButtonTrigger'
 import { format } from 'date-fns'
+import { normalizeDateToMidnightUTC } from '@/app/profile/[id]/GeneralInformation/page'
 
 type DatePickerProps = {
   className?: string
@@ -16,6 +17,7 @@ type DatePickerProps = {
   isOnlySingleMode?: true
   value?: Date | Date[] | null
   onValueChange?: (date: Date | Date[] | null) => void
+  defaultDate?: string
 }
 
 export const months = [
@@ -41,6 +43,7 @@ export const DatePicker = ({
   title,
   isOnlySingleMode,
   onValueChange,
+  defaultDate,
 }: DatePickerProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const [days, setDays] = useState<CalendarDay[]>([])
@@ -54,10 +57,10 @@ export const DatePicker = ({
   const buttonPosition = openButtonRef.current?.getBoundingClientRect()
   const calendarPosition = getCalendarPositionStyles(buttonPosition)
   const [selectedYear, setSelectedYear] = useState(format(today, 'yyyy'))
-  const [selectedMonth, setSelectedMonth] = useState(format(today, 'MMMM'))
+  const [selectedMonth, setSelectedMonth] = useState(format(today, 'MMM'))
 
   const getSelectedMonth = (month: string) => {
-    return months.findIndex(elem => elem === month)
+    return months.findIndex(m => m === month)
   }
 
   useEffect(() => {
@@ -121,8 +124,8 @@ export const DatePicker = ({
         mode={mode}
         onHandleClick={() => setIsOpen(!isOpen)}
         selectionDates={selectionDates || null}
-        today={today}
         openButtonRef={openButtonRef}
+        defaultDate={defaultDate ? defaultDate : normalizeDateToMidnightUTC(today)}
       />
       {error?.isError ? (
         isOpen ? (

@@ -7,7 +7,7 @@ import { Select } from '@/components/ui/Select/Select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs/Tabs'
 import { Textarea } from '@/components/ui/textarea/Textarea'
 import { cityList, countriesList, Country } from '@/constants/countries&cities'
-import { useGetProfileQuery } from '@/lib/feature/profile/api/profileApi'
+import { useGetProfileQuery, useUpdateProfileMutation } from '@/lib/feature/profile/api/profileApi'
 import { useEffect, useState } from 'react'
 import { AddProfilePhoto } from './AddProfilePhoto'
 import { Controller } from 'react-hook-form'
@@ -18,12 +18,17 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
+export const normalizeDateToMidnightUTC = (date: Date): string => {
+  return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())).toISOString()
+}
+
 const GeneralInformation = () => {
   const { data: profile } = useGetProfileQuery()
   const [aboutMeValue, setAboutMeValue] = useState<string | undefined>(profile?.aboutMe)
+  const [updateProfile] = useUpdateProfileMutation()
 
   const { register, handleSubmit, reset, watch, control, setValue } = useForm<UpdateProfileFields>({
-    mode: 'onTouched',
+    mode: 'onBlur',
     resolver: zodResolver(updateProfileSchema),
     defaultValues: profile
       ? {
@@ -58,16 +63,12 @@ const GeneralInformation = () => {
     }
   }, [countryFromForm, setValue])
 
-  const normalizeDateToMidnightUTC = (date: Date): string => {
-    return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())).toISOString()
-  }
-
-  const onSubmit = (data: UpdateProfileFields) => {
+  const onSubmit = async (data: UpdateProfileFields) => {
     const payload = {
       ...data,
       dateOfBirth: data.dateOfBirth ? normalizeDateToMidnightUTC(data.dateOfBirth) : null,
     }
-    console.log(payload)
+    await updateProfile(payload)
   }
 
   return (
@@ -124,14 +125,10 @@ const GeneralInformation = () => {
                       value={field.value}
                       onValueChange={field.onChange}
                       title='Date of birth'
+                      defaultDate={profile?.dateOfBirth}
                     />
                   )}
                 />
-                {/* <DatePicker
-                  title='Date of birth'
-                  isOnlySingleMode={true}
-                  {...register('dateOfBirth')}
-                /> */}
                 <div className='flex items-center gap-6'>
                   <Controller
                     control={control}

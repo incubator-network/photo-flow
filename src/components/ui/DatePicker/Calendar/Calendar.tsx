@@ -57,7 +57,7 @@ export const Calendar = ({
   const rangeStartStr = rangeStart?.toDateString() ?? ''
   const rangeEndStr = rangeEnd?.toDateString() ?? ''
   const isShowCurrentMonth =
-    format(addMonths(today, offsetMonths), 'MMMM yyyy') === format(today, 'MMMM yyyy')
+    format(addMonths(today, offsetMonths), 'MMM yyyy') === format(today, 'MMM yyyy')
 
   const onClickYearsHandler = () => {
     setIsOpenCalendar(false)
@@ -96,7 +96,7 @@ export const Calendar = ({
       <div className={`flex items-center justify-between`}>
         <div className='flex gap-1'>
           <p className={`font-bold`} onClick={onClickMonthsHandler}>
-            {selectedMonth ? selectedMonth : format(addMonths(today, offsetMonths), 'MMMM')}
+            {selectedMonth ? selectedMonth : format(addMonths(today, offsetMonths), 'MMM')}
           </p>
           <p className={`font-bold`} onClick={onClickYearsHandler}>
             {selectedYear.length === 4

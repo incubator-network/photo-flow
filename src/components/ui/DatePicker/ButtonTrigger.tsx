@@ -13,8 +13,8 @@ type ButtonTriggerType = {
   rangeStart?: Date | null
   rangeEnd?: Date | null
   selectionDates?: Date[]
-  today: Date
   openButtonRef: RefObject<HTMLButtonElement | null>
+  defaultDate?: string
 }
 
 export const ButtonTrigger = ({
@@ -26,8 +26,8 @@ export const ButtonTrigger = ({
   rangeStart,
   rangeEnd,
   selectionDates,
-  today,
   openButtonRef,
+  defaultDate,
 }: ButtonTriggerType) => {
   return (
     <button
@@ -51,7 +51,7 @@ export const ButtonTrigger = ({
       {mode === 'single' && selectionDates?.length === 1 && (
         <p>{format(selectionDates[0], 'dd/MM/yyyy')}</p>
       )}
-      {!selectionDates?.length && <p>{format(today, 'dd/MM/yyyy')}</p>}
+      {defaultDate && !selectionDates?.length && <p>{format(defaultDate, 'dd/MM/yyyy')}</p>}
 
       {isOpen ? (
         <OpenedCalendarIcon className={`h-6 w-6`} />
