@@ -3,6 +3,13 @@ import type { NextConfig } from 'next'
 const nextConfig: NextConfig = {
   images: {
     dangerouslyAllowSVG: true,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'staging-it-incubator.s3.eu-central-1.amazonaws.com',
+        pathname: '/trainee-instagram-api/Image/**',
+      },
+    ],
   },
   webpack(config) {
     config.module.rules.push({
@@ -47,6 +54,14 @@ const nextConfig: NextConfig = {
   },
 
   // ...other config
+
+  // собрать проект не смотря на предупреждения/ошибки в проекте
+  // eslint: {
+  // ignoreDuringBuilds: true,
+  // },
+  // typescript: {
+  // ignoreBuildErrors: true,
+  // },
 }
 
 export default nextConfig

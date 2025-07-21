@@ -6,13 +6,15 @@ import { LoginFields, signInSchema } from '@/lib/feature/auth/schemas/signInSche
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useLoginMutation } from '@/lib/feature/auth/api/authApi'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useLazyGetProfileQuery } from '@/lib/feature/profile/api/profileApi'
 import { Card } from '@/components/ui/Card/Card'
 import { Typography } from '@/components/ui/typography/Typography'
 import { GitHubLoginButton, GoogleLoginButton } from '@/lib/feature/auth/ui'
 import { AUTH_TOKEN } from '@/constants'
+import { selectIsAuth, setIsAuth } from '@/lib/appSlice'
+import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 
 type ApiError = {
   status: number
@@ -24,10 +26,15 @@ type ApiError = {
 }
 
 export default function SignIn() {
-  const [login] = useLoginMutation()
   const [loginError, setLoginError] = useState('')
+
+  const [login] = useLoginMutation()
   const [profile] = useLazyGetProfileQuery()
+
   const router = useRouter()
+
+  const dispatch = useAppDispatch()
+  const isAuth = useAppSelector(selectIsAuth)
 
   const {
     register,
@@ -43,14 +50,20 @@ export default function SignIn() {
     },
   })
 
+  useEffect(() => {
+    if (isAuth) {
+      router.back()
+    }
+  }, [router, isAuth])
+
   const onSubmit = async (data: LoginFields) => {
     try {
       const loginResponse = await login(data).unwrap()
+      dispatch(setIsAuth({ isAuth: true }))
       localStorage.setItem(AUTH_TOKEN, loginResponse.accessToken)
       reset()
-
+      // FIX: Срабатываем еще один me запрос при запросе профиля
       const profileResponse = await profile().unwrap()
-      console.log(profileResponse)
 
       if (profileResponse.firstName && profileResponse.lastName) {
         // Если есть имя, фамилия в профиле(создан, заполнен)
