@@ -6,7 +6,7 @@ import { useCalendarSelection } from './utils/useCalendarSelection'
 import { getCalendarPositionStyles } from './utils/getCalendarPosition'
 import { ButtonTrigger } from './ButtonTrigger'
 import { format } from 'date-fns'
-import { normalizeDateToMidnightUTC } from '@/app/profile/[id]/GeneralInformation/page'
+import { normalizeDateToMidnightUTC } from '@/app/profile/[id]/ProfileSetings/page'
 
 type DatePickerProps = {
   className?: string

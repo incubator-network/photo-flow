@@ -72,10 +72,10 @@ export default function SignIn() {
         profileResponse.dateOfBirth
       ) {
         // Если есть имя, фамилия в профиле(создан, заполнен)
-        router.push(`/profile/${profileResponse.id}`) // Изменить на название роута в будущем
+        router.push(`/profile/${profileResponse.id}`)
       } else {
         // Если профиль не создан
-        router.push(`/profile/${profileResponse.id}/GeneralInformation`) // Изменить на название роута в будущем
+        router.push(`/profile/${profileResponse.id}/GeneralInformation`)
       }
     } catch (error: unknown) {
       const apiError = error as ApiError

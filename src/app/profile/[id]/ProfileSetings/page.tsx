@@ -10,22 +10,24 @@ import { cityList, countriesList, Country } from '@/constants/countries&cities'
 import { useGetProfileQuery, useUpdateProfileMutation } from '@/lib/feature/profile/api/profileApi'
 import { useEffect, useState } from 'react'
 import { AddProfilePhoto } from './AddProfilePhoto'
-import { Controller } from 'react-hook-form'
+import { Controller, useWatch } from 'react-hook-form'
 import {
   UpdateProfileFields,
   updateProfileSchema,
 } from '@/lib/feature/profile/schemas/updateProfileSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { useAlert } from '@/components/ui/Alert/AlertContext'
 
 export const normalizeDateToMidnightUTC = (date: Date): string => {
   return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())).toISOString()
 }
 
-const GeneralInformation = () => {
+const ProfileSetings = () => {
   const { data: profile } = useGetProfileQuery()
   const [aboutMeValue, setAboutMeValue] = useState<string | undefined>(profile?.aboutMe)
-  const [updateProfile] = useUpdateProfileMutation()
+  const [updateProfile, result] = useUpdateProfileMutation()
+  const { showAlert } = useAlert()!
 
   const { register, handleSubmit, reset, watch, control, setValue } = useForm<UpdateProfileFields>({
     mode: 'onBlur',
@@ -33,13 +35,13 @@ const GeneralInformation = () => {
     defaultValues: profile
       ? {
           userName: profile?.userName,
-          firstName: profile?.firstName || '',
-          lastName: profile?.lastName || '',
-          city: profile?.city || '',
-          country: profile?.country || '',
-          region: profile?.region || '',
+          firstName: profile?.firstName,
+          lastName: profile?.lastName,
+          city: profile?.city,
+          country: profile?.country,
+          region: profile?.region,
           dateOfBirth: profile?.dateOfBirth ? new Date(profile.dateOfBirth) : null,
-          aboutMe: profile?.aboutMe || '',
+          aboutMe: profile?.aboutMe,
         }
       : undefined,
   })
@@ -53,15 +55,24 @@ const GeneralInformation = () => {
         dateOfBirth: profile.dateOfBirth ? new Date(profile.dateOfBirth) : null,
       })
     }
-  }, [profile, reset])
+  }, [profile, reset, setValue])
 
   useEffect(() => {
     const cities = cityList[countryFromForm]
     if (cities && cities.length > 0) {
-      const firstCity = cities[0].title
-      setValue('city', firstCity)
+      setValue('city', profile?.city) // Что-то вызывает перерендер. Обнуляется город. Это костыль, чтобы выбранный город отображался
     }
-  }, [countryFromForm, setValue])
+  }, [countryFromForm, setValue, profile?.city])
+
+  useEffect(() => {
+    if (result.isSuccess) {
+      showAlert({ message: 'Your settings are saved!', type: 'success' })
+    }
+
+    if (result.isError) {
+      showAlert({ message: 'Error! Server is not available!', type: 'error' })
+    }
+  }, [result.isSuccess, showAlert, result.isError])
 
   const onSubmit = async (data: UpdateProfileFields) => {
     const payload = {
@@ -70,6 +81,11 @@ const GeneralInformation = () => {
     }
     await updateProfile(payload)
   }
+
+  const country = useWatch({
+    control,
+    name: 'country',
+  })
 
   return (
     <div className='mb-[26px] pt-9'>
@@ -133,33 +149,37 @@ const GeneralInformation = () => {
                   <Controller
                     control={control}
                     name='country'
-                    render={({ field }) => (
-                      <Select
-                        value={field.value ?? ''}
-                        onValueChange={value => {
-                          field.onChange(value)
-                          setValue('city', '')
-                        }}
-                        items={countriesList}
-                        title='Select your country'
-                        placeholder='Country'
-                        className='w-[358px]'
-                      />
-                    )}
+                    render={({ field }) => {
+                      return (
+                        <Select
+                          value={field.value ?? ''}
+                          onValueChange={value => {
+                            field.onChange(value)
+                            // setValue('city', '')
+                          }}
+                          items={countriesList}
+                          title='Select your country'
+                          placeholder='Country'
+                          className='w-[358px]'
+                        />
+                      )
+                    }}
                   />
                   <Controller
                     control={control}
                     name='city'
-                    render={({ field }) => (
-                      <Select
-                        value={field.value}
-                        onValueChange={field.onChange}
-                        items={cityList[watch('country') as Country] || []}
-                        title='Select your city'
-                        placeholder='City'
-                        className='w-[358px]'
-                      />
-                    )}
+                    render={({ field }) => {
+                      return (
+                        <Select
+                          value={field.value}
+                          onValueChange={field.onChange}
+                          items={cityList[country as Country] || []}
+                          title='Select your city'
+                          placeholder='City'
+                          className='w-[358px]'
+                        />
+                      )
+                    }}
                   />
                 </div>
                 <Textarea
@@ -193,4 +213,4 @@ const GeneralInformation = () => {
   )
 }
 
-export default GeneralInformation
+export default ProfileSetings
