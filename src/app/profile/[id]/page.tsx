@@ -48,7 +48,7 @@ export default async function ProfilePage({ params, searchParams }: ProfilePageP
     const userPosts: UserPostsResponse = await userPostsData.json()
     const totalCountPosts = userPosts.totalCount
     return (
-      <div className={twMerge('m-auto w-[1060px] pt-[36px] pl-[24px]')}>
+      <div className={twMerge('m-auto w-[1060px] pt-[36px]')}>
         <div className='flex gap-[38px] pr-[64px]'>
           <Image
             priority
