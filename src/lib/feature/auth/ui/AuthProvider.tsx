@@ -5,7 +5,6 @@ import { setIsAuth } from '@/lib/appSlice'
 import { useGetMeQuery } from '@/lib/feature/auth/api/authApi'
 import { useRouter } from 'next/navigation'
 import { AUTH_TOKEN } from '@/constants'
-import { Header } from '@/components/ui/header/Header'
 import Loader from '@/components/ui/loader/Loader'
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -45,10 +44,5 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return <Loader />
   }
 
-  return (
-    <>
-      <Header />
-      {children}
-    </>
-  )
+  return <>{children}</>
 }

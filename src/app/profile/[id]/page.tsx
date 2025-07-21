@@ -19,12 +19,8 @@ import PostModal from '@/lib/feature/posts/ui/post/PostModal'
 // вернуть 404 если нет пользователя или не валидность
 
 type ProfilePageProps = {
-  params: {
-    id: string
-  }
-  searchParams: {
-    postId: string
-  }
+  params: Promise<{ id: string }>
+  searchParams: Promise<{ postId: string }>
 }
 
 export default async function ProfilePage({ params, searchParams }: ProfilePageProps) {
@@ -48,7 +44,7 @@ export default async function ProfilePage({ params, searchParams }: ProfilePageP
     const userPosts: UserPostsResponse = await userPostsData.json()
     const totalCountPosts = userPosts.totalCount
     return (
-      <div className={twMerge('m-auto w-[1060px] pt-[36px] pl-[24px]')}>
+      <div className={twMerge('m-auto w-[1060px] pt-[36px]')}>
         <div className='flex gap-[38px] pr-[64px]'>
           <Image
             priority

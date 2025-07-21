@@ -3,6 +3,9 @@ import './globals.css'
 import React from 'react'
 import { StoreProvider } from '@/app/StoreProvider'
 import { AuthProvider } from '@/lib/feature/auth/ui/AuthProvider'
+import { AlertProvider } from '@/components/ui/Alert/AlertProvider'
+import { Header } from '@/components/ui/header/Header'
+import { Sidebar } from '@/components/ui/sidebar/Sidebar'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -17,9 +20,18 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body>
+        <div id='alert-root' />
         <StoreProvider>
           <AuthProvider>
-            <main className={'pt-[60px]'}>{children}</main>
+            <AlertProvider>
+              <Header />
+              <div className='max-w-[1920px]'>
+                <div className='flex'>
+                  <Sidebar />
+                  <main className='ml-[220px] w-full px-6 pt-[60px]'>{children}</main>
+                </div>
+              </div>
+            </AlertProvider>
           </AuthProvider>
         </StoreProvider>
       </body>
