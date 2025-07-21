@@ -5,7 +5,6 @@ import { Typography } from '@/components/ui/typography/Typography'
 import { useRouter } from 'next/navigation'
 import { ModalWindow } from '@/components/ui/modalWindow/ModalWindow'
 import { useState } from 'react'
-import LogoutIcon from '@/assets/icons/logout.svg'
 import { AUTH_TOKEN } from '@/constants'
 import { useAppDispatch } from '@/lib/hooks'
 import { setIsAuth } from '@/lib/appSlice'
@@ -32,15 +31,6 @@ export default function Logout() {
   }
   return (
     <div>
-      <p>header</p>
-      <div
-        className={'al flex cursor-pointer items-center gap-3'}
-        onClick={() => setIsModalOpen(true)}
-      >
-        <LogoutIcon className={'h-9 w-9'} />
-        <Typography variant='regular_text_14'>Log Out</Typography>
-      </div>
-
       <ModalWindow
         modalTitle='Log Out'
         open={isModalOpen}
