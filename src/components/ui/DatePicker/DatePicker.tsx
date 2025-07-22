@@ -1,36 +1,99 @@
-import OpenedCalendarIcon from '@/assets/calendar-opened.svg'
-import ClosedCalendarIcon from '@/assets/calendar-closed.svg'
 import { Calendar } from './Calendar/Calendar'
 import { twMerge } from 'tailwind-merge'
 import { useEffect, useRef, useState } from 'react'
-import { format } from 'date-fns'
 import { CalendarDay, getDaysForCalendar } from './utils/getDaysForCalendar'
 import { useCalendarSelection } from './utils/useCalendarSelection'
+import { getCalendarPositionStyles } from './utils/getCalendarPosition'
+import { ButtonTrigger } from './ButtonTrigger'
+import { format } from 'date-fns'
+import { normalizeDateToMidnightUTC } from '@/lib/feature/profile/ui/components/profile/GeneralInformation/GeneralInformation'
 
 type DatePickerProps = {
   className?: string
   disabled?: boolean
   error?: { isError: boolean; errorText?: string }
   onDatesChange?: (dates: Date[]) => void
+  title?: string
+  isOnlySingleMode?: true
+  value?: Date | Date[] | null
+  onValueChange?: (date: Date | Date[] | null) => void
+  defaultDate?: string
 }
 
-export const DatePicker = ({ className, disabled, error, onDatesChange }: DatePickerProps) => {
+export const months = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+]
+
+export const DatePicker = ({
+  className,
+  disabled,
+  error,
+  onDatesChange,
+  title,
+  isOnlySingleMode,
+  onValueChange,
+  defaultDate,
+}: DatePickerProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const [days, setDays] = useState<CalendarDay[]>([])
   const [offsetMonths, setOffsetMonths] = useState<number>(0)
 
   const calendarRef = useRef<HTMLDivElement>(null)
+  const openButtonRef = useRef<HTMLButtonElement>(null)
 
-  const { onDayClick, selectionDates, rangeStart, rangeEnd, mode, today } = useCalendarSelection()
+  const { onDayClick, selectionDates, rangeStart, rangeEnd, mode, today } =
+    useCalendarSelection(isOnlySingleMode)
+  const buttonPosition = openButtonRef.current?.getBoundingClientRect()
+  const calendarPosition = getCalendarPositionStyles(buttonPosition)
+  const [selectedYear, setSelectedYear] = useState(format(today, 'yyyy'))
+  const [selectedMonth, setSelectedMonth] = useState(format(today, 'MMM'))
+
+  const getSelectedMonth = (month: string) => {
+    return months.findIndex(m => m === month)
+  }
 
   useEffect(() => {
-    setDays(getDaysForCalendar(offsetMonths))
+    setDays(
+      getDaysForCalendar({
+        offsetMonths,
+        selectedYear,
+        indexOfSelectedMonth: getSelectedMonth(selectedMonth),
+      })
+    )
     onDatesChange?.(selectionDates)
-  }, [offsetMonths, selectionDates, onDatesChange])
+
+    if (isOnlySingleMode) {
+      onValueChange?.(selectionDates[0] || null)
+    }
+  }, [
+    offsetMonths,
+    selectionDates,
+    onDatesChange,
+    onValueChange,
+    isOnlySingleMode,
+    selectedYear,
+    selectedMonth,
+  ])
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (isOpen && calendarRef.current && !calendarRef.current.contains(e.target as Node)) {
+      if (
+        isOpen &&
+        calendarRef.current &&
+        !calendarRef.current.contains(e.target as Node) &&
+        !openButtonRef.current?.contains(e.target as Node)
+      ) {
         setIsOpen(false)
       }
     }
@@ -39,41 +102,31 @@ export const DatePicker = ({ className, disabled, error, onDatesChange }: DatePi
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [isOpen])
 
-  const goToNextMonth = () => setOffsetMonths(prev => prev + 1)
-  const goToPrevMonth = () => setOffsetMonths(prev => prev - 1)
+  const goToNextMonth = () => {
+    setSelectedYear('')
+    setSelectedMonth('')
+    setOffsetMonths(prev => prev + 1)
+  }
+  const goToPrevMonth = () => {
+    setSelectedYear('')
+    setSelectedMonth('')
+    setOffsetMonths(prev => prev - 1)
+  }
 
   return (
     <div className={twMerge(`leading-1.5 font-normal`, className)}>
-      <p className={`text-light-900 text-sm`}>Date</p>
-      <button
+      {title && <p className={`text-light-900 text-sm`}>{title}</p>}
+      <ButtonTrigger
+        isOpen={isOpen}
         disabled={disabled}
-        className={twMerge(
-          `border-dark-300 bg-dark-700 text-light-100 hover:bg-dark-500 hover:border-dark-100 disabled:text-light-900 disabled:bg-dark-500 disabled:border-dark-300 inline-flex h-[36px] items-center gap-6 rounded-sm border p-[6px_12px] px-3 py-1.5 disabled:border`,
-          isOpen && `bg-dark-500 border`,
-          !isOpen && `focus:border-accent-700 focus:border-2 focus:outline-none`,
-          error?.isError && `bg-dark-500 border-danger-500 text-danger-500`,
-          mode === 'range' && !isOpen && `bg-dark-500`
-        )}
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        {mode === 'range' && rangeStart && rangeEnd && (
-          <p>
-            {format(rangeStart, 'dd/MM/yyyy')} - {format(rangeEnd, 'dd/MM/yyyy')}
-          </p>
-        )}
-        {mode === 'single' && selectionDates.length === 1 && (
-          <p>{format(selectionDates[0], 'dd/MM/yyyy')}</p>
-        )}
-        {!selectionDates.length && <p>{format(today, 'dd/MM/yyyy')}</p>}
-
-        {isOpen ? (
-          <OpenedCalendarIcon className={`h-6 w-6`} />
-        ) : (
-          <ClosedCalendarIcon
-            className={twMerge(`text-light-100 h-6 w-6`, error?.isError && `text-danger-500`)}
-          />
-        )}
-      </button>
+        rangeStart={rangeStart || null}
+        rangeEnd={rangeEnd || null}
+        mode={mode}
+        onHandleClick={() => setIsOpen(!isOpen)}
+        selectionDates={selectionDates || null}
+        openButtonRef={openButtonRef}
+        defaultDate={defaultDate ? defaultDate : normalizeDateToMidnightUTC(today)}
+      />
       {error?.isError ? (
         isOpen ? (
           <p className={`text-danger-500 text-xs leading-[1.33333] font-normal`}>
@@ -86,7 +139,14 @@ export const DatePicker = ({ className, disabled, error, onDatesChange }: DatePi
         )
       ) : (
         isOpen && (
-          <div ref={calendarRef} className={`w-[300px]`}>
+          <div
+            ref={calendarRef}
+            className={twMerge(
+              `absolute z-1000 w-[300px]`,
+              calendarPosition.top,
+              calendarPosition.left
+            )}
+          >
             <Calendar
               onDayClick={onDayClick}
               mode={mode}
@@ -98,6 +158,10 @@ export const DatePicker = ({ className, disabled, error, onDatesChange }: DatePi
               goToNextMonth={goToNextMonth}
               goToPrevMonth={goToPrevMonth}
               offsetMonths={offsetMonths}
+              selectedYear={selectedYear}
+              setSelectedYear={setSelectedYear}
+              selectedMonth={selectedMonth}
+              setSelectedMonth={setSelectedMonth}
             />
           </div>
         )

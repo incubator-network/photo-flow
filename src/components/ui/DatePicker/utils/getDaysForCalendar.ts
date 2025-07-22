@@ -2,7 +2,6 @@ import {
   startOfMonth,
   endOfMonth,
   eachDayOfInterval,
-  format,
   startOfToday,
   getDay,
   subDays,
@@ -17,14 +16,36 @@ export type CalendarDay = {
   isCurrentMonth: boolean
 }
 
-export const getDaysForCalendar = (offsetMonths: number): CalendarDay[] => {
-  const date = addMonths(new Date(), offsetMonths)
-  const start = startOfMonth(date)
-  const end = endOfMonth(date)
+type getDaysForCalendarProps = {
+  offsetMonths: number
+  indexOfSelectedMonth?: number
+  selectedYear?: string
+}
+
+export const getDaysForCalendar = ({
+  offsetMonths,
+  indexOfSelectedMonth,
+  selectedYear,
+}: getDaysForCalendarProps): CalendarDay[] => {
+  let baseDate: Date
+
+  if (
+    selectedYear &&
+    selectedYear !== null &&
+    indexOfSelectedMonth &&
+    indexOfSelectedMonth !== null
+  ) {
+    baseDate = new Date(Number(selectedYear), indexOfSelectedMonth)
+  } else {
+    baseDate = addMonths(new Date(), offsetMonths)
+  }
+
+  const start = startOfMonth(baseDate)
+  const end = endOfMonth(baseDate)
   const dateToday = startOfToday()
 
   const daysArray = eachDayOfInterval({ start, end }).map(day => {
-    const isToday = format(dateToday, 'd') === String(day.getDate())
+    const isToday = day.toDateString() === dateToday.toDateString()
 
     const currentDay = {
       date: day,
@@ -66,6 +87,5 @@ export const getDaysForCalendar = (offsetMonths: number): CalendarDay[] => {
       daysArray.push(currentDay)
     }
   }
-
   return daysArray
 }

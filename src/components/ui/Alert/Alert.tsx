@@ -35,7 +35,7 @@ export const Alert = ({ message, type, onClose }: AlertData & { onClose: () => v
         {type === 'error' && <span className='font-bold'>Error! </span>}
         {message}
       </Typography>
-      <Close onClick={onClose} className='fill-light-100 h-6 w-6' />
+      <Close onClick={onClose} className='fill-light-100 h-6 w-6 cursor-pointer' />
     </div>
   )
 }

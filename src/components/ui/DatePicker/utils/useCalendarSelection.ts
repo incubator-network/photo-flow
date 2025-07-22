@@ -1,5 +1,5 @@
 import { compareAsc, isSameDay, startOfToday } from 'date-fns'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { getDatesBetween } from './getDatesBetween'
 
 type UseCalendarSelectionReturn = {
@@ -11,14 +11,29 @@ type UseCalendarSelectionReturn = {
   today: Date
 }
 
-export const useCalendarSelection = (): UseCalendarSelectionReturn => {
+export const useCalendarSelection = (
+  isOnlySingleMode?: true | undefined
+): UseCalendarSelectionReturn => {
   const [selectionDates, setSelectionDates] = useState<Date[]>([])
   const [mode, setMode] = useState<'single' | 'range'>('single')
   const [rangeStart, setRangeStart] = useState<Date | null>(null)
   const [rangeEnd, setRangeEnd] = useState<Date | null>(null)
   const today = startOfToday()
 
+  useEffect(() => {
+    if (isOnlySingleMode) {
+      setMode('single')
+    }
+  }, [isOnlySingleMode])
+
   const onDayClick = (day: Date) => {
+    if (isOnlySingleMode) {
+      setSelectionDates([day])
+      setRangeStart(day)
+      setRangeEnd(day)
+      return
+    }
+
     const isSelectedDate = selectionDates.some(d => isSameDay(d, day))
     let updatedDates: Date[]
 

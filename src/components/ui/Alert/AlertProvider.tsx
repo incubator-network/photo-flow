@@ -1,6 +1,6 @@
 'use client'
 
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode, useCallback, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Alert } from './Alert'
 import { AlertContext } from './AlertContext'
@@ -37,9 +37,9 @@ export function AlertProvider({ children }: { children: ReactNode }) {
    *
    * @param {AlertData} data - Данные для отображения алерта.
    */
-  const showAlert = (data: AlertData) => {
+  const showAlert = useCallback((data: AlertData) => {
     setAlert(data)
-  }
+  }, [])
 
   return (
     <AlertContext.Provider value={{ showAlert }}>

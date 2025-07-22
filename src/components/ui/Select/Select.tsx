@@ -10,17 +10,17 @@ type Item = {
   description?: string
 }
 
-type PropsType = {
+type PropsType<T extends string> = {
   onOpenChange?: (open: boolean) => void
   placeholder?: string
   title?: string
   items: Item[]
   disabled?: boolean
-  value: string
-  onValueChange: (value: string) => void
+  value?: T
+  onValueChange?: (value: T) => void
 } & Omit<ComponentProps<'select'>, 'value' | 'defaultValue' | 'onChange' | 'dir'>
 
-export const Select = ({
+export const Select = <T extends string>({
   onOpenChange,
   placeholder,
   title,
@@ -30,13 +30,13 @@ export const Select = ({
   value,
   onValueChange,
   ...restProps
-}: PropsType) => {
+}: PropsType<T>) => {
   const [open, setOpen] = useState(false)
   const selectedItem = items.find(item => item.title === value)
 
   return (
     <div className={twMerge(`relative`, className)}>
-      {title && <span className='text-regular-14 text-light-900'>{title}</span>}
+      {title && <p className='text-regular-14 text-light-900'>{title}</p>}
 
       <RadixSelect.Root
         open={open}
