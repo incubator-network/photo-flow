@@ -22,7 +22,7 @@ export const updateProfileSchema = z.object({
     }),
   city: z.string().optional().nullable(),
   country: z.string().optional().nullable(),
-  region: z.string().optional().nullable(), // Хз что, пока поставлю как страну
+  region: z.string().optional().nullable(),
   aboutMe: z
     .string()
     .max(200, { message: 'About me cannot exceed 200 characters' })
