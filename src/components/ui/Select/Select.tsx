@@ -16,8 +16,8 @@ type PropsType<T extends string> = {
   title?: string
   items: Item[]
   disabled?: boolean
-  value: T
-  onValueChange: (value: T) => void
+  value?: T
+  onValueChange?: (value: T) => void
 } & Omit<ComponentProps<'select'>, 'value' | 'defaultValue' | 'onChange' | 'dir'>
 
 export const Select = <T extends string>({

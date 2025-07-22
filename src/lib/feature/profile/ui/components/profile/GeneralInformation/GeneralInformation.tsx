@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { differenceInYears } from 'date-fns'
 import { useGetProfileQuery, useUpdateProfileMutation } from '@/lib/feature/profile/api/profileApi'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useAlert } from '@/components/ui/Alert/AlertContext'
 import { cityList, countriesList, Country } from '@/constants/countries&cities'
 import {
@@ -25,25 +25,22 @@ export const normalizeDateToMidnightUTC = (date: Date): string => {
 
 export const GeneralInformation = () => {
   const { data: profile } = useGetProfileQuery()
-  const [aboutMeValue, setAboutMeValue] = useState<string | undefined>(profile?.aboutMe)
-  const [updateProfile, result] = useUpdateProfileMutation()
+  const [updateProfile, { isSuccess }] = useUpdateProfileMutation()
   const { showAlert } = useAlert()!
 
   const { register, handleSubmit, reset, watch, control, setValue } = useForm<UpdateProfileFields>({
     mode: 'onBlur',
     resolver: zodResolver(updateProfileSchema),
-    defaultValues: profile
-      ? {
-          userName: profile?.userName,
-          firstName: profile?.firstName,
-          lastName: profile?.lastName,
-          city: profile?.city,
-          country: profile?.country,
-          region: profile?.region,
-          dateOfBirth: profile?.dateOfBirth ? new Date(profile.dateOfBirth) : null,
-          aboutMe: profile?.aboutMe,
-        }
-      : undefined,
+    defaultValues: {
+      userName: '',
+      firstName: '',
+      lastName: '',
+      city: '',
+      country: '',
+      region: '',
+      aboutMe: '',
+      dateOfBirth: '',
+    },
   })
 
   const checkAge = (birthDate: string | null) => {
@@ -71,14 +68,15 @@ export const GeneralInformation = () => {
 
   const countryFromForm = watch('country') as Country
 
+  console.log(isSuccess)
+
   useEffect(() => {
     if (profile) {
       reset({
         ...profile,
-        dateOfBirth: profile.dateOfBirth ? new Date(profile.dateOfBirth) : null,
       })
     }
-  }, [profile, reset, setValue])
+  }, [profile, reset])
 
   useEffect(() => {
     const cities = cityList[countryFromForm]
@@ -87,32 +85,37 @@ export const GeneralInformation = () => {
     }
   }, [countryFromForm, setValue, profile?.city])
 
-  useEffect(() => {
-    if (result.isSuccess) {
-      showAlert({ message: 'Your settings are saved!', type: 'success' })
-    }
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     showAlert({ message: 'Your settings are saved!', type: 'success' })
+  //   }
 
-    if (result.isError) {
-      showAlert({ message: 'Error! Server is not available!', type: 'error' })
-    }
-  }, [result.isSuccess, showAlert, result.isError])
+  //   if (isError) {
+  //     showAlert({ message: 'Error! Server is not available!', type: 'error' })
+  //   }
+  // }, [isSuccess, showAlert, isError])
 
   const onSubmit = async (data: UpdateProfileFields) => {
     try {
       const payload = {
         ...data,
-        dateOfBirth: data.dateOfBirth ? normalizeDateToMidnightUTC(data.dateOfBirth) : null,
       }
 
       if (payload.dateOfBirth === null) {
         throw new Error('Date of birth is required')
       }
 
-      checkAge(payload?.dateOfBirth)
+      // checkAge(payload.dateOfBirth)
+      console.log(!checkAge(payload.dateOfBirth))
 
       if (!checkAge(payload.dateOfBirth)) return
 
-      await updateProfile(payload)
+      const res = await updateProfile(payload)
+      if (!res.data) {
+        showAlert({ message: 'Your settings are saved!', type: 'success' })
+      } else {
+        showAlert({ message: 'Error! Server is not available!', type: 'error' })
+      }
     } catch (error: unknown) {
       if (typeof error === 'string') {
         showAlert({ message: error, type: 'error' })
@@ -127,7 +130,9 @@ export const GeneralInformation = () => {
   const country = useWatch({
     control,
     name: 'country',
+    defaultValue: profile?.country,
   })
+
   return (
     <div className={`flex w-[972px] gap-9`}>
       {/*Ширину, возможно, поменять в будущем, без хардкода*/}
@@ -157,7 +162,7 @@ export const GeneralInformation = () => {
             render={({ field }) => (
               <DatePicker
                 isOnlySingleMode
-                value={field.value}
+                value={new Date(field.value as string)}
                 onValueChange={field.onChange}
                 title='Date of birth'
                 defaultDate={profile?.dateOfBirth}
@@ -201,11 +206,7 @@ export const GeneralInformation = () => {
             />
           </div>
           <Textarea
-            value={aboutMeValue}
             {...register('aboutMe')}
-            changeValue={() => {
-              setAboutMeValue(aboutMeValue)
-            }}
             className={'min-h-[85px] w-full'}
             placeholder='About Me'
             textareaLabel='About Me'

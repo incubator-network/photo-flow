@@ -32,7 +32,7 @@ export const updateProfileSchema = z.object({
     .optional()
     .nullable()
     .or(z.literal('')),
-  dateOfBirth: z.date().nullable(),
+  dateOfBirth: z.any(),
 })
 
 export type UpdateProfileFields = z.infer<typeof updateProfileSchema>
