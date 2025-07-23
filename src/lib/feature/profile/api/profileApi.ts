@@ -1,6 +1,6 @@
 import { baseApi } from '@/lib/baseApi'
 import { ProfileType, UserProfileDataResponse } from '@/lib/feature/profile/types/profile.types'
-import { UserPostsResponse } from '@/lib/feature/posts/api/postsApi.types'
+import { Avatars, UserPostsResponse } from '@/lib/feature/posts/api/postsApi.types'
 
 export const profileApi = baseApi.injectEndpoints({
   endpoints: build => ({
@@ -25,7 +25,14 @@ export const profileApi = baseApi.injectEndpoints({
       },
       keepUnusedDataFor: 0,
     }),
+    updateAvatar: build.mutation<{ avatars: Avatars[] }, FormData>({
+      query: formData => ({
+        url: '/users/profile/avatar',
+        method: 'POST',
+        body: formData,
+      }),
+    }),
   }),
 })
 
-export const { useLazyGetProfileQuery, useGetUserPostsQuery } = profileApi
+export const { useLazyGetProfileQuery, useGetUserPostsQuery, useUpdateAvatarMutation } = profileApi
