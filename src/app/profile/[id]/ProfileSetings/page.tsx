@@ -2,6 +2,7 @@
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs/Tabs'
 import { GeneralInformation } from '@/lib/feature/profile/ui/components/profile/GeneralInformation/GeneralInformation'
+import { MyPayments } from '@/lib/feature/profile/ui/components/profile/MyPayments/MyPayments'
 
 const ProfileSetings = () => {
   return (
@@ -28,7 +29,9 @@ const ProfileSetings = () => {
         </TabsContent>
         <TabsContent value='Devices'>Devices</TabsContent>
         <TabsContent value='Account Management'>Account Management</TabsContent>
-        <TabsContent value='My payments'>My payments</TabsContent>
+        <TabsContent value='My payments'>
+          <MyPayments />
+        </TabsContent>
       </Tabs>
     </div>
   )
