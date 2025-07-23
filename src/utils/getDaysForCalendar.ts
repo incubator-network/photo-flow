@@ -1,13 +1,12 @@
 import {
-  startOfMonth,
-  endOfMonth,
-  eachDayOfInterval,
-  format,
-  startOfToday,
-  getDay,
-  subDays,
   addDays,
   addMonths,
+  eachDayOfInterval,
+  endOfMonth,
+  getDay,
+  startOfMonth,
+  startOfToday,
+  subDays,
 } from 'date-fns'
 
 export type CalendarDay = {
@@ -17,23 +16,38 @@ export type CalendarDay = {
   isCurrentMonth: boolean
 }
 
-export const getDaysForCalendar = (offsetMonths: number): CalendarDay[] => {
-  const date = addMonths(new Date(), offsetMonths)
-  const start = startOfMonth(date)
-  const end = endOfMonth(date)
+type getDaysForCalendarProps = {
+  offsetMonths: number
+  indexOfSelectedMonth?: number
+  selectedYear?: string
+}
+
+export const getDaysForCalendar = ({
+  offsetMonths,
+  indexOfSelectedMonth,
+  selectedYear,
+}: getDaysForCalendarProps): CalendarDay[] => {
+  let baseDate: Date
+
+  if (selectedYear && indexOfSelectedMonth) {
+    baseDate = new Date(Number(selectedYear), indexOfSelectedMonth)
+  } else {
+    baseDate = addMonths(new Date(), offsetMonths)
+  }
+
+  const start = startOfMonth(baseDate)
+  const end = endOfMonth(baseDate)
   const dateToday = startOfToday()
 
   const daysArray = eachDayOfInterval({ start, end }).map(day => {
-    const isToday = format(dateToday, 'd') === String(day.getDate())
+    const isToday = day.toDateString() === dateToday.toDateString()
 
-    const currentDay = {
+    return {
       date: day,
       isToday: isToday,
       dayOfTheWeek: (day.getDay() + 6) % 7,
       isCurrentMonth: true,
     }
-
-    return currentDay
   })
 
   const firstDayWeekday = (getDay(start) + 6) % 7
@@ -66,6 +80,5 @@ export const getDaysForCalendar = (offsetMonths: number): CalendarDay[] => {
       daysArray.push(currentDay)
     }
   }
-
   return daysArray
 }
