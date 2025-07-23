@@ -75,7 +75,7 @@ export default function SignIn() {
         router.push(`/profile/${profileResponse.id}`)
       } else {
         // Если профиль не создан
-        router.push(`/profile/${profileResponse.id}/ProfileSetings`)
+        router.push(`/profile/${profileResponse.id}/ProfileSettings`)
       }
     } catch (error: unknown) {
       const apiError = error as ApiError

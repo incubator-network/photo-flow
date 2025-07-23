@@ -12,7 +12,7 @@ import {
   UpdateProfileFields,
   updateProfileSchema,
 } from '@/lib/feature/profile/schemas/updateProfileSchema'
-import { AddProfilePhoto } from '@/app/profile/[id]/ProfileSetings/AddProfilePhoto'
+import { AddProfilePhoto } from '@/app/profile/[id]/ProfileSettings/AddProfilePhoto'
 import { Input } from '@/components/ui/input/Input'
 import { DatePicker } from '@/components/ui/DatePicker/DatePicker'
 import { Select } from '@/components/ui/Select/Select'
@@ -134,11 +134,11 @@ export const GeneralInformation = () => {
   })
 
   return (
-    <div className={`flex w-[972px] gap-9`}>
+    <div className={`flex w-full gap-9`}>
       {/*Ширину, возможно, поменять в будущем, без хардкода*/}
       <AddProfilePhoto />
       <form onSubmit={handleSubmit(onSubmit)} action='#' className='w-full'>
-        <div className='flex w-[740px] flex-col gap-6'>
+        <div className='flex w-full flex-col gap-6'>
           <Input
             label='Username*'
             {...register('userName')}
@@ -212,7 +212,7 @@ export const GeneralInformation = () => {
             textareaLabel='About Me'
             maxLength={200}
           ></Textarea>
-          <hr className='border-dark-300 -ml-[232px] flex w-[972px] justify-end self-center border-t' />
+          <hr className='text-dark-300 -ml-[232px] flex h-[1px] outline-none' />
           {/*Хардкод с позиционированием. Изменить позже*/}
           <div className='flex justify-end'>
             {/*Временное решение. Для позиционирования нижней кнопки. Должна остаться в форме, так как для отсылки. Нужно избавиться от дива*/}
