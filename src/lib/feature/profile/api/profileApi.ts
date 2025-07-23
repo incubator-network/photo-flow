@@ -37,8 +37,8 @@ export const profileApi = baseApi.injectEndpoints({
       },
       keepUnusedDataFor: 0,
     }),
-    getMyPayments: build.query<'', void>({
-      query: () => '/subscriptions/current-payment-subscriptions',
+    getMyPayments: build.query<GetMyPayments[], void>({
+      query: () => '/subscriptions/my-payments',
     }),
   }),
 })
@@ -50,3 +50,13 @@ export const {
   useUpdateProfileMutation,
   useGetMyPaymentsQuery,
 } = profileApi
+
+export type GetMyPayments = {
+  dateOfPayment: string
+  endDateOfSubscription: string
+  paymentType: 'STRIPE' | 'PAYPAL' | 'CREDIT_CARD'
+  price: number
+  subscriptionId: string
+  subscriptionType: 'DAY' | 'WEEKLY' | 'MONTHLY'
+  userId: number
+}
