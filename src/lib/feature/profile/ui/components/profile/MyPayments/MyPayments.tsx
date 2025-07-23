@@ -2,6 +2,7 @@
 
 import { Pagination } from '@/components/ui/pagination/Pagination'
 import { Table } from '@/lib/feature/profile/ui/components/profile/MyPayments/Table/Table'
+import { useGetMyPaymentsQuery } from '@/lib/feature/profile/api/profileApi'
 
 const tableData = [
   {
@@ -63,6 +64,8 @@ const tableData = [
 ]
 
 export const MyPayments = () => {
+  const { data } = useGetMyPaymentsQuery()
+  console.log(data)
   return (
     <div className={'w-full'}>
       <Table data={tableData} />

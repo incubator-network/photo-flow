@@ -37,6 +37,9 @@ export const profileApi = baseApi.injectEndpoints({
       },
       keepUnusedDataFor: 0,
     }),
+    getMyPayments: build.query<'', void>({
+      query: () => '/subscriptions/current-payment-subscriptions',
+    }),
   }),
 })
 
@@ -45,4 +48,5 @@ export const {
   useGetUserPostsQuery,
   useGetProfileQuery,
   useUpdateProfileMutation,
+  useGetMyPaymentsQuery,
 } = profileApi
