@@ -1,12 +1,12 @@
 import {
-  startOfMonth,
-  endOfMonth,
-  eachDayOfInterval,
-  startOfToday,
-  getDay,
-  subDays,
   addDays,
   addMonths,
+  eachDayOfInterval,
+  endOfMonth,
+  getDay,
+  startOfMonth,
+  startOfToday,
+  subDays,
 } from 'date-fns'
 
 export type CalendarDay = {
@@ -29,12 +29,7 @@ export const getDaysForCalendar = ({
 }: getDaysForCalendarProps): CalendarDay[] => {
   let baseDate: Date
 
-  if (
-    selectedYear &&
-    selectedYear !== null &&
-    indexOfSelectedMonth &&
-    indexOfSelectedMonth !== null
-  ) {
+  if (selectedYear && indexOfSelectedMonth) {
     baseDate = new Date(Number(selectedYear), indexOfSelectedMonth)
   } else {
     baseDate = addMonths(new Date(), offsetMonths)
@@ -47,14 +42,12 @@ export const getDaysForCalendar = ({
   const daysArray = eachDayOfInterval({ start, end }).map(day => {
     const isToday = day.toDateString() === dateToday.toDateString()
 
-    const currentDay = {
+    return {
       date: day,
       isToday: isToday,
       dayOfTheWeek: (day.getDay() + 6) % 7,
       isCurrentMonth: true,
     }
-
-    return currentDay
   })
 
   const firstDayWeekday = (getDay(start) + 6) % 7

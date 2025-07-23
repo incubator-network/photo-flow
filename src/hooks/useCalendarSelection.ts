@@ -1,6 +1,6 @@
 import { compareAsc, isSameDay, startOfToday } from 'date-fns'
 import { useEffect, useMemo, useState } from 'react'
-import { getDatesBetween } from './getDatesBetween'
+import { getDatesBetween } from '@/utils'
 
 type UseCalendarSelectionReturn = {
   selectionDates: Date[]

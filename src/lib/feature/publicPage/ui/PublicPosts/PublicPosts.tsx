@@ -2,7 +2,7 @@
 import { Typography } from '@/components/ui/typography/Typography'
 import Image from 'next/image'
 import Link from 'next/link'
-import { formatTimeAgo } from '@/utils/formatTimeAgo'
+import { formatTimeAgo } from '@/utils'
 import ExpandableText from '@/lib/feature/publicPage/ui/expandableText/ExpandableText'
 import { POSTS_ON_MAIN_PAGE } from '@/constants'
 import { useGetPublicPostsQuery } from '@/lib/feature/posts/api/postsApi'

@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { Typography } from '@/components/ui/typography/Typography'
-import { formatDate } from '@/utils/formatDate'
+import { formatDate } from '@/utils'
 import { PostResponse } from '@/lib/feature/posts/api/postsApi.types'
 import HeartOutline from '@/assets/icons/heart-outline.svg'
 import PaperPlane from '@/assets/icons/paper-plane-outline.svg'

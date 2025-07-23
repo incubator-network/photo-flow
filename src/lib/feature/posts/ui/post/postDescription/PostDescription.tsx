@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { Typography } from '@/components/ui/typography/Typography'
-import { formatTimeAgo } from '@/utils/formatTimeAgo'
+import { formatTimeAgo } from '@/utils'
 import { PostResponse } from '@/lib/feature/posts/api/postsApi.types'
 import DefaultAvatar from '@/../public/defaultAvatar.jpg'
 
