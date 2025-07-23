@@ -2,6 +2,7 @@ import * as RadixSelect from '@radix-ui/react-select'
 import { twMerge } from 'tailwind-merge'
 import { ComponentProps, useState } from 'react'
 import ArrowDown from '@/assets/icons/arrow-down.svg'
+import Image from 'next/image'
 
 type Item = {
   title: string
@@ -9,20 +10,17 @@ type Item = {
   description?: string
 }
 
-type PropsType = {
+type PropsType<T extends string> = {
   onOpenChange?: (open: boolean) => void
   placeholder?: string
   title?: string
   items: Item[]
   disabled?: boolean
-  value: string
-  onValueChange: (value: string) => void
-} & Omit<
-  ComponentProps<'select'>,
-  'value' | 'defaultValue' | 'onChange' | 'dir'
->
+  value?: T
+  onValueChange?: (value: T) => void
+} & Omit<ComponentProps<'select'>, 'value' | 'defaultValue' | 'onChange' | 'dir'>
 
-export const Select = ({
+export const Select = <T extends string>({
   onOpenChange,
   placeholder,
   title,
@@ -32,13 +30,13 @@ export const Select = ({
   value,
   onValueChange,
   ...restProps
-}: PropsType) => {
+}: PropsType<T>) => {
   const [open, setOpen] = useState(false)
   const selectedItem = items.find(item => item.title === value)
 
   return (
     <div className={twMerge(`relative`, className)}>
-      {title && <span className='text-regular-14 text-light-900'>{title}</span>}
+      {title && <p className='text-regular-14 text-light-900'>{title}</p>}
 
       <RadixSelect.Root
         open={open}
@@ -64,14 +62,24 @@ export const Select = ({
           {selectedItem?.path && placeholder ? (
             <div className='flex items-center gap-3'>
               <RadixSelect.Icon>
-                <img src={selectedItem.path} alt={selectedItem.description} />
+                <Image
+                  width={20}
+                  height={20}
+                  src={selectedItem.path}
+                  alt={selectedItem.description || 'image of selected item'}
+                />
               </RadixSelect.Icon>
               <span>{selectedItem.title}</span>
             </div>
           ) : selectedItem?.path && !placeholder ? (
             <div className='flex items-center gap-3'>
               <RadixSelect.Icon>
-                <img src={selectedItem.path} alt={selectedItem.description} />
+                <Image
+                  width={20}
+                  height={20}
+                  src={selectedItem.path}
+                  alt={selectedItem.description || 'image of selected item'}
+                />
               </RadixSelect.Icon>
             </div>
           ) : (
@@ -91,7 +99,7 @@ export const Select = ({
         <RadixSelect.Portal>
           <RadixSelect.Content
             className={twMerge(
-              `data-[state=open]:hover:bg-accent-500 w-[var(--radix-select-trigger-width)] overflow-hidden rounded-xs border shadow data-[state=open]:rounded-none`
+              `data-[state=open]:hover:bg-accent-500 z-[101] w-[var(--radix-select-trigger-width)] overflow-hidden rounded-xs border shadow data-[state=open]:rounded-none`
             )}
             position='popper'
             align='start'
@@ -109,19 +117,17 @@ export const Select = ({
                   >
                     {item.path ? (
                       <div
-                        className={twMerge(
-                          `'flex gap-3' items-center`,
-                          !placeholder && `mx-auto`
-                        )}
+                        className={twMerge(`flex items-center gap-3`, !placeholder && `mx-auto`)}
                       >
                         <RadixSelect.Icon>
-                          <img src={item.path} alt={item.description} />
+                          <Image
+                            width={20}
+                            height={20}
+                            src={item.path}
+                            alt={item.description || 'select icon'}
+                          />
                         </RadixSelect.Icon>
-                        {placeholder && (
-                          <RadixSelect.ItemText>
-                            {item.title}
-                          </RadixSelect.ItemText>
-                        )}
+                        {placeholder && <RadixSelect.ItemText>{item.title}</RadixSelect.ItemText>}
                       </div>
                     ) : (
                       <RadixSelect.ItemText>{item.title}</RadixSelect.ItemText>

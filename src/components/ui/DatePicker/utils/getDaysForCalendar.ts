@@ -1,0 +1,91 @@
+import {
+  startOfMonth,
+  endOfMonth,
+  eachDayOfInterval,
+  startOfToday,
+  getDay,
+  subDays,
+  addDays,
+  addMonths,
+} from 'date-fns'
+
+export type CalendarDay = {
+  date: Date
+  isToday: boolean
+  dayOfTheWeek: number
+  isCurrentMonth: boolean
+}
+
+type getDaysForCalendarProps = {
+  offsetMonths: number
+  indexOfSelectedMonth?: number
+  selectedYear?: string
+}
+
+export const getDaysForCalendar = ({
+  offsetMonths,
+  indexOfSelectedMonth,
+  selectedYear,
+}: getDaysForCalendarProps): CalendarDay[] => {
+  let baseDate: Date
+
+  if (
+    selectedYear &&
+    selectedYear !== null &&
+    indexOfSelectedMonth &&
+    indexOfSelectedMonth !== null
+  ) {
+    baseDate = new Date(Number(selectedYear), indexOfSelectedMonth)
+  } else {
+    baseDate = addMonths(new Date(), offsetMonths)
+  }
+
+  const start = startOfMonth(baseDate)
+  const end = endOfMonth(baseDate)
+  const dateToday = startOfToday()
+
+  const daysArray = eachDayOfInterval({ start, end }).map(day => {
+    const isToday = day.toDateString() === dateToday.toDateString()
+
+    const currentDay = {
+      date: day,
+      isToday: isToday,
+      dayOfTheWeek: (day.getDay() + 6) % 7,
+      isCurrentMonth: true,
+    }
+
+    return currentDay
+  })
+
+  const firstDayWeekday = (getDay(start) + 6) % 7
+  if (firstDayWeekday !== 0) {
+    for (let i = 1; i <= firstDayWeekday; i++) {
+      const dayToAdd = subDays(start, i)
+
+      const currentDay = {
+        date: dayToAdd,
+        isToday: false,
+        dayOfTheWeek: (getDay(dayToAdd) + 6) % 7,
+        isCurrentMonth: false,
+      }
+      daysArray.unshift(currentDay)
+    }
+  }
+
+  const lastDayWeekday = (getDay(end) + 6) % 7
+  if (lastDayWeekday !== 6) {
+    const daysToAdd = 6 - lastDayWeekday
+    for (let i = 1; i <= daysToAdd; i++) {
+      const dayToAdd = addDays(end, i)
+
+      const currentDay = {
+        date: dayToAdd,
+        isToday: false,
+        dayOfTheWeek: (getDay(dayToAdd) + 6) % 7,
+        isCurrentMonth: false,
+      }
+      daysArray.push(currentDay)
+    }
+  }
+  return daysArray
+}

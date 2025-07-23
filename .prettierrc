@@ -9,7 +9,7 @@
   "bracketSpacing": true,
   "endOfLine": "lf",
   "jsxBracketSameLine": false,
-  "printWidth": 80,
+  "printWidth": 100,
   "proseWrap": "preserve",
   "useTabs": false,
   "embeddedLanguageFormatting": "auto",

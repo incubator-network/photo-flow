@@ -29,11 +29,11 @@ const defaultTags = {
   bold_text_16: 'p',
   regular_text_14: 'p',
   medium_text_14: 'p',
-  bold_text_14: 'p',
+  bold_text_14: 'span',
   small_text: 'span',
   semi_bold_small_text: 'span',
-  regular_link: 'a',
-  small_link: 'a',
+  regular_link: 'span',
+  small_link: 'span',
 }
 
 const variantClasses = {
@@ -48,10 +48,8 @@ const variantClasses = {
   bold_text_14: 'text-[14px] leading-medium font-bold',
   small_text: 'text-[12px] leading-small font-normal',
   semi_bold_small_text: 'text-[12px] leading-small font-semibold',
-  regular_link:
-    'text-[14px] leading-medium font-normal text-accent-500 underline cursor-pointer',
-  small_link:
-    'text-[12px] leading-small font-normal text-accent-500 underline cursor-pointer',
+  regular_link: 'text-[14px] leading-medium font-normal text-accent-500 underline cursor-pointer',
+  small_link: 'text-[12px] leading-small font-normal text-accent-500 underline cursor-pointer',
 }
 
 export const Typography = ({
@@ -63,10 +61,7 @@ export const Typography = ({
 }: PropsType) => {
   const Component = asChild ? Slot : defaultTags[variant]
   return (
-    <Component
-      className={twMerge(variantClasses[variant], className)}
-      {...props}
-    >
+    <Component className={twMerge(variantClasses[variant], className)} {...props}>
       {children}
     </Component>
   )
