@@ -5,7 +5,7 @@ import { Typography } from '@/components/ui/typography/Typography'
 import { Select } from '@/components/ui/Select/Select'
 import ChevronRightIcon from '@/assets/icons/chevron-right-icon.svg'
 import ChevronLeftIcon from '@/assets/icons/chevron-left-icon.svg'
-import { usePagination } from '@/components/hooks/usePagintaion'
+import { usePagination } from '@/hooks/usePagintaion'
 
 export type PaginationPropsType = {
   id?: string
@@ -53,17 +53,10 @@ export const Pagination = ({
   return (
     <div className={twMerge('mt-[30px] inline-flex items-center')}>
       <ChevronLeftIcon
-        className={twMerge(
-          'mx-[15px] disabled:opacity-50',
-          currentPage <= 1 && 'opacity-50'
-        )}
+        className={twMerge('mx-[15px] disabled:opacity-50', currentPage <= 1 && 'opacity-50')}
         onClick={onPreviousPage}
       />
-      <ul
-        className={
-          'flex max-w-xs list-none items-center justify-center gap-x-3 select-none'
-        }
-      >
+      <ul className={'flex max-w-xs list-none items-center justify-center gap-x-3 select-none'}>
         {paginationRange?.map((pageNumber, index) => {
           if (pageNumber.toString() === '...') {
             return <li key={`${pageNumber}+${index}`}>&#8230;</li>
@@ -73,9 +66,7 @@ export const Pagination = ({
               key={pageNumber}
               onClick={e => onChangeCallback(e)}
               className={`text-regular-14 flex max-h-[24px] max-w-[24px] items-center justify-center rounded-md border border-transparent bg-transparent p-4 text-white hover:cursor-pointer hover:border-blue-500 ${
-                currentPage === pageNumber
-                  ? 'border-white bg-white !text-black'
-                  : ''
+                currentPage === pageNumber ? 'border-white bg-white !text-black' : ''
               }`}
             >
               {pageNumber}
@@ -85,16 +76,10 @@ export const Pagination = ({
       </ul>
 
       <ChevronRightIcon
-        className={twMerge(
-          'mx-[15px]',
-          currentPage >= lastPage && 'opacity-50'
-        )}
+        className={twMerge('mx-[15px]', currentPage >= lastPage && 'opacity-50')}
         onClick={onNextPage}
       />
-      <Typography
-        variant={'regular_text_14'}
-        className={twMerge('pr-[15px] pl-[30px] capitalize')}
-      >
+      <Typography variant={'regular_text_14'} className={twMerge('pr-[15px] pl-[30px] capitalize')}>
         Show
       </Typography>
       <Select

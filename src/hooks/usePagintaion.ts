@@ -20,7 +20,7 @@ export const usePagination = ({
   siblingCount = 1,
   currentPage,
 }: PropsType) => {
-  const paginationRange = useMemo(() => {
+  return useMemo(() => {
     const totalPageCount = Math.ceil(totalCount / pageSize)
 
     // Pages count is determined as siblingCount + firstPage + lastPage + currentPage + 2*DOTS
@@ -35,10 +35,7 @@ export const usePagination = ({
     }
 
     const leftSiblingIndex = Math.max(currentPage - siblingCount, 1)
-    const rightSiblingIndex = Math.min(
-      currentPage + siblingCount,
-      totalPageCount
-    )
+    const rightSiblingIndex = Math.min(currentPage + siblingCount, totalPageCount)
 
     /*
       We do not want to show dots if there is only one position left
@@ -60,10 +57,7 @@ export const usePagination = ({
 
     if (shouldShowLeftDots && !shouldShowRightDots) {
       const rightItemCount = 3 + 2 * siblingCount
-      const rightRange = range(
-        totalPageCount - rightItemCount + 1,
-        totalPageCount
-      )
+      const rightRange = range(totalPageCount - rightItemCount + 1, totalPageCount)
       return [firstPageIndex, DOTS, ...rightRange]
     }
 
@@ -72,6 +66,4 @@ export const usePagination = ({
       return [firstPageIndex, DOTS, ...middleRange, DOTS, lastPageIndex]
     }
   }, [totalCount, pageSize, siblingCount, currentPage])
-
-  return paginationRange
 }
