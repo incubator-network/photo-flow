@@ -4,7 +4,7 @@ import {
   UpdateProfileError,
   UpdateProfileRequest,
   UserProfileDataResponse,
-} from '@/lib/feature/profile/types/profile.types'
+} from '@/lib/feature/profile/api/profile.types'
 import { UserPostsResponse } from '@/lib/feature/posts/api/postsApi.types'
 
 export const profileApi = baseApi.injectEndpoints({

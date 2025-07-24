@@ -23,7 +23,7 @@ export const ProfileControls = ({ id }: Props) => {
   }
   return (
     <Button asChild className='w-[167px h-[36px]' variant='secondary'>
-      <Link href={`/profile/${data?.userId}/ProfileSetings`}>Profile settings</Link>
+      <Link href={`/profile/${data?.userId}/ProfileSettings`}>Profile settings</Link>
     </Button>
   )
 }

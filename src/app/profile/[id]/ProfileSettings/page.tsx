@@ -1,0 +1,85 @@
+'use client'
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs/Tabs'
+import { GeneralInformation } from '@/lib/feature/profile/ui/components/profile/GeneralInformation/GeneralInformation'
+import { AccountType } from '@/lib/feature/subscriptions/ui/AccountType/AccountType'
+import { ModalWindow } from '@/components/ui/modalWindow/ModalWindow'
+import { Typography } from '@/components/ui/typography/Typography'
+import { Button } from '@/components/ui/button/Button'
+import { useSearchParams } from 'next/navigation'
+import { useState } from 'react'
+
+const ProfileSettings = () => {
+  const params = useSearchParams()
+  const success = params.get('success')
+  const [isModalOpen, setIsModalOpen] = useState(!!success)
+
+  const onCloseModalWindow = () => {
+    setIsModalOpen(false)
+  }
+
+  return (
+    <div className='mb-[26px] pt-9'>
+      {/*Поменять на семантические теги*/}
+      <Tabs defaultValue='General information'>
+        <TabsList className='flex w-full'>
+          <TabsTrigger value='General information' className='flex-1'>
+            General information
+          </TabsTrigger>
+          <TabsTrigger value='Devices' className='flex-1'>
+            Devices
+          </TabsTrigger>
+          <TabsTrigger value='Account Management' className='flex-1'>
+            Account Management
+          </TabsTrigger>
+          <TabsTrigger value='My payments' className='flex-1'>
+            My payments
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value='General information'>
+          <GeneralInformation />
+        </TabsContent>
+        <TabsContent value='Devices'>Devices</TabsContent>
+        <TabsContent value='Account Management'>
+          <AccountType />
+        </TabsContent>
+        <TabsContent value='My payments'>My payments</TabsContent>
+      </Tabs>
+      {success === 'true' ? (
+        <ModalWindow
+          className={'h-[228px] w-[376px]'}
+          modalTitle={'Success'}
+          open={isModalOpen}
+          onClose={onCloseModalWindow}
+        >
+          <div className={'px-6 pt-4.5 pb-9'}>
+            <Typography variant={'regular_text_16'} className={'mb-[54px]'}>
+              Payment was successful!
+            </Typography>
+            <Button className={'w-full'} onClick={onCloseModalWindow}>
+              OK
+            </Button>
+          </div>
+        </ModalWindow>
+      ) : (
+        <ModalWindow
+          className={'h-[228px] w-[376px]'}
+          modalTitle={'Error'}
+          open={isModalOpen}
+          onClose={onCloseModalWindow}
+        >
+          <div className={'px-6 pt-4.5 pb-9'}>
+            <Typography variant={'regular_text_16'} className={'mb-[54px]'}>
+              Transaction failed. Please, write to support
+            </Typography>
+            <Button className={'w-full'} onClick={onCloseModalWindow}>
+              Back to payment
+            </Button>
+          </div>
+        </ModalWindow>
+      )}
+    </div>
+  )
+}
+
+export default ProfileSettings
