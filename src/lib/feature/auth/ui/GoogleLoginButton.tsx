@@ -6,12 +6,10 @@ export const GoogleLoginButton = () => {
   const handleLogin = () => {
     const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID
 
-    const redirectUri = 'http://localhost:3000/auth/google/callback'
+    const redirectUri = `${window.location.origin}/auth/google/callback`
     const scope = 'openid email profile'
 
-    const oauthUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&access_type=offline&prompt=consent`
-
-    window.location.href = oauthUrl
+    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&access_type=offline&prompt=consent`
   }
 
   return (

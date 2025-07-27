@@ -1,26 +1,20 @@
-'use client'
+import PublicPosts from '@/lib/feature/publicPage/ui/PublicPosts/PublicPosts'
+import { UsersCounter } from '@/lib/feature/publicPage/ui'
+import { POSTS_ON_MAIN_PAGE } from '@/constants'
 
-import { useRouter } from 'next/navigation'
-import { useGetMeQuery } from '@/lib/feature/auth/api/authApi'
-import { useEffect } from 'react'
+export default async function HomePage() {
+  const postsRaw = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/public-posts/all?pageSize=${POSTS_ON_MAIN_PAGE}`
+  )
+  const publicPosts = await postsRaw.json()
 
-export default function Home() {
-  const router = useRouter()
+  const countRaw = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/public-user`)
+  const usersCount = await countRaw.json()
 
-  const { error, isLoading } = useGetMeQuery()
-
-  useEffect(() => {
-    if (error && 'status' in error && error.status === 401) {
-      router.push('/auth/sign-in')
-    }
-  }, [error, router])
-
-  if (isLoading) return <div>Загрузка...</div>
   return (
-    <div style={{ height: '2000px', width: '120%' }}>
-      <div className={'bg-danger-700 text-h1 mt-20 text-center font-sans'}>
-        Hello this a test string
-      </div>
+    <div className={'flex flex-col items-center'}>
+      <UsersCounter usersCount={usersCount.totalCount} />
+      <PublicPosts initialPosts={publicPosts} />
     </div>
   )
 }

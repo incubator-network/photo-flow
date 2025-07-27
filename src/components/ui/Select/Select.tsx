@@ -10,17 +10,17 @@ type Item = {
   description?: string
 }
 
-type PropsType = {
+type PropsType<T extends string> = {
   onOpenChange?: (open: boolean) => void
   placeholder?: string
   title?: string
   items: Item[]
   disabled?: boolean
-  value: string
-  onValueChange: (value: string) => void
+  value?: T
+  onValueChange?: (value: T) => void
 } & Omit<ComponentProps<'select'>, 'value' | 'defaultValue' | 'onChange' | 'dir'>
 
-export const Select = ({
+export const Select = <T extends string>({
   onOpenChange,
   placeholder,
   title,
@@ -30,13 +30,13 @@ export const Select = ({
   value,
   onValueChange,
   ...restProps
-}: PropsType) => {
+}: PropsType<T>) => {
   const [open, setOpen] = useState(false)
   const selectedItem = items.find(item => item.title === value)
 
   return (
     <div className={twMerge(`relative`, className)}>
-      {title && <span className='text-regular-14 text-light-900'>{title}</span>}
+      {title && <p className='text-regular-14 text-light-900'>{title}</p>}
 
       <RadixSelect.Root
         open={open}
@@ -63,6 +63,8 @@ export const Select = ({
             <div className='flex items-center gap-3'>
               <RadixSelect.Icon>
                 <Image
+                  width={20}
+                  height={20}
                   src={selectedItem.path}
                   alt={selectedItem.description || 'image of selected item'}
                 />
@@ -73,6 +75,8 @@ export const Select = ({
             <div className='flex items-center gap-3'>
               <RadixSelect.Icon>
                 <Image
+                  width={20}
+                  height={20}
                   src={selectedItem.path}
                   alt={selectedItem.description || 'image of selected item'}
                 />
@@ -95,7 +99,7 @@ export const Select = ({
         <RadixSelect.Portal>
           <RadixSelect.Content
             className={twMerge(
-              `data-[state=open]:hover:bg-accent-500 w-[var(--radix-select-trigger-width)] overflow-hidden rounded-xs border shadow data-[state=open]:rounded-none`
+              `data-[state=open]:hover:bg-accent-500 z-[101] w-[var(--radix-select-trigger-width)] overflow-hidden rounded-xs border shadow data-[state=open]:rounded-none`
             )}
             position='popper'
             align='start'
@@ -116,7 +120,12 @@ export const Select = ({
                         className={twMerge(`flex items-center gap-3`, !placeholder && `mx-auto`)}
                       >
                         <RadixSelect.Icon>
-                          <Image src={item.path} alt={item.description || 'select icon'} />
+                          <Image
+                            width={20}
+                            height={20}
+                            src={item.path}
+                            alt={item.description || 'select icon'}
+                          />
                         </RadixSelect.Icon>
                         {placeholder && <RadixSelect.ItemText>{item.title}</RadixSelect.ItemText>}
                       </div>

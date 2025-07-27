@@ -6,6 +6,8 @@ import { AppDispatch } from '@/lib/store'
 import { useDispatch } from 'react-redux'
 import { useGoogleLoginMutation } from '@/lib/feature/auth/api/authApi'
 import { AUTH_TOKEN } from '@/constants'
+import Loader from '@/components/ui/loader/Loader'
+import { setIsAuth } from '@/lib/appSlice'
 
 export default function GoogleCallback() {
   const router = useRouter()
@@ -22,12 +24,11 @@ export default function GoogleCallback() {
       try {
         const res = await googleLogin({
           code,
-          redirectUrl: 'http://localhost:3000/auth/google/callback',
+          redirectUrl: `${window.location.origin}/auth/google/callback`,
         }).unwrap()
-
         localStorage.setItem(AUTH_TOKEN, res.accessToken)
-
-        router.push('/')
+        dispatch(setIsAuth({ isAuth: true }))
+        router.replace('/')
       } catch (err) {
         console.error('❌ Ошибка авторизации через Google', err)
       }
@@ -35,5 +36,5 @@ export default function GoogleCallback() {
     void doLogin()
   }, [googleLogin, router, dispatch])
 
-  return <p>Завершаем вход через Google...</p>
+  return <Loader />
 }
