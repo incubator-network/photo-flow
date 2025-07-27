@@ -1,5 +1,8 @@
 import { useState } from 'react'
-import { useCancelSubscriptionMutation } from '@/lib/feature/subscriptions/api/subscriptionApi'
+import {
+  useCancelSubscriptionMutation,
+  useRenewAutoRenewalMutation,
+} from '@/lib/feature/subscriptions/api/subscriptionApi'
 import { Checkbox } from '@/components/ui/checkbox/Checkbox'
 
 type PropsType = {
@@ -10,13 +13,16 @@ export const CancelSubscription = ({ hasAutoRenewal }: PropsType) => {
   const [renewal, setRenewal] = useState(hasAutoRenewal)
 
   const [cancelSubscription] = useCancelSubscriptionMutation()
+  const [renewAutoSubscription] = useRenewAutoRenewalMutation()
 
   const handleToggleRenewal = async (checked: boolean) => {
-    debugger
     try {
       if (!checked) {
         await cancelSubscription().unwrap()
         setRenewal(false)
+      } else {
+        await renewAutoSubscription().unwrap()
+        setRenewal(true)
       }
     } catch (err) {
       console.error('Failed to cancel subscription:', err)

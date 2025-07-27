@@ -19,6 +19,12 @@ export const subscriptionApi = baseApi.injectEndpoints({
         method: 'POST',
       }),
     }),
+    renewAutoRenewal: build.mutation<void, void>({
+      query: () => ({
+        url: '/subscriptions/renew-auto-renewal',
+        method: 'POST',
+      }),
+    }),
     getCurrentSubscription: build.query<getCurrentSubscriptionResponse, void>({
       query: () => '/subscriptions/current-payment-subscriptions',
     }),
@@ -29,4 +35,5 @@ export const {
   useCreatePaymentMutation,
   useGetCurrentSubscriptionQuery,
   useCancelSubscriptionMutation,
+  useRenewAutoRenewalMutation,
 } = subscriptionApi
