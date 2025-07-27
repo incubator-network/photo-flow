@@ -25,11 +25,19 @@ export const normalizeDateToMidnightUTC = (date: Date): string => {
 
 export const GeneralInformation = () => {
   const { data: profile } = useGetProfileQuery()
-  const [updateProfile, { isSuccess }] = useUpdateProfileMutation()
+  const [updateProfile] = useUpdateProfileMutation()
   const { showAlert } = useAlert()!
 
-  const { register, handleSubmit, reset, watch, control, setValue } = useForm<UpdateProfileFields>({
-    mode: 'onBlur',
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    control,
+    setValue,
+    formState: { errors },
+  } = useForm<UpdateProfileFields>({
+    mode: 'onTouched',
     resolver: zodResolver(updateProfileSchema),
     defaultValues: {
       userName: '',
@@ -52,7 +60,14 @@ export const GeneralInformation = () => {
 
     if (age < 13) {
       showAlert({
-        message: 'A user under 13 cannot create a profile. <u>Privacy Policy</u>', // ДОДЕЛАТЬ
+        message: (
+          <>
+            A user under 13 cannot create a profile.
+            <a href='/auth/sign-up/privacy' target='_blank' className='text-blue-500 underline'>
+              Privacy Policy
+            </a>
+          </>
+        ),
         type: 'error',
       })
       return false
@@ -67,8 +82,6 @@ export const GeneralInformation = () => {
   }
 
   const countryFromForm = watch('country') as Country
-
-  console.log(isSuccess)
 
   useEffect(() => {
     if (profile) {
@@ -85,16 +98,6 @@ export const GeneralInformation = () => {
     }
   }, [countryFromForm, setValue, profile?.city])
 
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     showAlert({ message: 'Your settings are saved!', type: 'success' })
-  //   }
-
-  //   if (isError) {
-  //     showAlert({ message: 'Error! Server is not available!', type: 'error' })
-  //   }
-  // }, [isSuccess, showAlert, isError])
-
   const onSubmit = async (data: UpdateProfileFields) => {
     try {
       const payload = {
@@ -106,7 +109,6 @@ export const GeneralInformation = () => {
       }
 
       // checkAge(payload.dateOfBirth)
-      console.log(!checkAge(payload.dateOfBirth))
 
       if (!checkAge(payload.dateOfBirth)) return
 
@@ -143,17 +145,20 @@ export const GeneralInformation = () => {
             label='Username*'
             {...register('userName')}
             placeholder={profile?.userName || ''}
+            errorText={errors.userName?.message}
           />
           {/*Сделать звездочку красной, как обязательное поле для ввода(не может быть пустым при первом заполнении)*/}
           <Input
             label='First Name*'
             {...register('firstName')}
             placeholder={profile?.firstName || ''}
+            errorText={errors.firstName?.message}
           />
           <Input
             label='Last Name*'
             {...register('lastName')}
             placeholder={profile?.lastName || ''}
+            errorText={errors.lastName?.message}
           />
 
           <Controller
@@ -211,6 +216,7 @@ export const GeneralInformation = () => {
             placeholder='About Me'
             textareaLabel='About Me'
             maxLength={200}
+            error={errors.aboutMe?.message}
           ></Textarea>
           <hr className='text-dark-300 -ml-[232px] flex h-[1px] outline-none' />
           {/*Хардкод с позиционированием. Изменить позже*/}
