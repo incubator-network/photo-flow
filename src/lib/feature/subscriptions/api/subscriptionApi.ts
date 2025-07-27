@@ -13,10 +13,20 @@ export const subscriptionApi = baseApi.injectEndpoints({
         body,
       }),
     }),
+    cancelSubscription: build.mutation<void, void>({
+      query: () => ({
+        url: '/subscriptions/canceled-auto-renewal',
+        method: 'POST',
+      }),
+    }),
     getCurrentSubscription: build.query<getCurrentSubscriptionResponse, void>({
       query: () => '/subscriptions/current-payment-subscriptions',
     }),
   }),
 })
 
-export const { useCreatePaymentMutation, useGetCurrentSubscriptionQuery } = subscriptionApi
+export const {
+  useCreatePaymentMutation,
+  useGetCurrentSubscriptionQuery,
+  useCancelSubscriptionMutation,
+} = subscriptionApi
