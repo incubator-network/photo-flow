@@ -1,9 +1,8 @@
 'use client'
 
-import { Controller, useWatch } from 'react-hook-form'
+import { Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { differenceInYears } from 'date-fns'
 import { useGetProfileQuery, useUpdateProfileMutation } from '@/lib/feature/profile/api/profileApi'
 import { useEffect } from 'react'
 import { useAlert } from '@/components/ui/Alert/AlertContext'
@@ -18,10 +17,7 @@ import { DatePicker } from '@/components/ui/DatePicker/DatePicker'
 import { Select } from '@/components/ui/Select/Select'
 import { Button } from '@/components/ui/button/Button'
 import { Textarea } from '@/components/ui/textarea/Textarea'
-
-export const normalizeDateToMidnightUTC = (date: Date): string => {
-  return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())).toISOString()
-}
+import { checkAge } from '@/lib/feature/profile/utils/checkAge'
 
 export const GeneralInformation = () => {
   const { data: profile } = useGetProfileQuery()
@@ -35,7 +31,7 @@ export const GeneralInformation = () => {
     watch,
     control,
     setValue,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<UpdateProfileFields>({
     mode: 'onTouched',
     resolver: zodResolver(updateProfileSchema),
@@ -50,36 +46,6 @@ export const GeneralInformation = () => {
       dateOfBirth: '',
     },
   })
-
-  const checkAge = (birthDate: string | null) => {
-    if (birthDate == null) {
-      return false
-    }
-
-    const age = differenceInYears(new Date(), new Date(birthDate))
-
-    if (age < 13) {
-      showAlert({
-        message: (
-          <>
-            A user under 13 cannot create a profile.
-            <a href='/auth/sign-up/privacy' target='_blank' className='text-blue-500 underline'>
-              Privacy Policy
-            </a>
-          </>
-        ),
-        type: 'error',
-      })
-      return false
-    }
-
-    if (age > 130) {
-      showAlert({ message: 'A user after 130 cannot create a profile', type: 'error' })
-      return false
-    }
-
-    return true
-  }
 
   const countryFromForm = watch('country') as Country
 
@@ -108,9 +74,7 @@ export const GeneralInformation = () => {
         throw new Error('Date of birth is required')
       }
 
-      // checkAge(payload.dateOfBirth)
-
-      if (!checkAge(payload.dateOfBirth)) return
+      if (!checkAge({ showAlert, birthDate: payload.dateOfBirth })) return
 
       const res = await updateProfile(payload)
       if (!res.data) {
@@ -129,12 +93,6 @@ export const GeneralInformation = () => {
     }
   }
 
-  const country = useWatch({
-    control,
-    name: 'country',
-    defaultValue: profile?.country,
-  })
-
   return (
     <div className={`flex w-full gap-9`}>
       {/*Ширину, возможно, поменять в будущем, без хардкода*/}
@@ -142,20 +100,31 @@ export const GeneralInformation = () => {
       <form onSubmit={handleSubmit(onSubmit)} action='#' className='w-full'>
         <div className='flex w-full flex-col gap-6'>
           <Input
-            label='Username*'
+            label={
+              <>
+                Username<span className='text-red-500'>*</span>
+              </>
+            }
             {...register('userName')}
             placeholder={profile?.userName || ''}
             errorText={errors.userName?.message}
           />
-          {/*Сделать звездочку красной, как обязательное поле для ввода(не может быть пустым при первом заполнении)*/}
           <Input
-            label='First Name*'
+            label={
+              <>
+                First Name<span className='text-red-500'>*</span>
+              </>
+            }
             {...register('firstName')}
             placeholder={profile?.firstName || ''}
             errorText={errors.firstName?.message}
           />
           <Input
-            label='Last Name*'
+            label={
+              <>
+                Last Name<span className='text-red-500'>*</span>
+              </>
+            }
             {...register('lastName')}
             placeholder={profile?.lastName || ''}
             errorText={errors.lastName?.message}
@@ -169,12 +138,16 @@ export const GeneralInformation = () => {
                 isOnlySingleMode
                 value={new Date(field.value as string)}
                 onValueChange={field.onChange}
-                title='Date of birth'
+                title={
+                  <>
+                    Date of birth<span className='text-red-500'>*</span>
+                  </>
+                }
                 defaultDate={profile?.dateOfBirth}
               />
             )}
           />
-          <div className='flex items-center gap-6'>
+          <div className='flex items-center justify-between gap-6'>
             <Controller
               control={control}
               name='country'
@@ -201,7 +174,7 @@ export const GeneralInformation = () => {
                   <Select
                     value={field.value}
                     onValueChange={field.onChange}
-                    items={cityList[country as Country] || []}
+                    items={cityList[countryFromForm as Country] || []}
                     title='Select your city'
                     placeholder='City'
                     className='w-[358px]'
@@ -222,7 +195,7 @@ export const GeneralInformation = () => {
           {/*Хардкод с позиционированием. Изменить позже*/}
           <div className='flex justify-end'>
             {/*Временное решение. Для позиционирования нижней кнопки. Должна остаться в форме, так как для отсылки. Нужно избавиться от дива*/}
-            <Button variant='primary' type='submit'>
+            <Button variant='primary' disabled={!isValid} type='submit'>
               Save Changes
             </Button>
           </div>
