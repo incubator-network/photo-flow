@@ -6,15 +6,15 @@ import { LoginFields, signInSchema } from '@/lib/feature/auth/schemas/signInSche
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useLoginMutation } from '@/lib/feature/auth/api/authApi'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useLazyGetProfileQuery } from '@/lib/feature/profile/api/profileApi'
 import { Card } from '@/components/ui/Card/Card'
 import { Typography } from '@/components/ui/typography/Typography'
 import { GitHubLoginButton, GoogleLoginButton } from '@/lib/feature/auth/ui'
 import { AUTH_TOKEN } from '@/constants'
-import { selectIsAuth, setIsAuth } from '@/lib/appSlice'
-import { useAppDispatch, useAppSelector } from '@/lib/hooks'
+import { setIsAuth } from '@/lib/appSlice'
+import { useAppDispatch } from '@/lib/hooks'
 
 type ApiError = {
   status: number
@@ -34,7 +34,6 @@ export default function SignIn() {
   const router = useRouter()
 
   const dispatch = useAppDispatch()
-  const isAuth = useAppSelector(selectIsAuth)
 
   const {
     register,
@@ -49,12 +48,6 @@ export default function SignIn() {
       password: '',
     },
   })
-
-  useEffect(() => {
-    if (isAuth) {
-      router.back()
-    }
-  }, [router, isAuth])
 
   const onSubmit = async (data: LoginFields) => {
     try {

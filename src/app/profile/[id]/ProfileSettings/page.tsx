@@ -23,7 +23,7 @@ const ProfileSettings = () => {
 
   if (String(profileParams.id) !== String(data.userId)) {
     router.replace(`/profile/${profileParams.id}`)
-    return null // пока идёт редирект — ничего не показываем
+    return null
   }
 
   const onCloseModalWindow = () => {
@@ -33,7 +33,6 @@ const ProfileSettings = () => {
 
   return (
     <div className='mb-[26px] pt-9'>
-      {/*Поменять на семантические теги*/}
       <Tabs defaultValue='General information'>
         <TabsList className='flex w-full'>
           <TabsTrigger value='General information' className='flex-1'>
