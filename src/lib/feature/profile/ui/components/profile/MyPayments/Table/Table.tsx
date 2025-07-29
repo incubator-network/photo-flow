@@ -59,7 +59,6 @@ export const Table = ({ data }: Props) => {
       userId: elem.userId,
     }
   })
-
   return (
     <div>
       <table className={'w-full'}>
