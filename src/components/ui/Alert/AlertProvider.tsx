@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom'
 import { Alert } from './Alert'
 import { AlertContext } from './AlertContext'
 import { AlertData } from './AlertTypes'
+import { alertService } from './alertService'
 
 /**
  * AlertProvider — контекст-провайдер для глобальной системы оповещений (alert).
@@ -40,6 +41,10 @@ export function AlertProvider({ children }: { children: ReactNode }) {
   const showAlert = useCallback((data: AlertData) => {
     setAlert(data)
   }, [])
+
+  useEffect(() => {
+    alertService.subscribe(showAlert)
+  }, [showAlert])
 
   return (
     <AlertContext.Provider value={{ showAlert }}>

@@ -14,6 +14,7 @@ import { Typography } from '@/components/ui/typography/Typography'
 import { GitHubLoginButton, GoogleLoginButton } from '@/lib/feature/auth/ui'
 import { AUTH_TOKEN } from '@/constants'
 import { selectIsAuth, setIsAuth } from '@/lib/appSlice'
+// import { selectAppError, selectIsAuth, setAppError, setIsAuth } from '@/lib/appSlice'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 
 type ApiError = {
@@ -35,6 +36,7 @@ export default function SignIn() {
 
   const dispatch = useAppDispatch()
   const isAuth = useAppSelector(selectIsAuth)
+  // const error = useAppSelector(selectAppError)
 
   const {
     register,
@@ -77,13 +79,12 @@ export default function SignIn() {
         // Если профиль не создан
         router.push(`/profile/${profileResponse.id}/ProfileSettings`)
       }
-    } catch (error: unknown) {
-      const apiError = error as ApiError
+    } catch (err: unknown) {
+      const apiError = err as ApiError // какая-то херня приходит. Менять на свой текст через setAppError
+      // dispatch(setAppError({ error: 'Incorrect input data' })) // Не меняется. Возможно потому, что сюда уже приходит другой err
 
-      if (apiError.data) {
+      if (apiError) {
         setLoginError('The email or password are incorrect. Try again please')
-      } else {
-        console.log(error)
       }
     }
   }
