@@ -51,12 +51,6 @@ export const CurrentSubscription = memo(({ currentSubscriptions }: PropsType) =>
           </tbody>
         </table>
       </Card>
-      {/*<Checkbox*/}
-      {/*  className={'mb-6'}*/}
-      {/*  label={'Auto-Renewal'}*/}
-      {/*  id={'Auto-Renewal'}*/}
-      {/*  checked={currentSubscriptions?.hasAutoRenewal}*/}
-      {/*/>*/}
       <CancelSubscription hasAutoRenewal={currentSubscriptions?.hasAutoRenewal} />
     </>
   )

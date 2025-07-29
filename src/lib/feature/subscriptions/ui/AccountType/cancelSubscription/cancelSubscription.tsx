@@ -26,7 +26,6 @@ export const CancelSubscription = ({ hasAutoRenewal }: PropsType) => {
       }
     } catch (err) {
       console.error('Failed to cancel subscription:', err)
-      setRenewal(true)
     }
   }
 
