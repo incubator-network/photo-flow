@@ -1,7 +1,9 @@
+import { ReactNode } from 'react'
+
 export type AlertType = 'success' | 'error'
 
 export type AlertData = {
-  message: string
+  message: ReactNode
   type: AlertType
 }
 

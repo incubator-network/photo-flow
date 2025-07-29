@@ -26,11 +26,11 @@ export const ModalWindow = ({
   return (
     <Dialog.Root open={open} onOpenChange={onClose} {...props}>
       <Dialog.Portal>
-        <Dialog.Overlay className={twMerge('fixed inset-0 bg-black/60', overlayClassName)} />
+        <Dialog.Overlay className={twMerge('fixed inset-0 z-102 bg-black/60', overlayClassName)} />
         <Dialog.Content
           onOpenAutoFocus={e => e.preventDefault()}
           className={twMerge(
-            'bg-dark-300 border-dark-100 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-[1px] border',
+            'bg-dark-300 border-dark-100 fixed top-1/2 left-1/2 z-102 -translate-x-1/2 -translate-y-1/2 rounded-[1px] border',
             className
           )}
         >
@@ -58,7 +58,7 @@ export const ModalWindow = ({
               <Dialog.Close asChild className={'absolute top-[-42px] right-[-36px]'}>
                 <button
                   className={
-                    'h-[24px] w-[24px] cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-blue-700'
+                    'mt-3 h-[24px] w-[24px] cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-blue-700'
                   }
                   aria-label='Close'
                 >

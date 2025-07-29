@@ -13,7 +13,7 @@ export const UsersCounter = ({ usersCount }: CounterProps) => {
   return (
     <Card
       className={
-        'mt-[24px] flex items-center justify-between overflow-hidden' +
+        'flex items-center justify-between overflow-hidden' +
         ' h-[72px] w-[996px] px-[24px] py-[12px]'
       }
     >

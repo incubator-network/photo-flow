@@ -1,6 +1,6 @@
 'use client'
 
-import React, { InputHTMLAttributes, useState } from 'react'
+import React, { InputHTMLAttributes, ReactElement, useState } from 'react'
 import SearchIcon from '@/assets/icons/search.svg'
 import EyeIcon from '@/assets/icons/eye.svg'
 import EyeOffIcon from '@/assets/icons/eye-off.svg'
@@ -13,7 +13,7 @@ type Props = InputHTMLAttributes<HTMLInputElement> & {
   variant?: InputVariant
   errorText?: string | null
   disabled?: boolean
-  label?: string
+  label?: string | ReactElement
 }
 
 const baseStyle = `

@@ -6,21 +6,33 @@ import { AccountType } from '@/lib/feature/subscriptions/ui/AccountType/AccountT
 import { ModalWindow } from '@/components/ui/modalWindow/ModalWindow'
 import { Typography } from '@/components/ui/typography/Typography'
 import { Button } from '@/components/ui/button/Button'
-import { useSearchParams } from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
+import { useGetMeQuery } from '@/lib/feature/auth/api/authApi'
+import Loader from '@/components/ui/loader/Loader'
 
 const ProfileSettings = () => {
+  const router = useRouter()
+  const profileParams = useParams()
   const params = useSearchParams()
   const success = params.get('success')
   const [isModalOpen, setIsModalOpen] = useState(!!success)
+  const { data } = useGetMeQuery()
+
+  if (!data) return <Loader />
+
+  if (String(profileParams.id) !== String(data.userId)) {
+    router.replace(`/profile/${profileParams.id}`)
+    return null
+  }
 
   const onCloseModalWindow = () => {
     setIsModalOpen(false)
+    return null
   }
 
   return (
-    <div className='mb-[26px] pt-9'>
-      {/*Поменять на семантические теги*/}
+    <div className='mb-[26px]'>
       <Tabs defaultValue='General information'>
         <TabsList className='flex w-full'>
           <TabsTrigger value='General information' className='flex-1'>

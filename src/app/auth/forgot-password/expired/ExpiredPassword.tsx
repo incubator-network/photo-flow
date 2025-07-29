@@ -27,7 +27,7 @@ export default function ExpiredPasswordPage() {
   }
 
   return (
-    <div className={'mt-9 flex h-full w-full flex-col items-center'}>
+    <div className={'flex h-full w-full flex-col items-center'}>
       <Typography className={'mb-5'} variant={'h1'}>
         Email verification link expired
       </Typography>

@@ -6,7 +6,7 @@ import Image from 'next/image'
 
 export default function Page() {
   return (
-    <div className={'mt-9 flex h-full w-full flex-col items-center'}>
+    <div className={'flex h-full w-full flex-col items-center'}>
       <Typography className={'mb-5'} variant={'h1'}>
         Congratulations!
       </Typography>

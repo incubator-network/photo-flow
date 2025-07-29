@@ -13,7 +13,7 @@ import { selectIsAuth, setIsAuth } from '@/lib/appSlice'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button/Button'
 import { ModalWindow } from '@/components/ui/modalWindow/ModalWindow'
-import { useLogoutMutation } from '@/lib/feature/auth/api/authApi'
+import { useGetMeQuery, useLogoutMutation } from '@/lib/feature/auth/api/authApi'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { AUTH_TOKEN } from '@/constants'
@@ -34,6 +34,7 @@ export function Sidebar({ content }: PropsMenu) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const isAuth = useAppSelector(selectIsAuth)
   const dispatch = useAppDispatch()
+  const { data } = useGetMeQuery()
 
   const logoutHandler = async () => {
     setIsModalOpen(true)
@@ -61,7 +62,7 @@ export function Sidebar({ content }: PropsMenu) {
     },
     {
       title: 'My Profile',
-      url: '#',
+      url: `/profile/${data?.userId}`,
       icon: AccountIcon,
     },
     {
