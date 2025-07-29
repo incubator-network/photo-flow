@@ -17,7 +17,7 @@ import { DatePicker } from '@/components/ui/DatePicker/DatePicker'
 import { Select } from '@/components/ui/Select/Select'
 import { Button } from '@/components/ui/button/Button'
 import { Textarea } from '@/components/ui/textarea/Textarea'
-import { checkAge } from '@/lib/feature/profile/utils/checkAge'
+import { checkAge } from '@/utils/checkAge'
 
 export const GeneralInformation = () => {
   const { data: profile } = useGetProfileQuery()
@@ -70,9 +70,9 @@ export const GeneralInformation = () => {
         ...data,
       }
 
-      if (payload.dateOfBirth === null) {
-        throw new Error('Date of birth is required')
-      }
+      // if (payload.dateOfBirth === null) {
+      //   throw new Error('Date of birth is required')
+      // }
 
       if (!checkAge({ showAlert, birthDate: payload.dateOfBirth })) return
 

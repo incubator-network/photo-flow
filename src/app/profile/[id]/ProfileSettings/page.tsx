@@ -32,7 +32,7 @@ const ProfileSettings = () => {
   }
 
   return (
-    <div className='mb-[26px] pt-9'>
+    <div className='mb-[26px]'>
       <Tabs defaultValue='General information'>
         <TabsList className='flex w-full'>
           <TabsTrigger value='General information' className='flex-1'>

@@ -88,7 +88,7 @@ export default function SignIn() {
   }
 
   return (
-    <Card className={`mx-auto mt-9 w-[380px] p-6`}>
+    <Card className={`mx-auto w-[380px] p-6`}>
       <Typography variant={'h1'} className={'mb-[14px] text-center'}>
         Sign In
       </Typography>
