@@ -49,7 +49,7 @@ export default function CreateNewPassword() {
   }
 
   return (
-    <Card className={'mx-auto mt-15 flex w-[378px] flex-col items-center px-6 pt-6 pb-9'}>
+    <Card className={'mx-auto mt-6 flex w-[378px] flex-col items-center px-6 pt-6 pb-9'}>
       <Typography variant={'h1'} className={'mb-9.5'}>
         Create New Password
       </Typography>

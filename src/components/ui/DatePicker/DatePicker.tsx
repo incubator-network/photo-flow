@@ -1,22 +1,25 @@
 import { Calendar } from './Calendar/Calendar'
 import { twMerge } from 'tailwind-merge'
-import { useEffect, useRef, useState } from 'react'
+import { ReactElement, useEffect, useRef, useState } from 'react'
 import { CalendarDay, getCalendarPositionStyles, getDaysForCalendar } from '@/utils'
 import { useCalendarSelection } from '@/hooks/useCalendarSelection'
 import { ButtonTrigger } from './ButtonTrigger'
 import { format } from 'date-fns'
-import { normalizeDateToMidnightUTC } from '@/lib/feature/profile/ui/components/profile/GeneralInformation/GeneralInformation'
 
 type DatePickerProps = {
   className?: string
   disabled?: boolean
   error?: { isError: boolean; errorText?: string }
   onDatesChange?: (dates: Date[]) => void
-  title?: string
+  title?: string | ReactElement
   isOnlySingleMode?: true
   value?: Date | Date[] | null
   onValueChange?: (date: Date | Date[] | null) => void
   defaultDate?: string
+}
+
+export const normalizeDateToMidnightUTC = (date: Date): string => {
+  return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())).toISOString()
 }
 
 export const months = [

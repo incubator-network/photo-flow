@@ -82,7 +82,7 @@ export default function ForgotPassword() {
   }
 
   return (
-    <div className={'flex h-[100vh] items-center justify-center'}>
+    <div className={'mt-9 flex items-center justify-center'}>
       <Card className='bg-dark-500 m-auto flex w-[378px] flex-col items-center px-[24px] pt-[24px] pb-[16px]'>
         <Typography variant='h1' className='mb-[37px]'>
           Forgot Password

@@ -7,7 +7,7 @@ import {
 import { ProfileControls } from '@/lib/feature/profile/ui/components/profile/profileControls/ProfileControls'
 import Image from 'next/image'
 import DefaultAvatar from '@/../public/defaultAvatar.jpg'
-import { UserProfileDataResponse } from '@/lib/feature/profile/types/profile.types'
+import { UserProfileDataResponse } from '@/lib/feature/profile/api/profile.types'
 import { UserProfileMetadata } from '@/lib/feature/profile/ui/components/profile/userProfileMetadata/UserProfileMetadata'
 import { PAGE_SIZE } from '@/constants'
 import { UserPostsResponse } from '@/lib/feature/posts/api/postsApi.types'
@@ -44,7 +44,7 @@ export default async function ProfilePage({ params, searchParams }: ProfilePageP
     const userPosts: UserPostsResponse = await userPostsData.json()
     const totalCountPosts = userPosts.totalCount
     return (
-      <div className={twMerge('m-auto w-[1060px] pt-[36px]')}>
+      <div className={twMerge('m-auto w-[1060px]')}>
         <div className='flex gap-[38px] pr-[64px]'>
           <Image
             priority
