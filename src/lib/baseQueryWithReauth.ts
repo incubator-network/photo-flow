@@ -2,6 +2,7 @@
 import { Mutex } from 'async-mutex'
 import { fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { AUTH_TOKEN } from '@/constants'
+import { handleError } from '@/common/utils/handleError'
 
 const mutex = new Mutex()
 
@@ -59,6 +60,10 @@ export const baseQueryWithReauth: typeof baseQuery = async (args, api, extraOpti
       await mutex.waitForUnlock()
       result = await baseQuery(args, api, extraOptions)
     }
+  }
+
+  if (result.error) {
+    handleError(api, result)
   }
 
   return result
