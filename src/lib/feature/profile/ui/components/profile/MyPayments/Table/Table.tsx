@@ -1,7 +1,7 @@
 'use client'
 
 import { twMerge } from 'tailwind-merge'
-import { GetMyPayments } from '@/lib/feature/profile/api/profileApi'
+import { GetMyPayments } from '@/lib/feature/subscriptions/api/subscriptionApi.types'
 
 type Props = {
   data: GetMyPayments[]
