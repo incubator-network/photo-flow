@@ -10,7 +10,13 @@ import { MAX_AVATAR_SIZE } from '@/constants'
 import Image from 'next/image'
 import { useUpdateAvatarMutation } from '@/lib/feature/profile/api/profileApi'
 
-export const AddAvatarModal = () => {
+type Props = {
+  isOpen: boolean
+  closeModalAction: () => void
+  refetchAvatarImageAction: () => void
+}
+
+export const AddAvatarModal = ({ closeModalAction, isOpen, refetchAvatarImageAction }: Props) => {
   const [error, setError] = useState<string | null>(null)
   const [avatarImage, setAvatarImage] = useState<string>('')
   const inputRef = useRef<HTMLInputElement | null>(null)
@@ -38,12 +44,19 @@ export const AddAvatarModal = () => {
     fileRef.current = file
   }
 
+  function closeModalHandler() {
+    closeModalAction()
+    setAvatarImage('')
+  }
+
   async function saveButtonHandler() {
     if (!fileRef.current) return
     try {
       const formData = new FormData()
       formData.append('file', fileRef.current)
-      trigger(formData).then(res => console.log(res))
+      await trigger(formData)
+      closeModalHandler()
+      refetchAvatarImageAction()
     } catch (e) {
       console.log(e)
     }
@@ -53,8 +66,8 @@ export const AddAvatarModal = () => {
     <ModalWindow
       modalTitle={'Add a Profile Photo'}
       className={twMerge('w-[492px]', inputRef ? 'h-[536px]' : 'h-[564px]')}
-      open={true}
-      onClose={() => {}}
+      open={isOpen}
+      onClose={closeModalHandler}
     >
       <div className={'flex h-full w-full flex-col items-center'}>
         {error && (

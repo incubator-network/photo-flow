@@ -1,8 +1,7 @@
 'use client'
 
-import { Controller } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
 import { useGetProfileQuery, useUpdateProfileMutation } from '@/lib/feature/profile/api/profileApi'
 import { useEffect } from 'react'
 import { useAlert } from '@/components/ui/Alert/AlertContext'
