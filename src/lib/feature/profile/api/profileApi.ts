@@ -1,7 +1,12 @@
 import { baseApi } from '@/lib/baseApi'
-import { ProfileType, UserProfileDataResponse } from '@/lib/feature/profile/types/profile.types'
-import { Avatars, UserPostsResponse } from '@/lib/feature/posts/api/postsApi.types'
 
+import {
+  ProfileType,
+  UpdateProfileError,
+  UpdateProfileRequest,
+  UserProfileDataResponse,
+} from '@/lib/feature/profile/api/profile.types'
+import { Avatars, UserPostsResponse } from '@/lib/feature/posts/api/postsApi.types'
 export const profileApi = baseApi.injectEndpoints({
   endpoints: build => ({
     getProfile: build.query<ProfileType, void>({
@@ -9,6 +14,13 @@ export const profileApi = baseApi.injectEndpoints({
     }),
     getPublicUserProfile: build.query<UserProfileDataResponse, string>({
       query: profileId => `/public-user/profile/${profileId}`,
+    }),
+    updateProfile: build.mutation<void | UpdateProfileError, UpdateProfileRequest>({
+      query: body => ({
+        url: 'users/profile',
+        method: 'PUT',
+        body,
+      }),
     }),
     getUserPosts: build.query<
       UserPostsResponse,
@@ -35,4 +47,10 @@ export const profileApi = baseApi.injectEndpoints({
   }),
 })
 
-export const { useLazyGetProfileQuery, useGetUserPostsQuery, useUpdateAvatarMutation } = profileApi
+export const {
+  useLazyGetProfileQuery,
+  useGetUserPostsQuery,
+  useUpdateAvatarMutation,
+  useGetProfileQuery,
+  useUpdateProfileMutation,
+} = profileApi

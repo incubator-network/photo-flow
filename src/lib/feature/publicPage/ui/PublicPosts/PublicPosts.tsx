@@ -2,11 +2,12 @@
 import { Typography } from '@/components/ui/typography/Typography'
 import Image from 'next/image'
 import Link from 'next/link'
-import { formatTimeAgo } from '@/utils/formatTimeAgo'
+import { formatTimeAgo } from '@/utils'
 import ExpandableText from '@/lib/feature/publicPage/ui/expandableText/ExpandableText'
 import { POSTS_ON_MAIN_PAGE } from '@/constants'
 import { useGetPublicPostsQuery } from '@/lib/feature/posts/api/postsApi'
 import { UserPostsResponse } from '@/lib/feature/posts/api/postsApi.types'
+import Loader from '@/components/ui/loader/Loader'
 
 type PropsType = {
   initialPosts: UserPostsResponse
@@ -19,7 +20,7 @@ export default function PublicPosts({ initialPosts }: PropsType) {
   })
   const publicPosts = data ?? initialPosts
 
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading) return <Loader />
   return (
     <div className={'mt-[36px] flex flex-row gap-3'}>
       {publicPosts?.items.map(post => {

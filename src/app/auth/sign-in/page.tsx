@@ -58,12 +58,17 @@ export default function SignIn() {
       // FIX: Срабатываем еще один me запрос при запросе профиля
       const profileResponse = await profile().unwrap()
 
-      if (profileResponse.firstName && profileResponse.lastName) {
+      if (
+        profileResponse.firstName &&
+        profileResponse.lastName &&
+        profileResponse.userName &&
+        profileResponse.dateOfBirth
+      ) {
         // Если есть имя, фамилия в профиле(создан, заполнен)
-        router.push('/profile') // Изменить на название роута в будущем
+        router.push(`/profile/${profileResponse.id}`)
       } else {
         // Если профиль не создан
-        router.push('/profileCreate') // Изменить на название роута в будущем
+        router.push(`/profile/${profileResponse.id}/ProfileSettings`)
       }
     } catch (error: unknown) {
       const apiError = error as ApiError
@@ -83,7 +88,7 @@ export default function SignIn() {
   }
 
   return (
-    <Card className={`mx-auto mt-9 w-[380px] p-6`}>
+    <Card className={`mx-auto w-[380px] p-6`}>
       <Typography variant={'h1'} className={'mb-[14px] text-center'}>
         Sign In
       </Typography>

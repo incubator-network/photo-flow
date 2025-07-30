@@ -1,6 +1,6 @@
 'use client'
 
-import React, { InputHTMLAttributes, useState } from 'react'
+import React, { InputHTMLAttributes, ReactElement, useState } from 'react'
 import SearchIcon from '@/assets/icons/search.svg'
 import EyeIcon from '@/assets/icons/eye.svg'
 import EyeOffIcon from '@/assets/icons/eye-off.svg'
@@ -13,7 +13,7 @@ type Props = InputHTMLAttributes<HTMLInputElement> & {
   variant?: InputVariant
   errorText?: string | null
   disabled?: boolean
-  label?: string
+  label?: string | ReactElement
 }
 
 const baseStyle = `
@@ -31,7 +31,7 @@ const baseStyle = `
   hover:border-light-900
   focus:border-accent-500 focus:bg-dark-500 focus:text-light-100
   active:border-light-100! active:bg-dark-500! active:text-light-100!
-  not-placeholder-shown:text-light-100  
+  not-placeholder-shown:text-light-100
 `
 
 const variantStyles = {
