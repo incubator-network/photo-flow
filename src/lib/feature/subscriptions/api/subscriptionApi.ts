@@ -2,6 +2,7 @@ import { baseApi } from '@/lib/baseApi'
 import {
   createPaymentRequest,
   getCurrentSubscriptionResponse,
+  GetMyPayments,
 } from '@/lib/feature/subscriptions/api/subscriptionApi.types'
 
 export const subscriptionApi = baseApi.injectEndpoints({
@@ -28,6 +29,9 @@ export const subscriptionApi = baseApi.injectEndpoints({
     getCurrentSubscription: build.query<getCurrentSubscriptionResponse, void>({
       query: () => '/subscriptions/current-payment-subscriptions',
     }),
+    getMyPayments: build.query<GetMyPayments[], void>({
+      query: () => '/subscriptions/my-payments',
+    }),
   }),
 })
 
@@ -36,4 +40,5 @@ export const {
   useGetCurrentSubscriptionQuery,
   useCancelSubscriptionMutation,
   useRenewAutoRenewalMutation,
+  useGetMyPaymentsQuery,
 } = subscriptionApi
