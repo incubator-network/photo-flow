@@ -10,6 +10,7 @@ import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { useGetMeQuery } from '@/lib/feature/auth/api/authApi'
 import Loader from '@/components/ui/loader/Loader'
+import { MyPayments } from '@/lib/feature/subscriptions/ui/myPayments/MyPayments'
 
 const ProfileSettings = () => {
   const router = useRouter()
@@ -55,7 +56,9 @@ const ProfileSettings = () => {
         <TabsContent value='Account Management'>
           <AccountType />
         </TabsContent>
-        <TabsContent value='My payments'>My payments</TabsContent>
+        <TabsContent value='My payments'>
+          <MyPayments />
+        </TabsContent>
       </Tabs>
       {success === 'true' ? (
         <ModalWindow
