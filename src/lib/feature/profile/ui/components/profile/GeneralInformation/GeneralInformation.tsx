@@ -10,7 +10,7 @@ import {
   UpdateProfileFields,
   updateProfileSchema,
 } from '@/lib/feature/profile/schemas/updateProfileSchema'
-import { AddProfilePhoto } from '@/app/profile/[id]/ProfileSettings/AddProfilePhoto'
+import { AddProfilePhoto } from '@/lib/feature/profile/ui/components/profile/GeneralInformation/addProfilePhoto/AddProfilePhoto'
 import { Input } from '@/components/ui/input/Input'
 import { DatePicker } from '@/components/ui/DatePicker/DatePicker'
 import { Select } from '@/components/ui/Select/Select'
