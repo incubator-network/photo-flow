@@ -20,6 +20,6 @@
       "@/*": ["*"]
     }
   },
-  "include": ["src", "index.ts", "svg.d.ts"],
+  "include": ["src", "index.ts"],
   "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.stories.tsx"]
 }
