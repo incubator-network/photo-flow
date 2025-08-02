@@ -7,19 +7,19 @@ import SearchIcon from '@/assets/icons/search.svg'
 import StatisticsIcon from '@/assets/icons/statistics.svg'
 import FavoriteIcon from '@/assets/icons/bookmark-outline.svg'
 import LogoutIcon from '@/assets/icons/logout.svg'
-import { Typography } from 'photo-flow-ui-kit'
-import { useAppDispatch, useAppSelector } from '@/lib/hooks'
-import { selectIsAuth, setIsAuth } from '@/lib/appSlice'
+import { Typography } from '../Typography'
 import Link from 'next/link'
-import { Button } from 'photo-flow-ui-kit'
-import { ModalWindow } from 'photo-flow-ui-kit'
-import { useGetMeQuery, useLogoutMutation } from '@/lib/feature/auth/api/authApi'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { AUTH_TOKEN } from '@/constants'
+import { Button } from '../Button'
+import { ModalWindow } from '../ModalWindow'
 
-type PropsMenu = {
+type PropsMenu<T> = {
   content?: PropsMenuItems
+  isAuth: boolean
+  meData: T
+  getProfileId: (data: T) => string
+  logoutHandler: () => void
+  isModalOpen: boolean
+  setIsModalOpen: (v: boolean) => void
 }
 
 export type PropsMenuItems = {
@@ -28,27 +28,15 @@ export type PropsMenuItems = {
   icon: React.FC<React.SVGProps<SVGSVGElement>>
 }
 
-export function Sidebar({ content }: PropsMenu) {
-  const [logout] = useLogoutMutation()
-  const router = useRouter()
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const isAuth = useAppSelector(selectIsAuth)
-  const dispatch = useAppDispatch()
-  const { data } = useGetMeQuery()
-
-  const logoutHandler = async () => {
-    setIsModalOpen(true)
-    try {
-      await logout().unwrap()
-      dispatch(setIsAuth({ isAuth: false }))
-      localStorage.removeItem(AUTH_TOKEN)
-      router.push('/auth/sign-in')
-    } catch (error) {
-      console.error('logout error', error)
-    } finally {
-      setIsModalOpen(false)
-    }
-  }
+export const Sidebar = <T,>({
+  content,
+  isAuth,
+  meData,
+  getProfileId,
+  logoutHandler,
+  isModalOpen,
+  setIsModalOpen,
+}: PropsMenu<T>) => {
   const mainMenuItems = [
     {
       title: 'Feed',
@@ -62,7 +50,7 @@ export function Sidebar({ content }: PropsMenu) {
     },
     {
       title: 'My Profile',
-      url: `/profile/${data?.userId}`,
+      url: `/profile/${getProfileId(meData)}`,
       icon: AccountIcon,
     },
     {

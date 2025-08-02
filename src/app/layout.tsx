@@ -8,8 +8,11 @@ import { AlertProvider } from 'photo-flow-ui-kit'
 
 import { useAppSelector } from '@/lib/hooks'
 import { selectIsAuth } from '@/lib/appSlice'
-import { Header } from 'photo-flow-ui-kit/src/Header'
-import { Sidebar } from '@/ui/Sidebar'
+import { Header } from 'photo-flow-ui-kit'
+import { Sidebar } from 'photo-flow-ui-kit'
+import { useGetMeQuery } from '@/lib/feature/auth/api/authApi'
+import { MeResponse } from '@/lib/feature/auth/api/authApi.types'
+import { useLogoutHandler } from '@/lib/feature/auth/utils/logoutHandler'
 
 export default function RootLayout({
   children,
@@ -32,13 +35,24 @@ export default function RootLayout({
 
 function Content({ children }: { children: React.ReactNode }) {
   const isAuth = useAppSelector(selectIsAuth)
+  const { data } = useGetMeQuery()
+  const { isModalOpen, setIsModalOpen, logoutHandler } = useLogoutHandler()
 
   return (
     <AlertProvider>
       <Header isAuth={isAuth} />
       <div className='max-w-[1920px]'>
         <div className='flex'>
-          {isAuth && <Sidebar />}
+          {isAuth && data && (
+            <Sidebar<MeResponse>
+              getProfileId={(me: MeResponse) => `${me.userId}`}
+              isAuth={isAuth}
+              meData={data}
+              logoutHandler={logoutHandler}
+              isModalOpen={isModalOpen}
+              setIsModalOpen={setIsModalOpen}
+            />
+          )}
           <main className={`${isAuth ? 'ml-[220px]' : ''} w-full px-6 pt-[96px]`}>{children}</main>
         </div>
       </div>
