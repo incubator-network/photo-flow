@@ -2,15 +2,15 @@
 
 import { useRef, useState } from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
-import { Recaptcha } from '@/components/ui/recaptcha/Recaptcha'
-import { Button } from '@/components/ui/button/Button'
-import { Typography } from '@/components/ui/typography/Typography'
-import { Input } from '@/components/ui/input/Input'
-import { Card } from '@/components/ui/Card/Card'
+import { Recaptcha } from 'photo-flow-ui-kit'
+import { Button } from 'photo-flow-ui-kit'
+import { Typography } from 'photo-flow-ui-kit'
+import { Input } from 'photo-flow-ui-kit'
+import { Card } from 'photo-flow-ui-kit'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { useForgotPasswordMutation } from '@/lib/feature/auth/api/authApi'
-import { ModalWindow } from '@/components/ui/modalWindow/ModalWindow'
+import { ModalWindow } from 'photo-flow-ui-kit'
 import { ResponseError } from '@/lib/feature/auth/api/authApi.types'
 
 type FormData = {

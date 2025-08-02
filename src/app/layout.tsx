@@ -4,11 +4,12 @@ import './globals.css'
 import React from 'react'
 import { StoreProvider } from '@/app/StoreProvider'
 import { AuthProvider } from '@/lib/feature/auth/ui/AuthProvider'
-import { AlertProvider } from '@/components/ui/Alert/AlertProvider'
-import { Header } from '@/components/ui/header/Header'
-import { Sidebar } from '@/components/ui/sidebar/Sidebar'
+import { AlertProvider } from 'photo-flow-ui-kit'
+
 import { useAppSelector } from '@/lib/hooks'
 import { selectIsAuth } from '@/lib/appSlice'
+import { Header } from '@/ui/Header'
+import { Sidebar } from '@/ui/Sidebar'
 
 export default function RootLayout({
   children,

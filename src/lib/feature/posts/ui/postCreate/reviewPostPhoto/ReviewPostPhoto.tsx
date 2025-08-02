@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { ModalWindow } from '@/components/ui/modalWindow/ModalWindow'
+import { ModalWindow } from 'photo-flow-ui-kit'
 import ArrowLeftIcon from '@/assets/icons/arrow-back.svg'
-import { Button } from '@/components/ui/button/Button'
+import { Button } from 'photo-flow-ui-kit'
 import IconImg from '@/assets/icons/img.svg'
 import { GalleryPreview } from '@/lib/feature/posts/ui/postCreate/reviewPostPhoto/galleryPreview/GalleryPreview'
 import { NavigationFormType } from '@/lib/feature/posts/ui/postCreate/PostCreate'
-import Slider from '@/components/ui/slider/Slider'
+import Slider from '@/ui/Slider/Slider'
 
 type PropsType = {
   setFormNavigation: (value: NavigationFormType) => void

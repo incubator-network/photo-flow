@@ -3,7 +3,7 @@ import {
   useCancelSubscriptionMutation,
   useRenewAutoRenewalMutation,
 } from '@/lib/feature/subscriptions/api/subscriptionApi'
-import { Checkbox } from '@/components/ui/checkbox/Checkbox'
+import { Checkbox } from 'photo-flow-ui-kit'
 
 type PropsType = {
   hasAutoRenewal: boolean

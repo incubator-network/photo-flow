@@ -1,12 +1,12 @@
 import React, { RefObject, useState } from 'react'
-import { ModalWindow } from '@/components/ui/modalWindow/ModalWindow'
+import { ModalWindow } from 'photo-flow-ui-kit'
 import ArrowLeftIcon from '@/assets/icons/arrow-back.svg'
-import { Button } from '@/components/ui/button/Button'
+import { Button } from 'photo-flow-ui-kit'
 
-import { Typography } from '@/components/ui/typography/Typography'
-import { Textarea } from '@/components/ui/textarea/Textarea'
+import { Typography } from 'photo-flow-ui-kit'
+import { Textarea } from 'photo-flow-ui-kit'
 import { useAddPostMutation } from '@/lib/feature/posts/api/postsApi'
-import Slider from '@/components/ui/slider/Slider'
+import Slider from '@/ui/Slider/Slider'
 
 type PropsType = {
   uploadId: RefObject<string[]>

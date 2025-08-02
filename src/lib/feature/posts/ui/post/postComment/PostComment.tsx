@@ -1,6 +1,6 @@
 import Image from 'next/image'
-import { Typography } from '@/components/ui/typography/Typography'
-import { formatTimeAgo } from '@/utils'
+import { Typography } from 'photo-flow-ui-kit'
+import { formatTimeAgo } from 'photo-flow-ui-kit'
 import { Comment } from '@/lib/feature/posts/api/postsApi.types'
 import { useLazyGetCommentAnswerQuery } from '@/lib/feature/posts/api/postsApi'
 import PostAnswer from '@/lib/feature/posts/ui/post/postComment/postAnswer/PostAnswer'

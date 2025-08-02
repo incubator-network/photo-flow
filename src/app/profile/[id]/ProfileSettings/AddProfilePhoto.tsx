@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button/Button'
+import { Button } from 'photo-flow-ui-kit'
 import NoImage from '@/assets/icons/img.svg'
 
 export const AddProfilePhoto = () => {

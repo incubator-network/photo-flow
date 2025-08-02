@@ -1,15 +1,15 @@
 import React from 'react'
 import Image from 'next/image'
-import { Typography } from '@/components/ui/typography/Typography'
-import { formatDate } from '@/utils'
+import { Typography } from 'photo-flow-ui-kit'
+import { formatDate } from 'photo-flow-ui-kit'
 import { PostResponse } from '@/lib/feature/posts/api/postsApi.types'
 import HeartOutline from '@/assets/icons/heart-outline.svg'
 import PaperPlane from '@/assets/icons/paper-plane-outline.svg'
 import Bookmark from '@/assets/icons/bookmark-outline.svg'
 import { useAppSelector } from '@/lib/hooks'
 import { selectIsAuth } from '@/lib/appSlice'
-import { Button } from '@/components/ui/button/Button'
-import { Textarea } from '@/components/ui/textarea/Textarea'
+import { Button } from 'photo-flow-ui-kit'
+import { Textarea } from 'photo-flow-ui-kit'
 
 function PostFooter({ post }: { post: PostResponse }) {
   const isAuth = useAppSelector(selectIsAuth)
