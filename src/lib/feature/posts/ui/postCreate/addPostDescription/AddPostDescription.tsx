@@ -6,7 +6,8 @@ import { Button } from 'photo-flow-ui-kit'
 import { Typography } from 'photo-flow-ui-kit'
 import { Textarea } from 'photo-flow-ui-kit'
 import { useAddPostMutation } from '@/lib/feature/posts/api/postsApi'
-import Slider from '@/ui/Slider/Slider'
+import { Slider } from 'photo-flow-ui-kit'
+import { Images } from '../../../api/postsApi.types'
 
 type PropsType = {
   uploadId: RefObject<string[]>
@@ -57,7 +58,12 @@ export const AddPostDescription = (props: PropsType) => {
       <form className='relative flex h-[504px] w-full'>
         <div className='relative flex h-[504px] w-[490px]'>
           <div className='flex h-full w-full'>
-            <Slider images={imageUrls} data={'uiData'} />
+            <Slider
+              getId={(image: Images) => image.uploadId}
+              getUrl={(image: Images) => image.url}
+              images={imageUrls}
+              data={'uiData'}
+            />
           </div>
         </div>
 

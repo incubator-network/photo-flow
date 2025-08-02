@@ -1,19 +1,20 @@
 'use client'
 
-import { Images } from '@/lib/feature/posts/api/postsApi.types'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
 import ArrowBack from '@/assets/icons/arrow-back.svg'
 import ArrowForward from '@/assets/icons/arrow-forward.svg'
 import { twMerge } from 'tailwind-merge'
 
-type PropsType = {
-  images: Images[] | string[]
+type PropsType<T> = {
+  images: T[] | string[]
   data: 'uiData' | 'serverData'
   classname?: string
+  getId: (image: T) => string
+  getUrl: (image: T) => string
 }
 
-export default function Slider({ images, data, classname }: PropsType) {
+export const Slider = <T,>({ images, data, classname, getId, getUrl }: PropsType<T>) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
   const handleClickBack = () => {
@@ -26,20 +27,20 @@ export default function Slider({ images, data, classname }: PropsType) {
 
   // Для постов без фотографий
   if (images.length === 0) {
-    images = [{ url: '/no-image.svg', uploadId: 'uniqueID' }] as Images[]
+    images = [{ url: '/no-image.svg', uploadId: 'uniqueID' }] as T[]
   }
 
   return (
     <div className={twMerge('relative h-full w-[490px]', classname)}>
       {data === 'serverData' &&
-        (images as Images[]).map((image, index) => (
+        (images as T[]).map((image, index) => (
           <Image
             className={`absolute top-0 left-0 object-cover transition-opacity duration-500 ease-in-out ${
               index === currentImageIndex ? 'z-10 opacity-100' : 'z-0 opacity-0'
             }`}
             fill
-            key={image.uploadId}
-            src={image.url}
+            key={getId(image)}
+            src={getUrl(image)}
             alt={`post photo ${index + 1}`}
           />
         ))}
@@ -72,9 +73,9 @@ export default function Slider({ images, data, classname }: PropsType) {
             }
           >
             {data === 'serverData' &&
-              (images as Images[]).map((image, index) => (
+              (images as T[]).map((image, index) => (
                 <div
-                  key={image.uploadId}
+                  key={getId(image)}
                   className={`h-2 w-2 rounded-full ${index === currentImageIndex ? 'bg-accent-500' : 'bg-light-100'}`}
                 />
               ))}
