@@ -1,21 +1,20 @@
 'use client'
 
 import { memo } from 'react'
-import { Select } from 'photo-flow-ui-kit'
-import { Button } from 'photo-flow-ui-kit'
+import { Select } from '../Select'
+import { Button } from '../Button'
 import Inctagram from '@/assets/icons/Inctagram.svg'
 import InctagramForSuperAdmin from '@/assets/icons/InctagramForSuperAdmin.svg'
 import Notifications from '@/assets/icons/Notifications.svg'
 import { twMerge } from 'tailwind-merge'
 import Link from 'next/link'
-import { useAppSelector } from '@/lib/hooks'
-import { selectIsAuth } from '@/lib/appSlice'
 
 type Props = {
   isSuperAdminPanel?: boolean
   notificationsCounter?: number
   notificationsHandler?: () => void
   className?: string
+  isAuth: boolean
 }
 
 const langVariant = [
@@ -29,11 +28,9 @@ const langVariant = [
   },
 ]
 
-export const Header = memo(({ isSuperAdminPanel = false, className }: Props) => {
+export const Header = memo(({ isSuperAdminPanel = false, className, isAuth }: Props) => {
   const notificationsCounter = 3 // получение новых уведомлений с сервера
   const lang = 'English' // язык только eng
-
-  const isAuth = useAppSelector(selectIsAuth)
 
   const changeLangHandler = () => {
     // (country: string)

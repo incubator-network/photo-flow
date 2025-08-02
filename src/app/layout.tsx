@@ -8,7 +8,7 @@ import { AlertProvider } from 'photo-flow-ui-kit'
 
 import { useAppSelector } from '@/lib/hooks'
 import { selectIsAuth } from '@/lib/appSlice'
-import { Header } from '@/ui/Header'
+import { Header } from 'photo-flow-ui-kit/src/Header'
 import { Sidebar } from '@/ui/Sidebar'
 
 export default function RootLayout({
@@ -35,7 +35,7 @@ function Content({ children }: { children: React.ReactNode }) {
 
   return (
     <AlertProvider>
-      <Header />
+      <Header isAuth={isAuth} />
       <div className='max-w-[1920px]'>
         <div className='flex'>
           {isAuth && <Sidebar />}
