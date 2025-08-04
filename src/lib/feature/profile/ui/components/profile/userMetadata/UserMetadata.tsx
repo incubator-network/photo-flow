@@ -1,6 +1,6 @@
 'use client'
 
-import { Typography } from '@/components/ui/typography/Typography'
+import { Typography } from 'photo-flow-ui-kit'
 
 type Props = {
   title: string
@@ -9,9 +9,6 @@ type Props = {
 }
 
 export const UserMetadata = ({ title, metaDataCount }: Props) => {
-  // const showFollowers = () => {}
-  // const showFollowing = () => {}
-
   return (
     <div className='cursor-pointer' onClick={() => {}}>
       <Typography variant='bold_text_14'>{metaDataCount}</Typography>

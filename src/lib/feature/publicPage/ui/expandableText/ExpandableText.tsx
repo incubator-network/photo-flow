@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { twMerge } from 'tailwind-merge'
-import { Typography } from '@/components/ui/typography/Typography'
+import { Typography } from 'photo-flow-ui-kit'
 
 type PropsType = {
   text: string

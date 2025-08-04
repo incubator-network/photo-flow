@@ -1,11 +1,16 @@
 'use client'
 
-import { ModalWindow } from '@/components/ui/modalWindow/ModalWindow'
-import { Comment, getPostInformation, PostResponse } from '@/lib/feature/posts/api/postsApi.types'
+import { ModalWindow } from 'photo-flow-ui-kit'
+import {
+  Comment,
+  getPostInformation,
+  Images,
+  PostResponse,
+} from '@/lib/feature/posts/api/postsApi.types'
 import { useRouter, useParams, useSearchParams } from 'next/navigation'
 import Image from 'next/image'
-import { Typography } from '@/components/ui/typography/Typography'
-import Slider from '@/components/ui/slider/Slider'
+import { Typography } from 'photo-flow-ui-kit'
+
 import PostDescription from '@/lib/feature/posts/ui/post/postDescription/PostDescription'
 import PostComment from '@/lib/feature/posts/ui/post/postComment/PostComment'
 import PostFooter from '@/lib/feature/posts/ui/post/postFooter/PostFooter'
@@ -20,6 +25,7 @@ import ConfirmModal from './ConfirmModal/ConfirmModal'
 import { useGetMeQuery } from '@/lib/feature/auth/api/authApi'
 import { EditPostForm } from './EditPostForm/EditPostForm'
 import DefaultAvatar from '@/../public/defaultAvatar.jpg'
+import { Slider } from 'photo-flow-ui-kit'
 
 type PropsType = {
   post: PostResponse
@@ -78,6 +84,8 @@ export default function PostModal({ post, comments }: PropsType) {
       )}
     >
       <Slider
+        getId={(image: Images) => image.uploadId}
+        getUrl={(image: Images) => image.url}
         images={post.images}
         data={'serverData'}
         classname={twMerge('h-full', isEditMode ? 'col-span-1 row-span-1' : 'w-1/2')}

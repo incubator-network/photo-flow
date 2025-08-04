@@ -1,12 +1,13 @@
 import React, { RefObject, useState } from 'react'
-import { ModalWindow } from '@/components/ui/modalWindow/ModalWindow'
+import { ModalWindow } from 'photo-flow-ui-kit'
 import ArrowLeftIcon from '@/assets/icons/arrow-back.svg'
-import { Button } from '@/components/ui/button/Button'
+import { Button } from 'photo-flow-ui-kit'
 
-import { Typography } from '@/components/ui/typography/Typography'
-import { Textarea } from '@/components/ui/textarea/Textarea'
+import { Typography } from 'photo-flow-ui-kit'
+import { Textarea } from 'photo-flow-ui-kit'
 import { useAddPostMutation } from '@/lib/feature/posts/api/postsApi'
-import Slider from '@/components/ui/slider/Slider'
+import { Slider } from 'photo-flow-ui-kit'
+import { Images } from '../../../api/postsApi.types'
 
 type PropsType = {
   uploadId: RefObject<string[]>
@@ -57,7 +58,12 @@ export const AddPostDescription = (props: PropsType) => {
       <form className='relative flex h-[504px] w-full'>
         <div className='relative flex h-[504px] w-[490px]'>
           <div className='flex h-full w-full'>
-            <Slider images={imageUrls} data={'uiData'} />
+            <Slider
+              getId={(image: Images) => image.uploadId}
+              getUrl={(image: Images) => image.url}
+              images={imageUrls}
+              data={'uiData'}
+            />
           </div>
         </div>
 

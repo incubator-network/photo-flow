@@ -1,5 +1,5 @@
 import { twMerge } from 'tailwind-merge'
-import { Typography } from '@/components/ui/typography/Typography'
+import { Typography } from 'photo-flow-ui-kit'
 import {
   PostData,
   UserPosts,
@@ -12,7 +12,7 @@ import { UserProfileMetadata } from '@/lib/feature/profile/ui/components/profile
 import { PAGE_SIZE } from '@/constants'
 import { UserPostsResponse } from '@/lib/feature/posts/api/postsApi.types'
 import { getComments, getPost } from '@/lib/feature/posts/ssr/getPostSSR'
-import { Button } from '@/components/ui/button/Button'
+import { Button } from 'photo-flow-ui-kit'
 import Link from 'next/link'
 import PostModal from '@/lib/feature/posts/ui/post/PostModal'
 

@@ -1,8 +1,8 @@
 'use client'
 
 import React from 'react'
-import { Typography } from '@/components/ui/typography/Typography'
-import { Card } from '@/components/ui/Card/Card'
+import { Typography } from 'photo-flow-ui-kit'
+import { Card } from 'photo-flow-ui-kit'
 
 type CounterProps = {
   usersCount: number

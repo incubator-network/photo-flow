@@ -1,9 +1,9 @@
-import { Typography } from '@/components/ui/typography/Typography'
-import { Card } from '@/components/ui/Card/Card'
-import { formatDateToDotFormat } from '@/utils'
+import { Typography } from 'photo-flow-ui-kit'
+import { Card } from 'photo-flow-ui-kit'
 import { getCurrentSubscriptionResponse } from '@/lib/feature/subscriptions/api/subscriptionApi.types'
 import { memo } from 'react'
 import { CancelSubscription } from '@/lib/feature/subscriptions/ui/AccountType/cancelSubscription/cancelSubscription'
+import { format } from 'date-fns'
 
 type PropsType = {
   currentSubscriptions: getCurrentSubscriptionResponse | undefined
@@ -38,12 +38,12 @@ export const CurrentSubscription = memo(({ currentSubscriptions }: PropsType) =>
               <tr key={subscription.subscriptionId}>
                 <td className={'pr-11'}>
                   <Typography variant={'bold_text_14'}>
-                    {formatDateToDotFormat(subscription.endDateOfSubscription)}
+                    {format(new Date(subscription.endDateOfSubscription), 'dd.MM.yyyy')}
                   </Typography>
                 </td>
                 <td>
                   <Typography variant={'bold_text_14'}>
-                    {formatDateToDotFormat(subscription.endDateOfSubscription)}
+                    {format(new Date(subscription.endDateOfSubscription), 'dd.MM.yyyy')}
                   </Typography>
                 </td>
               </tr>

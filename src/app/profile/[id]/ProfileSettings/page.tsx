@@ -1,15 +1,15 @@
 'use client'
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs/Tabs'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from 'photo-flow-ui-kit'
 import { GeneralInformation } from '@/lib/feature/profile/ui/components/profile/GeneralInformation/GeneralInformation'
 import { AccountType } from '@/lib/feature/subscriptions/ui/AccountType/AccountType'
-import { ModalWindow } from '@/components/ui/modalWindow/ModalWindow'
-import { Typography } from '@/components/ui/typography/Typography'
-import { Button } from '@/components/ui/button/Button'
+import { ModalWindow } from 'photo-flow-ui-kit'
+import { Typography } from 'photo-flow-ui-kit'
+import { Button } from 'photo-flow-ui-kit'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { useGetMeQuery } from '@/lib/feature/auth/api/authApi'
-import Loader from '@/components/ui/loader/Loader'
+import { Loader } from 'photo-flow-ui-kit'
 import { MyPayments } from '@/lib/feature/subscriptions/ui/myPayments/MyPayments'
 
 const ProfileSettings = () => {
