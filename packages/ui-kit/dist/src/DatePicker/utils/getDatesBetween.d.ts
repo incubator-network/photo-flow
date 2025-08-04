@@ -1,1 +1,1 @@
-export declare const getDatesBetween: (startDate: Date, endDate: Date) => Date[]
+export declare const getDatesBetween: (startDate: Date, endDate: Date) => Date[];

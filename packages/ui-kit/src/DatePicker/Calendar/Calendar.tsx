@@ -1,5 +1,5 @@
 'use client'
-import ArrowLeft from '@/assets/icons/arrow-back-outline.svg'
+import ArrowLeft from '../icons/arrow-back-outline.svg'
 import { addMonths, format } from 'date-fns'
 import { ChangeEvent, useMemo, useState } from 'react'
 import { WeekDays } from './WeekDays'

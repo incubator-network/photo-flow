@@ -1,5 +1,5 @@
-import * as TabsPrimitive from '@radix-ui/react-tabs'
-import { ComponentProps } from 'react'
+import * as TabsPrimitive from '@radix-ui/react-tabs';
+import { ComponentProps } from 'react';
 /**
  * `Tabs` — корневой компонент системы вкладок.
  *
@@ -20,10 +20,7 @@ import { ComponentProps } from 'react'
  * @param className Классы Tailwind для стилизации контейнера
  * @param props Остальные свойства от `TabsPrimitive.Root`
  */
-declare function Tabs({
-  className,
-  ...props
-}: ComponentProps<typeof TabsPrimitive.Root>): import('react/jsx-runtime').JSX.Element
+declare function Tabs({ className, ...props }: ComponentProps<typeof TabsPrimitive.Root>): import("react/jsx-runtime").JSX.Element;
 /**
  * `TabsList` — контейнер для набора вкладок (`TabsTrigger`).
  *
@@ -32,10 +29,7 @@ declare function Tabs({
  * @param className Классы Tailwind для стилизации
  * @param props Остальные свойства от `TabsPrimitive.List`
  */
-declare function TabsList({
-  className,
-  ...props
-}: ComponentProps<typeof TabsPrimitive.List>): import('react/jsx-runtime').JSX.Element
+declare function TabsList({ className, ...props }: ComponentProps<typeof TabsPrimitive.List>): import("react/jsx-runtime").JSX.Element;
 /**
  * `TabsTrigger` — кнопка переключения между вкладками.
  *
@@ -46,10 +40,7 @@ declare function TabsList({
  * @param className Классы Tailwind для стилизации
  * @param props Остальные свойства от `TabsPrimitive.Trigger`
  */
-declare function TabsTrigger({
-  className,
-  ...props
-}: ComponentProps<typeof TabsPrimitive.Trigger>): import('react/jsx-runtime').JSX.Element
+declare function TabsTrigger({ className, ...props }: ComponentProps<typeof TabsPrimitive.Trigger>): import("react/jsx-runtime").JSX.Element;
 /**
  * `TabsContent` — содержимое для соответствующей вкладки.
  *
@@ -59,8 +50,5 @@ declare function TabsTrigger({
  * @param className Классы Tailwind для стилизации
  * @param props Остальные свойства от `TabsPrimitive.Content`
  */
-declare function TabsContent({
-  className,
-  ...props
-}: ComponentProps<typeof TabsPrimitive.Content>): import('react/jsx-runtime').JSX.Element
-export { Tabs, TabsList, TabsTrigger, TabsContent }
+declare function TabsContent({ className, ...props }: ComponentProps<typeof TabsPrimitive.Content>): import("react/jsx-runtime").JSX.Element;
+export { Tabs, TabsList, TabsTrigger, TabsContent };

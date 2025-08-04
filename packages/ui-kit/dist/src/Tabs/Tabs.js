@@ -1,6 +1,6 @@
-import { jsx as _jsx } from 'react/jsx-runtime'
-import * as TabsPrimitive from '@radix-ui/react-tabs'
-import { twMerge } from 'tailwind-merge'
+import { jsx as _jsx } from "react/jsx-runtime";
+import * as TabsPrimitive from '@radix-ui/react-tabs';
+import { twMerge } from 'tailwind-merge';
 /**
  * `Tabs` — корневой компонент системы вкладок.
  *
@@ -22,11 +22,7 @@ import { twMerge } from 'tailwind-merge'
  * @param props Остальные свойства от `TabsPrimitive.Root`
  */
 function Tabs({ className, ...props }) {
-  return _jsx(TabsPrimitive.Root, {
-    'data-slot': 'tabs',
-    className: twMerge('flex flex-col', className),
-    ...props,
-  })
+    return (_jsx(TabsPrimitive.Root, { "data-slot": 'tabs', className: twMerge('flex flex-col', className), ...props }));
 }
 /**
  * `TabsList` — контейнер для набора вкладок (`TabsTrigger`).
@@ -37,11 +33,7 @@ function Tabs({ className, ...props }) {
  * @param props Остальные свойства от `TabsPrimitive.List`
  */
 function TabsList({ className, ...props }) {
-  return _jsx(TabsPrimitive.List, {
-    'data-slot': 'tabs-list',
-    className: twMerge('mb-6', className),
-    ...props,
-  })
+    return (_jsx(TabsPrimitive.List, { "data-slot": 'tabs-list', className: twMerge('mb-6', className), ...props }));
 }
 /**
  * `TabsTrigger` — кнопка переключения между вкладками.
@@ -54,18 +46,7 @@ function TabsList({ className, ...props }) {
  * @param props Остальные свойства от `TabsPrimitive.Trigger`
  */
 function TabsTrigger({ className, ...props }) {
-  return _jsx(TabsPrimitive.Trigger, {
-    'data-slot': 'tabs-trigger',
-    className: twMerge(
-      'border-b-dark-100 text-h3 text-dark-100 cursor-pointer border-b-2 px-6 py-1.5',
-      'data-[state=active]:border-b-accent-500 data-[state=active]:text-accent-500 active:bg-accent-100/15',
-      'data-[state=active]:hover:bg-accent-900/15 hover:bg-accent-900/15',
-      'focus:outline-none focus-visible:ring-2',
-      'disabled:pointer-events-none disabled:opacity-50',
-      className
-    ),
-    ...props,
-  })
+    return (_jsx(TabsPrimitive.Trigger, { "data-slot": 'tabs-trigger', className: twMerge('border-b-dark-100 text-h3 text-dark-100 cursor-pointer border-b-2 px-6 py-1.5', 'data-[state=active]:border-b-accent-500 data-[state=active]:text-accent-500 active:bg-accent-100/15', 'data-[state=active]:hover:bg-accent-900/15 hover:bg-accent-900/15', 'focus:outline-none focus-visible:ring-2', 'disabled:pointer-events-none disabled:opacity-50', className), ...props }));
 }
 /**
  * `TabsContent` — содержимое для соответствующей вкладки.
@@ -77,10 +58,6 @@ function TabsTrigger({ className, ...props }) {
  * @param props Остальные свойства от `TabsPrimitive.Content`
  */
 function TabsContent({ className, ...props }) {
-  return _jsx(TabsPrimitive.Content, {
-    'data-slot': 'tabs-content',
-    className: twMerge('flex-1 outline-none', className),
-    ...props,
-  })
+    return (_jsx(TabsPrimitive.Content, { "data-slot": 'tabs-content', className: twMerge('flex-1 outline-none', className), ...props }));
 }
-export { Tabs, TabsList, TabsTrigger, TabsContent }
+export { Tabs, TabsList, TabsTrigger, TabsContent };

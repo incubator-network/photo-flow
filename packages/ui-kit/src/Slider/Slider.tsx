@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import ArrowBack from '@/assets/icons/arrow-back.svg'
-import ArrowForward from '@/assets/icons/arrow-forward.svg'
+import ArrowBack from '../icons/arrow-back.svg'
+import ArrowForward from '../icons/arrow-forward.svg'
 import { twMerge } from 'tailwind-merge'
 
 type PropsType<T> = {

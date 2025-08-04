@@ -3,8 +3,8 @@ import React, { useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { Typography } from '../Typography'
 import { Select } from '../Select'
-import ChevronRightIcon from '@/assets/icons/pagination-right.svg'
-import ChevronLeftIcon from '@/assets/icons/pagination-left.svg'
+import ChevronRightIcon from '../icons/pagination-right.svg'
+import ChevronLeftIcon from '../icons/pagination-left.svg'
 import { usePagination } from './hooks/usePagination'
 
 export type PaginationPropsType = {

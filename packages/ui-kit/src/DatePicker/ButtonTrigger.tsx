@@ -1,7 +1,7 @@
 import { twMerge } from 'tailwind-merge'
 import { format } from 'date-fns'
-import OpenedCalendarIcon from '@/assets/icons/calendar-opened.svg'
-import ClosedCalendarIcon from '@/assets/icons/calendar-closed.svg'
+import OpenedCalendarIcon from '../icons/calendar-opened.svg'
+import ClosedCalendarIcon from '../icons/calendar-closed.svg'
 import { RefObject } from 'react'
 
 type ButtonTriggerType = {

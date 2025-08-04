@@ -1,9 +1,9 @@
 'use client'
 
 import React, { InputHTMLAttributes, ReactElement, useState } from 'react'
-import SearchIcon from '@/assets/icons/search.svg'
-import EyeIcon from '@/assets/icons/eye.svg'
-import EyeOffIcon from '@/assets/icons/eye-off.svg'
+import SearchIcon from '../icons/search.svg'
+import EyeIcon from '../icons/eye.svg'
+import EyeOffIcon from '../icons/eye-off.svg'
 import { Typography } from '../Typography'
 import { twMerge } from 'tailwind-merge'
 

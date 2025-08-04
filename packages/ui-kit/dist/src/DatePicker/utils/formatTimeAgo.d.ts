@@ -1,1 +1,1 @@
-export declare function formatTimeAgo(dateString: string): string
+export declare function formatTimeAgo(dateString: string): string;

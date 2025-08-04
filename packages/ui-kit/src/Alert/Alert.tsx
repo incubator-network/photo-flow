@@ -1,7 +1,7 @@
 'use client'
 import { twMerge } from 'tailwind-merge'
 import { Typography } from '../Typography'
-import Close from '@/assets/icons/close.svg'
+import Close from '../assets/icons/close.svg'
 import { AlertData } from './AlertTypes'
 import { useEffect, useState } from 'react'
 

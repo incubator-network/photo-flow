@@ -1,8 +1,8 @@
 import { jsxs as _jsxs, jsx as _jsx } from 'react/jsx-runtime'
 import { twMerge } from 'tailwind-merge'
 import { format } from 'date-fns'
-import OpenedCalendarIcon from '@/assets/icons/calendar-opened.svg'
-import ClosedCalendarIcon from '@/assets/icons/calendar-closed.svg'
+import OpenedCalendarIcon from '../icons/calendar-opened.svg'
+import ClosedCalendarIcon from '../icons/calendar-closed.svg'
 export const ButtonTrigger = ({
   isOpen,
   disabled,

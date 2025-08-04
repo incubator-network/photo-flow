@@ -2,7 +2,7 @@
 import { jsx as _jsx, jsxs as _jsxs } from 'react/jsx-runtime'
 import { twMerge } from 'tailwind-merge'
 import { Typography } from '../Typography'
-import Close from '@/assets/icons/close.svg'
+import Close from '../assets/icons/close.svg'
 import { useEffect, useState } from 'react'
 export const Alert = ({ message, type, onClose }) => {
   const [isAlertVisible, setIsAlertVisible] = useState(false)

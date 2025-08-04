@@ -2,7 +2,7 @@
 import * as RadixSelect from '@radix-ui/react-select'
 import { twMerge } from 'tailwind-merge'
 import { ComponentProps, useState } from 'react'
-import ArrowDown from '@/assets/icons/arrow-down.svg'
+import ArrowDown from '../icons/arrow-down.svg'
 import Image from 'next/image'
 
 type Item = {

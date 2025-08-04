@@ -3,9 +3,9 @@
 import { memo } from 'react'
 import { Select } from '../Select'
 import { Button } from '../Button'
-import Inctagram from '@/assets/icons/Inctagram.svg'
-import InctagramForSuperAdmin from '@/assets/icons/InctagramForSuperAdmin.svg'
-import Notifications from '@/assets/icons/Notifications.svg'
+import Inctagram from '../icons/Inctagram.svg'
+import InctagramForSuperAdmin from '../icons/InctagramForSuperAdmin.svg'
+import Notifications from '../icons/Notifications.svg'
 import { twMerge } from 'tailwind-merge'
 import Link from 'next/link'
 
