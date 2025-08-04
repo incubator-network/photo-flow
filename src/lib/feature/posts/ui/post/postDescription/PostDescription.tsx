@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import { Typography } from 'photo-flow-ui-kit'
-import { formatTimeAgo } from 'photo-flow-ui-kit'
 import { PostResponse } from '@/lib/feature/posts/api/postsApi.types'
 import DefaultAvatar from '@/../public/defaultAvatar.jpg'
+import { formatTimeAgo } from '../../../utils/formatTimeAgo'
 
 function PostDescription({ post }: { post: PostResponse }) {
   return (

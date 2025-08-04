@@ -3,8 +3,8 @@
 import { twMerge } from 'tailwind-merge'
 import { useGetMyPaymentsQuery } from '@/lib/feature/subscriptions/api/subscriptionApi'
 import { Loader } from 'photo-flow-ui-kit'
-import { formatDateToDotFormat } from 'photo-flow-ui-kit'
 import { Typography } from 'photo-flow-ui-kit'
+import { format } from 'date-fns'
 
 const headers = [
   'Date of Payments',
@@ -43,8 +43,8 @@ export const MyPayments = () => {
 
   const normalizedData = data?.map(elem => {
     return {
-      dateOfPayment: formatDateToDotFormat(elem.dateOfPayment),
-      endDateOfSubscription: formatDateToDotFormat(elem.endDateOfSubscription),
+      dateOfPayment: format(new Date(elem.dateOfPayment), 'dd.MM.yyyy'),
+      endDateOfSubscription: format(new Date(elem.endDateOfSubscription), 'dd.MM.yyyy'),
       paymentType: paymentsType[elem.paymentType],
       price: `$${costPayments[elem.subscriptionType].amount}`,
       subscriptionId: elem.subscriptionId,

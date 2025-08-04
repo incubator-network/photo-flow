@@ -1,5 +1,3 @@
-export { formatTimeAgo } from './formatTimeAgo'
-export * from './formatDate'
 export { getCalendarPositionStyles } from './getCalendarPosition'
 export { getDatesBetween } from './getDatesBetween'
 export type { CalendarDay } from './getDaysForCalendar'

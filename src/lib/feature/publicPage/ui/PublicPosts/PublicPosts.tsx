@@ -2,12 +2,12 @@
 import { Typography } from 'photo-flow-ui-kit'
 import Image from 'next/image'
 import Link from 'next/link'
-import { formatTimeAgo } from 'photo-flow-ui-kit'
 import ExpandableText from '@/lib/feature/publicPage/ui/expandableText/ExpandableText'
 import { POSTS_ON_MAIN_PAGE } from '@/constants'
 import { useGetPublicPostsQuery } from '@/lib/feature/posts/api/postsApi'
 import { UserPostsResponse } from '@/lib/feature/posts/api/postsApi.types'
 import { Loader } from 'photo-flow-ui-kit'
+import { formatTimeAgo } from '@/lib/feature/posts/utils/formatTimeAgo'
 
 type PropsType = {
   initialPosts: UserPostsResponse

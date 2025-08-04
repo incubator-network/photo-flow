@@ -1,7 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
 import { Typography } from 'photo-flow-ui-kit'
-import { formatDate } from 'photo-flow-ui-kit'
 import { PostResponse } from '@/lib/feature/posts/api/postsApi.types'
 import HeartOutline from '@/assets/icons/heart-outline.svg'
 import PaperPlane from '@/assets/icons/paper-plane-outline.svg'
@@ -10,6 +9,7 @@ import { useAppSelector } from '@/lib/hooks'
 import { selectIsAuth } from '@/lib/appSlice'
 import { Button } from 'photo-flow-ui-kit'
 import { Textarea } from 'photo-flow-ui-kit'
+import { format } from 'date-fns'
 
 function PostFooter({ post }: { post: PostResponse }) {
   const isAuth = useAppSelector(selectIsAuth)
@@ -49,7 +49,7 @@ function PostFooter({ post }: { post: PostResponse }) {
           variant={'small_text'}
           className={`text-light-900 block ${isAuth ? 'mb-2' : 'mb-6.5'}`}
         >
-          {formatDate(post.createdAt)}
+          {format(new Date(post.createdAt), 'MMMM d, yyyy')}
         </Typography>
       </div>
       {isAuth && (

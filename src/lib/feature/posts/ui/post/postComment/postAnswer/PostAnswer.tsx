@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import { Typography } from 'photo-flow-ui-kit'
-import { formatTimeAgo } from 'photo-flow-ui-kit'
 import { Answer } from '@/lib/feature/posts/api/postsApi.types'
 import DefaultAvatar from '@/../public/defaultAvatar.jpg'
+import { formatTimeAgo } from '@/lib/feature/posts/utils/formatTimeAgo'
 
 function PostAnswer({ answer }: { answer: Answer }) {
   return (
