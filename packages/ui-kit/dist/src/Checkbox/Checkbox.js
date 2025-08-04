@@ -1,7 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs } from 'react/jsx-runtime'
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
 import { twMerge } from 'tailwind-merge'
-import CheckIcon from '../assets/icons/checkmark-outline.svg'
+import CheckIcon from '../icons/checkmark-outline.svg'
 export const Checkbox = ({ variant = 'default', label, className, id, disabled, ...rest }) => {
   const baseStyles = twMerge(
     'relative flex items-center justify-center w-4 h-4 rounded-[2px] border-2 transition-all outline-none hover:before:opacity-10 before:bg-light-300',

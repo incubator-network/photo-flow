@@ -1,6 +1,6 @@
 'use client'
 import { jsx as _jsx, jsxs as _jsxs } from 'react/jsx-runtime'
-import ArrowLeft from '../icons/arrow-back-outline.svg'
+import ArrowLeft from '../../icons/arrow-back-outline.svg'
 import { addMonths, format } from 'date-fns'
 import { useMemo, useState } from 'react'
 import { WeekDays } from './WeekDays'

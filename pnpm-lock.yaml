@@ -51,8 +51,8 @@ importers:
         specifier: 15.3.3
         version: 15.3.3(@babel/core@7.27.7)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       photo-flow-ui-kit:
-        specifier: ^1.0.2
-        version: 1.0.2(623mx2mpty3tsukt6hhfijflfm)
+        specifier: ^1.0.3
+        version: 1.0.3(623mx2mpty3tsukt6hhfijflfm)
       react:
         specifier: ^19.0.0
         version: 19.1.0
@@ -4279,8 +4279,8 @@ packages:
     resolution: {integrity: sha512-//nshmD55c46FuFw26xV/xFAaB5HF9Xdap7HJBBnrKdAd6/GxDBaNA1870O79+9ueg61cZLSVc+OaFlfmObYVQ==}
     engines: {node: '>= 14.16'}
 
-  photo-flow-ui-kit@1.0.2:
-    resolution: {integrity: sha512-98TJ79e6mYxNir+jnTVw6k4SiXRSI/DnmSkxG78qEUaERoPgLGOAs9OnaNKYV7vIUGDuA7ROtNLfidvHuwGdkg==}
+  photo-flow-ui-kit@1.0.3:
+    resolution: {integrity: sha512-P9rpWZj0mVH0+XzIHH5njSUUIiSatGr3qyRm48uVUMiYAc26C3WmkQQBwebOauYFxk9E2gg0LXIMX76W2Lh5TA==}
     peerDependencies:
       '@radix-ui/react-checkbox': ^1.3.2
       '@radix-ui/react-dialog': ^1.1.14
@@ -9737,7 +9737,7 @@ snapshots:
 
   pathval@2.0.1: {}
 
-  photo-flow-ui-kit@1.0.2(623mx2mpty3tsukt6hhfijflfm):
+  photo-flow-ui-kit@1.0.3(623mx2mpty3tsukt6hhfijflfm):
     dependencies:
       '@radix-ui/react-checkbox': 1.3.2(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-dialog': 1.1.14(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
