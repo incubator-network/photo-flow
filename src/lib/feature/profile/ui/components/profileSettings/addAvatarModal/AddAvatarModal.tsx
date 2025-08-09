@@ -30,7 +30,7 @@ export const AddAvatarModal = ({ closeModalAction, isOpen, refetchAvatarImageAct
   function inputHandleChange(e: ChangeEvent<HTMLInputElement>) {
     if (!e.target.files || e.target.files.length === 0) return
     const file = e.target.files[0]
-    if (!file.type.startsWith('image')) {
+    if (file.type !== 'image/png' && file.type !== 'image/jpeg') {
       setError('The format of the uploaded photo must be PNG and JPEG')
       return
     }
