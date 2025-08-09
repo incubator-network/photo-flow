@@ -1,8 +1,7 @@
 'use client'
 
-import { Controller } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
 import { useGetProfileQuery, useUpdateProfileMutation } from '@/lib/feature/profile/api/profileApi'
 import { useEffect } from 'react'
 import { useAlert } from '@/components/ui/Alert/AlertContext'
@@ -11,7 +10,7 @@ import {
   UpdateProfileFields,
   updateProfileSchema,
 } from '@/lib/feature/profile/schemas/updateProfileSchema'
-import { AddProfilePhoto } from '@/app/profile/[id]/ProfileSettings/AddProfilePhoto'
+import { AddProfilePhoto } from '@/lib/feature/profile/ui/components/profile/GeneralInformation/addProfilePhoto/AddProfilePhoto'
 import { Input } from '@/components/ui/input/Input'
 import { DatePicker } from '@/components/ui/DatePicker/DatePicker'
 import { Select } from '@/components/ui/Select/Select'
