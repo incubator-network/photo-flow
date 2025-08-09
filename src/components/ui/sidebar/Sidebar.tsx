@@ -1,4 +1,3 @@
-'use client'
 import HomeIcon from '@/assets/icons/home.svg'
 import CreateIcon from '@/assets/icons/create.svg'
 import AccountIcon from '@/assets/icons/account.svg'
@@ -8,18 +7,16 @@ import StatisticsIcon from '@/assets/icons/statistics.svg'
 import FavoriteIcon from '@/assets/icons/bookmark-outline.svg'
 import LogoutIcon from '@/assets/icons/logout.svg'
 import { Typography } from '@/components/ui/typography/Typography'
-import { useAppDispatch, useAppSelector } from '@/lib/hooks'
-import { selectIsAuth, setIsAuth } from '@/lib/appSlice'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button/Button'
 import { ModalWindow } from '@/components/ui/modalWindow/ModalWindow'
-import { useGetMeQuery, useLogoutMutation } from '@/lib/feature/auth/api/authApi'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { AUTH_TOKEN } from '@/constants'
 
 type PropsMenu = {
   content?: PropsMenuItems
+  userId?: number
+  logoutHandler?: () => void
+  setIsModalOpen: (state: boolean) => void
+  isModalOpen: boolean
 }
 
 export type PropsMenuItems = {
@@ -28,27 +25,13 @@ export type PropsMenuItems = {
   icon: React.FC<React.SVGProps<SVGSVGElement>>
 }
 
-export function Sidebar({ content }: PropsMenu) {
-  const [logout] = useLogoutMutation()
-  const router = useRouter()
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const isAuth = useAppSelector(selectIsAuth)
-  const dispatch = useAppDispatch()
-  const { data } = useGetMeQuery()
-
-  const logoutHandler = async () => {
-    setIsModalOpen(true)
-    try {
-      await logout().unwrap()
-      dispatch(setIsAuth({ isAuth: false }))
-      localStorage.removeItem(AUTH_TOKEN)
-      router.push('/auth/sign-in')
-    } catch (error) {
-      console.error('logout error', error)
-    } finally {
-      setIsModalOpen(false)
-    }
-  }
+export function Sidebar({
+  content,
+  isModalOpen,
+  logoutHandler,
+  setIsModalOpen,
+  userId,
+}: PropsMenu) {
   const mainMenuItems = [
     {
       title: 'Feed',
@@ -62,7 +45,7 @@ export function Sidebar({ content }: PropsMenu) {
     },
     {
       title: 'My Profile',
-      url: `/profile/${data?.userId}`,
+      url: `/profile/${userId}`,
       icon: AccountIcon,
     },
     {
@@ -91,7 +74,7 @@ export function Sidebar({ content }: PropsMenu) {
     },
   ]
 
-  if (!isAuth) return null
+  // if (!isAuth) return null
 
   return (
     <div className={'border-dark-300 fixed h-full w-[220px] flex-col border-r'}>
