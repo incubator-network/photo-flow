@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button/Button'
 import NoImage from '@/assets/icons/img.svg'
 import { useState } from 'react'
-import { AddAvatarModal } from '@/lib/feature/profile/ui/components/profileSettings/addAvatarModal/AddAvatarModal'
+import { AddAvatarModal } from '@/lib/feature/profile/ui/components/profile/GeneralInformation/addProfilePhoto/addAvatarModal/AddAvatarModal'
 import { useGetProfileQuery } from '@/lib/feature/profile/api/profileApi'
 import Image from 'next/image'
 
