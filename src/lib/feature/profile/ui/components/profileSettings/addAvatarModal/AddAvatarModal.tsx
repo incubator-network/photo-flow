@@ -17,8 +17,8 @@ type Props = {
 }
 
 export const AddAvatarModal = ({ closeModalAction, isOpen, refetchAvatarImageAction }: Props) => {
-  const [error, setError] = useState<string | null>(null)
   const [avatarImage, setAvatarImage] = useState<string>('')
+  const [error, setError] = useState<string | null>(null)
   const inputRef = useRef<HTMLInputElement | null>(null)
   const fileRef = useRef<File | null>(null)
   const [trigger] = useUpdateAvatarMutation()
