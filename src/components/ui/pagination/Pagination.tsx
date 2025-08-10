@@ -13,6 +13,8 @@ export type PaginationPropsType = {
   itemsPerPage: number
   totalCount: number
   onChangePagination: (page: number, count: number) => void
+  pageSize?: number
+  onChangePageSize?: (count: number) => void
 }
 
 export const Pagination = ({
@@ -20,9 +22,11 @@ export const Pagination = ({
   itemsPerPage,
   totalCount,
   onChangePagination,
+  pageSize,
+  onChangePageSize,
   // id = 'pagination',
 }: PaginationPropsType) => {
-  const [selectValue, setSelectValue] = useState('10')
+  const [selectValue, setSelectValue] = useState(pageSize ? String(pageSize) : '10')
   const paginationRange = usePagination({
     currentPage,
     pageSize: itemsPerPage,
@@ -41,7 +45,7 @@ export const Pagination = ({
   const onChangeSelect = (value: string) => {
     console.log(value)
     setSelectValue(value)
-    onChangePagination(currentPage, Number(value))
+    onChangePageSize?.(Number(value))
   }
   const onPreviousPage = () => {
     onChangePagination(currentPage - 1, itemsPerPage)
