@@ -1,9 +1,10 @@
 import Image from 'next/image'
-import { formatTimeAgo, Typography } from 'photo-flow-ui-kit'
+import { Typography } from 'photo-flow-ui-kit'
 import { Comment } from '@/lib/feature/posts/api/postsApi.types'
 import { useLazyGetCommentAnswerQuery } from '@/lib/feature/posts/api/postsApi'
 import PostAnswer from '@/lib/feature/posts/ui/post/postComment/postAnswer/PostAnswer'
 import DefaultAvatar from '@/../public/defaultAvatar.jpg'
+import { formatTimeAgo } from '../../../utils/formatTimeAgo'
 
 type PropsType = {
   postId: number

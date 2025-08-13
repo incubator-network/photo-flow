@@ -1,5 +1,4 @@
 'use client'
-
 import './globals.css'
 import React from 'react'
 import { StoreProvider } from '@/app/StoreProvider'
