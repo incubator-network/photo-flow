@@ -2,9 +2,9 @@
 
 import { twMerge } from 'tailwind-merge'
 import { useGetMyPaymentsQuery } from '@/lib/feature/subscriptions/api/subscriptionApi'
-import Loader from '@/components/ui/loader/Loader'
+import { Loader } from 'photo-flow-ui-kit'
 import { formatDateToDotFormat } from '@/utils'
-import { Typography } from '@/components/ui/typography/Typography'
+import { Typography } from 'photo-flow-ui-kit'
 
 const headers = [
   'Date of Payments',

@@ -1,9 +1,9 @@
 'use client'
 
-import { Card } from '@/components/ui/Card/Card'
-import { Typography } from '@/components/ui/typography/Typography'
-import { Input } from '@/components/ui/input/Input'
-import { Button } from '@/components/ui/button/Button'
+import { Card } from 'photo-flow-ui-kit'
+import { Typography } from 'photo-flow-ui-kit'
+import { Input } from 'photo-flow-ui-kit'
+import { Button } from 'photo-flow-ui-kit'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {

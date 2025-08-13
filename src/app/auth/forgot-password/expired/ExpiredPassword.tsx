@@ -1,11 +1,11 @@
 'use client'
-import { Typography } from '@/components/ui/typography/Typography'
+import { Typography } from 'photo-flow-ui-kit'
 import Image from 'next/image'
-import { Button } from '@/components/ui/button/Button'
+import { Button } from 'photo-flow-ui-kit'
 import { useResendPasswordEmailMutation } from '@/lib/feature/auth/api/authApi'
 import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
-import { ModalWindow } from '@/components/ui/modalWindow/ModalWindow'
+import { ModalWindow } from 'photo-flow-ui-kit'
 
 export default function ExpiredPasswordPage() {
   const [isOpenModalWindow, setIsOpenModalWindow] = useState(false)
