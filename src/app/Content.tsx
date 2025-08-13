@@ -3,9 +3,9 @@ import React from 'react'
 import { useAppSelector } from '@/lib/hooks'
 import { selectIsAuth } from '@/lib/appSlice'
 import { useGetMeQuery } from '@/lib/feature/auth/api/authApi'
-import { AlertProvider } from '@/components/ui/Alert/AlertProvider'
-import { Header } from '@/components/ui/header/Header'
-import { Sidebar } from '@/components/ui/sidebar/Sidebar'
+import { AlertProvider } from 'photo-flow-ui-kit'
+import { Header } from 'photo-flow-ui-kit'
+import { Sidebar } from 'photo-flow-ui-kit'
 import { useLogout } from '@/utils/useLogout/useLogout'
 
 export function Content({ children }: { children: React.ReactNode }) {

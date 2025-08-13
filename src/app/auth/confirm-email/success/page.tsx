@@ -1,6 +1,6 @@
 'use client'
-import { Typography } from '@/components/ui/typography/Typography'
-import { Button } from '@/components/ui/button/Button'
+import { Typography } from 'photo-flow-ui-kit'
+import { Button } from 'photo-flow-ui-kit'
 import Link from 'next/link'
 import Image from 'next/image'
 

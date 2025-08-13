@@ -4,18 +4,18 @@ import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useGetProfileQuery, useUpdateProfileMutation } from '@/lib/feature/profile/api/profileApi'
 import { useEffect } from 'react'
-import { useAlert } from '@/components/ui/Alert/AlertContext'
+import { useAlert } from 'photo-flow-ui-kit'
 import { cityList, countriesList, Country } from '@/constants/countries&cities'
 import {
   UpdateProfileFields,
   updateProfileSchema,
 } from '@/lib/feature/profile/schemas/updateProfileSchema'
 import { AddProfilePhoto } from '@/lib/feature/profile/ui/components/profile/GeneralInformation/addProfilePhoto/AddProfilePhoto'
-import { Input } from '@/components/ui/input/Input'
-import { DatePicker } from '@/components/ui/DatePicker/DatePicker'
-import { Select } from '@/components/ui/Select/Select'
-import { Button } from '@/components/ui/button/Button'
-import { Textarea } from '@/components/ui/textarea/Textarea'
+import { Input } from 'photo-flow-ui-kit'
+import { DatePicker } from 'photo-flow-ui-kit'
+import { Select } from 'photo-flow-ui-kit'
+import { Button } from 'photo-flow-ui-kit'
+import { Textarea } from 'photo-flow-ui-kit'
 import { checkAge } from '@/utils/checkAge'
 
 export const GeneralInformation = () => {

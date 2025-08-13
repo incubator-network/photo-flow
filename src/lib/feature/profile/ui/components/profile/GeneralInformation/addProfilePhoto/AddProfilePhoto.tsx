@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@/components/ui/button/Button'
+import { Button } from 'photo-flow-ui-kit'
 import NoImage from '@/assets/icons/img.svg'
 import { useState } from 'react'
 import { AddAvatarModal } from '@/lib/feature/profile/ui/components/profile/GeneralInformation/addProfilePhoto/addAvatarModal/AddAvatarModal'
